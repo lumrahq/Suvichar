@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>सुविचार</title>
+<meta name="theme-color" content="#1F2A5A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="सुविचार">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF1F7; --ink: #1F2A5A; --muted: #56608A;
+    --marigold: #D98E1F; --panel: #FFFFFF; --line: #CDD3E6; --wa: #1E8E4E;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A33; --ink: #E9ECF5; --muted: #A3AACB;
+      --marigold: #F0B04A; --panel: #1C2446; --line: #2E3866; --wa: #3CC47A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A33; --ink: #E9ECF5; --muted: #A3AACB;
+    --marigold: #F0B04A; --panel: #1C2446; --line: #2E3866; --wa: #3CC47A;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  [hidden] { display: none !important; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Mukta", "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+    font-size: 1.125rem; line-height: 1.7;
+  }
+  main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
+  header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  h1 { font-size: 1.1rem; font-weight: 600; margin: 0; color: var(--muted); display: flex; align-items: center; gap: .5rem; }
+  h1 img { border-radius: 7px; }
+  .install { margin-top: 1rem; }
+  .tag { display: inline-block; font-size: .9rem; color: var(--muted); margin-top: .25rem; }
+  .count { font-size: 1rem; color: var(--muted); }
+
+  .stage { padding: 2.5rem 0 1.5rem; min-height: 16rem; }
+  blockquote { margin: 0; padding-left: 1.25rem; border-left: 4px solid var(--marigold); }
+  .quote {
+    font-family: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+    font-size: clamp(1.6rem, 5vw, 2.5rem); line-height: 1.55; margin: 0;
+  }
+  .quote span { display: block; }
+  .source { margin-top: 1rem; color: var(--muted); font-size: 1rem; }
+  .empty { color: var(--muted); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.75rem; }
+  button, .btn {
+    font: inherit; font-size: 1rem; cursor: pointer; text-decoration: none;
+    border-radius: 999px; padding: .5rem 1.1rem;
+    border: 1.5px solid var(--line); background: transparent; color: var(--ink);
+    display: inline-flex; align-items: center; gap: .35rem;
+  }
+  button:hover, .btn:hover { border-color: var(--marigold); }
+  button:focus-visible, .btn:focus-visible, textarea:focus-visible, input:focus-visible {
+    outline: 3px solid var(--marigold); outline-offset: 2px;
+  }
+  button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn.wa { border-color: var(--wa); color: var(--wa); font-weight: 600; }
+  button.danger { color: var(--muted); }
+  button:disabled { opacity: .35; cursor: default; }
+
+  .meaning {
+    margin-top: 1.25rem; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.1rem 1.3rem; white-space: pre-line;
+  }
+  .meaning[hidden] { display: none; }
+
+  .pager { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+
+  form {
+    margin-top: 2rem; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 18px; padding: 1.4rem;
+  }
+  form h2 { font-size: 1.25rem; margin: 0 0 1rem; }
+  label { display: block; font-weight: 500; margin: 1rem 0 .35rem; }
+  label:first-of-type { margin-top: 0; }
+  .field { display: flex; gap: .5rem; align-items: flex-start; }
+  textarea, input[type=text] {
+    flex: 1; width: 100%; font: inherit; font-size: 1.05rem; color: var(--ink);
+    background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px;
+    padding: .6rem .8rem; resize: vertical;
+  }
+  textarea#newQuote { font-family: "Tiro Devanagari Hindi", serif; min-height: 6rem; }
+  .mic { flex: none; padding: .55rem .8rem; }
+  .mic.on { background: var(--marigold); color: #1F2A5A; border-color: var(--marigold); }
+  .hint { color: var(--muted); font-size: .95rem; margin: .35rem 0 0; }
+  .formfoot { display: flex; justify-content: flex-end; margin-top: 1.25rem; }
+
+  nav.series { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 1.25rem; margin-top: 2.5rem; }
+
+  .toast {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    background: var(--ink); color: var(--bg); padding: .5rem 1.1rem; border-radius: 999px;
+    font-size: 1rem; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; text-align: center;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><img src="icons/icon-192.png" alt="" width="28" height="28"> सुविचार</h1>
+    <span class="count" id="count"></span>
+  </header>
+  <button id="installBtn" class="primary install" hidden>ऐप इंस्टॉल करें</button>
+
+  <section class="stage" id="stage" aria-live="polite">
+    <p class="empty" id="status">सुविचार लोड हो रहे हैं…</p>
+    <div id="viewer" hidden>
+      <blockquote>
+        <p class="quote" id="quote"></p>
+        <div class="source" id="source"></div>
+        <span class="tag" id="tag"></span>
+      </blockquote>
+      <div class="actions">
+        <button class="primary" id="toggleMeaning" aria-expanded="false">अर्थ पढ़ें</button>
+        <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">WhatsApp पर भेजें</a>
+        <button id="shareBtn">शेयर करें</button>
+        <button id="copyBtn">कॉपी करें</button>
+        <button class="danger" id="deleteBtn">हटाएँ</button>
+      </div>
+      <div class="meaning" id="meaning" hidden></div>
+      <div class="pager">
+        <button id="prev">पिछला</button>
+        <button id="next">अगला</button>
+      </div>
+    </div>
+  </section>
+
+  <form id="addForm" autocomplete="off">
+    <h2>नया सुविचार जोड़ें</h2>
+    <label for="newQuote">सुविचार</label>
+    <div class="field">
+      <textarea id="newQuote" required placeholder="यहाँ लिखें या 🎤 दबाकर बोलें"></textarea>
+      <button type="button" class="mic" data-target="newQuote" aria-label="सुविचार बोलकर लिखें">🎤</button>
+    </div>
+    <label for="newSource">किसका कथन है (वैकल्पिक)</label>
+    <input type="text" id="newSource" placeholder="जैसे: चाणक्य, या लेखक अज्ञात">
+    <label for="newMeaning">अर्थ (वैकल्पिक)</label>
+    <div class="field">
+      <textarea id="newMeaning" placeholder="इसका अर्थ अपने शब्दों में"></textarea>
+      <button type="button" class="mic" data-target="newMeaning" aria-label="अर्थ बोलकर लिखें">🎤</button>
+    </div>
+    <p class="hint" id="micHint" hidden>इस ब्राउज़र में 🎤 से बोलकर लिखना उपलब्ध नहीं है। अपने फ़ोन के कीबोर्ड पर बने 🎤 बटन से बोलकर लिख सकते हैं।</p>
+    <div class="formfoot"><button type="submit" class="primary" id="saveBtn">सुविचार सहेजें</button></div>
+  </form>
+
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const BUILT_IN = [
+  { id: "b1", builtIn: true,
+    text: "शिक्षक कभी साधारण नहीं होता,\nप्रलय और निर्माण दोनों उसकी गोद में पलते हैं।",
+    source: "आचार्य चाणक्य से जोड़ा जाता है; धारावाहिक “चाणक्य” (1991) से लोकप्रिय",
+    meaning: "शिक्षक के पास अगली पीढ़ी के मन और चरित्र को गढ़ने की ताकत होती है। अच्छी शिक्षा ऐसे लोग तैयार करती है जो राष्ट्र का निर्माण करते हैं, और गलत या संकीर्ण शिक्षा विनाश की ओर ले जा सकती है। इसलिए शिक्षक को साधारण नहीं माना जाना चाहिए।\n\nचाणक्य स्वयं तक्षशिला के आचार्य थे। नंद वंश का पतन और चंद्रगुप्त मौर्य के साथ नए साम्राज्य का निर्माण, दोनों उनके मार्गदर्शन से हुए। किसी प्राचीन ग्रंथ में यह पंक्ति इसी रूप में मिलती है, इसका पक्का प्रमाण नहीं है।" },
+  { id: "b2", builtIn: true,
+    text: "गुजरा हुआ वक्त और आने वाला वक्त\nदोनों ही कल कहलाते हैं।",
+    source: "प्रचलित सुविचार; लेखक अज्ञात",
+    meaning: "हिंदी में “कल” शब्द बीते दिन और आने वाले दिन, दोनों के लिए बोला जाता है। बीता कल हाथ से निकल चुका और आने वाला कल अभी आया नहीं; दोनों हमारी पहुँच से बाहर हैं।\n\nजो असल में हमारे पास है, वह सिर्फ “आज” है। इसलिए बीते पर पछताने या आने वाले की चिंता करने से बेहतर है कि वर्तमान को ठीक से जिया जाए।" },
+  { id: "b3", builtIn: true,
+    text: "मुसीबत आने पर कुछ बिखर जाते हैं\nऔर कुछ सवर जाते हैं।",
+    source: "प्रचलित सुविचार; लेखक अज्ञात",
+    meaning: "एक ही मुसीबत किसी को तोड़ देती है और किसी को निखार देती है। फर्क परिस्थिति में नहीं, उसे देखने और उससे निपटने के तरीके में होता है।\n\nजैसे आग में तपकर सोना और चमकता है, वैसे ही कुछ लोग कठिनाइयों से सीखकर और मज़बूत बन जाते हैं।" }
+];
+const KEY = "suvichar-mine";
+const $ = id => document.getElementById(id);
+const toDev = n => String(n).replace(/\d/g, d => "०१२३४५६७८९"[d]);
+let mine = [], quotes = [], i = 0;
+
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2600);
+}
+function loadMine() {
+  try { mine = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(mine)) mine = []; } catch (e) { mine = []; }
+  quotes = BUILT_IN.concat(mine);
+}
+function saveMine() {
+  try { localStorage.setItem(KEY, JSON.stringify(mine)); return true; } catch (e) { return false; }
+}
+function plain(q) { return q.text + (q.source ? "\n— " + q.source : ""); }
+
+function render() {
+  $("status").hidden = true; $("viewer").hidden = false;
+  const q = quotes[i];
+  const qEl = $("quote"); qEl.textContent = "";
+  q.text.split(/\n+/).forEach(line => { const s = document.createElement("span"); s.textContent = line; qEl.appendChild(s); });
+  $("source").textContent = q.source ? "— " + q.source : "";
+  $("tag").textContent = q.builtIn ? "" : "आपका जोड़ा हुआ";
+  const m = $("meaning"); m.textContent = q.meaning || ""; m.hidden = true;
+  const tg = $("toggleMeaning"); tg.hidden = !q.meaning; tg.textContent = "अर्थ पढ़ें"; tg.setAttribute("aria-expanded", "false");
+  $("waBtn").href = "https://wa.me/?text=" + encodeURIComponent(plain(q));
+  $("deleteBtn").hidden = !!q.builtIn;
+  $("count").textContent = `${toDev(i + 1)} / ${toDev(quotes.length)}`;
+  $("prev").disabled = i === 0;
+  $("next").disabled = i === quotes.length - 1;
+  try { localStorage.setItem("suvichar-pos", q.id); } catch (e) {}
+}
+
+$("toggleMeaning").onclick = () => {
+  const m = $("meaning"), open = m.hidden;
+  m.hidden = !open;
+  $("toggleMeaning").setAttribute("aria-expanded", String(open));
+  $("toggleMeaning").textContent = open ? "अर्थ छिपाएँ" : "अर्थ पढ़ें";
+};
+$("prev").onclick = () => { if (i > 0) { i--; render(); } };
+$("next").onclick = () => { if (i < quotes.length - 1) { i++; render(); } };
+document.addEventListener("keydown", e => {
+  if (e.target.matches("textarea, input")) return;
+  if (e.key === "ArrowLeft") $("prev").click();
+  if (e.key === "ArrowRight") $("next").click();
+});
+$("copyBtn").onclick = async () => {
+  try { await navigator.clipboard.writeText(plain(quotes[i])); toast("सुविचार कॉपी हो गया"); }
+  catch (e) { toast("कॉपी नहीं हो सका, टेक्स्ट चुनकर कॉपी करें"); }
+};
+$("shareBtn").onclick = async () => {
+  const text = plain(quotes[i]);
+  if (navigator.share) { try { await navigator.share({ text }); } catch (e) {} }
+  else { try { await navigator.clipboard.writeText(text); toast("शेयर मेन्यू उपलब्ध नहीं, इसलिए कॉपी कर दिया"); } catch (e) { toast("शेयर उपलब्ध नहीं है"); } }
+};
+$("deleteBtn").onclick = () => {
+  const q = quotes[i];
+  if (q.builtIn || !confirm("क्या यह सुविचार हटाना है?")) return;
+  mine = mine.filter(x => x.id !== q.id);
+  if (!saveMine()) { toast("हटाया नहीं जा सका"); return; }
+  quotes = BUILT_IN.concat(mine);
+  if (i >= quotes.length) i = quotes.length - 1;
+  render(); toast("सुविचार हटा दिया");
+};
+
+$("addForm").onsubmit = ev => {
+  ev.preventDefault();
+  const text = $("newQuote").value.trim();
+  if (!text) { toast("पहले सुविचार लिखें या बोलें"); return; }
+  const q = { id: "q" + Date.now(), text, source: $("newSource").value.trim(), meaning: $("newMeaning").value.trim(), createdAt: Date.now() };
+  mine.push(q);
+  if (!saveMine()) { mine.pop(); toast("सहेजा नहीं जा सका। फ़ोन की स्टोरेज जाँचें।"); return; }
+  quotes = BUILT_IN.concat(mine);
+  i = quotes.length - 1;
+  $("addForm").reset(); render(); toast("सुविचार सहेजा गया");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+/* बोलकर लिखना */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let activeRec = null;
+document.querySelectorAll(".mic").forEach(btn => {
+  if (!SR) { btn.hidden = true; return; }
+  btn.onclick = () => {
+    if (activeRec) { activeRec.stop(); return; }
+    const target = $(btn.dataset.target);
+    const base = target.value ? target.value.replace(/\s*$/, " ") : "";
+    let rec;
+    try { rec = new SR(); } catch (e) { toast("बोलकर लिखना शुरू नहीं हो सका"); return; }
+    rec.lang = "hi-IN"; rec.interimResults = true; rec.continuous = true;
+    rec.onresult = e => {
+      let t = "";
+      for (let k = 0; k < e.results.length; k++) t += e.results[k][0].transcript;
+      target.value = base + t;
+    };
+    rec.onerror = e => {
+      if (e.error === "not-allowed" || e.error === "service-not-allowed")
+        toast("माइक की अनुमति नहीं मिली। Chrome की सेटिंग में इस साइट के लिए माइक चालू करें।");
+      else if (e.error === "no-speech") toast("कोई आवाज़ सुनाई नहीं दी");
+      else toast("बोलकर लिखना रुक गया");
+    };
+    rec.onend = () => { btn.classList.remove("on"); btn.textContent = "🎤"; activeRec = null; };
+    try { rec.start(); } catch (e) { toast("बोलकर लिखना शुरू नहीं हो सका"); return; }
+    activeRec = rec; btn.classList.add("on"); btn.textContent = "रोकें";
+    toast("बोलिए… रुकने के लिए ‘रोकें’ दबाएँ");
+  };
+});
+if (!SR) $("micHint").hidden = false;
+
+/* इंस्टॉल */
+let deferred = null;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; $("installBtn").hidden = false; });
+$("installBtn").onclick = async () => {
+  if (!deferred) return;
+  deferred.prompt(); await deferred.userChoice; deferred = null; $("installBtn").hidden = true;
+};
+window.addEventListener("appinstalled", () => { $("installBtn").hidden = true; toast("ऐप इंस्टॉल हो गया"); });
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+
+loadMine();
+try { const pos = localStorage.getItem("suvichar-pos"); const k = quotes.findIndex(q => q.id === pos); if (k >= 0) i = k; } catch (e) {}
+render();
+</script>
+</body>
+</html>
