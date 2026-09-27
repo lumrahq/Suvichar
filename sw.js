@@ -1,4 +1,4 @@
-const CACHE = "suvichar-v2";
+const CACHE = "suvichar-v13";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/maskable-512.png", "./icons/icon-180.png"];
 self.addEventListener("install", e => {
@@ -9,8 +9,10 @@ self.addEventListener("activate", e => {
 });
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  const u = new URL(e.request.url);
+  if (u.origin !== self.location.origin && !/fonts\.(googleapis|gstatic)\.com$/.test(u.hostname)) return; // sheet requests always go to the network
   e.respondWith(
-    caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
+    caches.match(e.request, { ignoreSearch: e.request.mode === "navigate" }).then(hit => hit || fetch(e.request).then(res => {
       if (res.ok && (e.request.url.startsWith(self.location.origin) || e.request.url.includes("fonts.g"))) {
         const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy));
       }

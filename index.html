@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>सुविचार</title>
-<meta name="theme-color" content="#1F2A5A">
+<meta name="theme-color" content="#F8F8FD">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
@@ -15,153 +15,318 @@
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #EEF1F7; --ink: #1F2A5A; --muted: #56608A;
-    --marigold: #D98E1F; --panel: #FFFFFF; --line: #CDD3E6; --wa: #1E8E4E;
-    box-sizing: border-box;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --night: #F8F8FD;
+    --deep: #10205F;
+    --ivory: #10205F;
+    --gold: #F2B040;
+    --gold-ink: #A7650A;
+    --gold-soft: rgba(242, 176, 64, .22);
+    --mist: #5B6494;
+    --sheet: #FFFFFF;
+    --line: rgba(16, 32, 95, .14);
+    --wa: #1B9656;
+    --serif: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+    --sans: "Mukta", "Noto Sans Devanagari", "Nirmala UI", sans-serif;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #141A33; --ink: #E9ECF5; --muted: #A3AACB;
-      --marigold: #F0B04A; --panel: #1C2446; --line: #2E3866; --wa: #3CC47A;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #141A33; --ink: #E9ECF5; --muted: #A3AACB;
-    --marigold: #F0B04A; --panel: #1C2446; --line: #2E3866; --wa: #3CC47A;
-  }
-  *, *::before, *::after { box-sizing: inherit; }
+  *, *::before, *::after { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { height: 100%; overflow-x: hidden; }
   body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font-family: "Mukta", "Noto Sans Devanagari", "Nirmala UI", sans-serif;
-    font-size: 1.125rem; line-height: 1.7;
+    margin: 0; color: var(--ivory); font-family: var(--sans); font-size: 1.05rem; line-height: 1.6;
+    background: linear-gradient(180deg, #F8F8FD 0%, #ECEEF8 100%) fixed;
+    display: flex; flex-direction: column; min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
   }
-  main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
-  header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
-  h1 { font-size: 1.1rem; font-weight: 600; margin: 0; color: var(--muted); display: flex; align-items: center; gap: .5rem; }
-  h1 img { border-radius: 7px; }
-  .install { margin-top: 1rem; }
-  .tag { display: inline-block; font-size: .9rem; color: var(--muted); margin-top: .25rem; }
-  .count { font-size: 1rem; color: var(--muted); }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 10px; }
 
-  .stage { padding: 2.5rem 0 1.5rem; min-height: 16rem; }
-  blockquote { margin: 0; padding-left: 1.25rem; border-left: 4px solid var(--marigold); }
+  /* top bar */
+  .bar {
+    display: flex; align-items: center; gap: .7rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 1rem) 1.25rem .5rem;
+    max-width: 40rem; width: 100%; margin: 0 auto;
+  }
+  .bar img { width: 38px; height: 38px; border-radius: 10px; }
+  .brand { font-family: var(--serif); font-size: 1.45rem; color: var(--deep); line-height: 1; padding-top: .2rem; }
+  .bar .spacer { flex: 1; }
+  .install { font-size: .9rem; padding: .3rem .85rem; border-radius: 999px; background: var(--gold); color: var(--deep); font-weight: 600; }
+  .tabs { max-width: 40rem; width: 100%; margin: 0 auto; padding: .4rem 1.25rem 0; }
+  .tabs .numtoggle { display: flex; width: 100%; font-size: .95rem; padding: 3px; }
+  .tabs .numtoggle span { flex: 1; text-align: center; padding: .35rem .5rem; }
+  .numtoggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: #FFFFFF; font-size: .85rem; }
+  .numtoggle span { padding: .1rem .55rem; border-radius: 999px; color: var(--mist); line-height: 1.5; }
+  .numtoggle span.on { background: var(--deep); color: #FFFFFF; }
+  .count { font-size: .95rem; color: var(--mist); font-variant-numeric: tabular-nums; min-width: 2.5rem; text-align: right; }
+
+  /* quote stage */
+  .stage {
+    flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center;
+    max-width: 40rem; width: 100%; margin: 0 auto; padding: 1.5rem 1.5rem 9rem;
+    touch-action: pan-y;
+  }
+  .glow {
+    position: absolute; inset: 10% -10% auto; height: 60%; pointer-events: none;
+    background: radial-gradient(closest-side, var(--gold-soft), transparent);
+  }
+  .card { position: relative; }
   .quote {
-    font-family: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
-    font-size: clamp(1.6rem, 5vw, 2.5rem); line-height: 1.55; margin: 0;
+    font-family: var(--serif); margin: 0; color: var(--ivory);
+    font-size: clamp(1.75rem, 6.6vw, 2.6rem); line-height: 1.6;
   }
+  .quote.long { font-size: clamp(1.4rem, 5.2vw, 2.1rem); }
   .quote span { display: block; }
-  .source { margin-top: 1rem; color: var(--muted); font-size: 1rem; }
-  .empty { color: var(--muted); }
+  .source { margin: 1.4rem 0 0; color: var(--mist); font-size: 1rem; display: flex; gap: .6rem; align-items: baseline; }
+  .source::before { content: ""; flex: none; width: 1.6rem; height: 1px; background: var(--gold); transform: translateY(-.3rem); }
+  .chip.muted { color: var(--mist); border-color: var(--line); margin-left: .3rem; }
+  .quote.en { letter-spacing: -.005em; }
+  .langpick { display: flex; gap: .5rem; margin-bottom: .2rem; }
+  .langpick label { margin: 0; flex: 1; }
+  .langpick input { position: absolute; opacity: 0; pointer-events: none; }
+  .langpick span { display: block; text-align: center; padding: .55rem; border-radius: 12px; border: 1px solid var(--line); color: var(--mist); font-weight: 500; cursor: pointer; }
+  .langpick input:checked + span { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
+  .langpick input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .empty { text-align: center; color: var(--mist); }
+  .empty strong { display: block; font-size: 1.2rem; color: var(--ink, #10205F); margin-bottom: .3rem; }
+  .quote.idea { font-family: var(--sans); font-weight: 600; font-size: clamp(1.5rem, 5.6vw, 2.1rem); line-height: 1.4; }
+  .linkchip { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; font-size: .95rem; color: #C4302B; text-decoration: none; background: #FFFFFF; border: 1px solid rgba(196,48,43,.3); border-radius: 999px; padding: .2rem .8rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .notes { margin: 1rem 0 0; color: var(--mist); font-size: 1.05rem; white-space: pre-line; }
+  .numtoggle span { cursor: pointer; }
+  .lockbtn { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); border: 1px solid var(--line); background: #FFFFFF; }
+  .lockbtn svg { width: 18px; height: 18px; }
+  .lockbtn.on { color: var(--gold-ink); border-color: rgba(214,146,30,.5); }
+  #keyInput { padding-right: 3.4rem; }
+  .eye { position: absolute; right: .35rem; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); }
+  .eye svg { width: 21px; height: 21px; }
+  .keystatus { margin: .7rem 0 0; font-size: .95rem; color: #B42318; background: #FEF3F2; border: 1px solid #FECDCA; border-radius: 10px; padding: .55rem .75rem; }
+  .keytext { color: var(--mist); margin: 0 0 .5rem; }
+  .fab-wrap[hidden] { display: none !important; }
+  .chip { display: inline-block; margin-top: .9rem; font-size: .85rem; color: var(--gold-ink); border: 1px solid rgba(214,146,30,.45); border-radius: 999px; padding: .05rem .7rem; }
 
-  .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.75rem; }
-  button, .btn {
-    font: inherit; font-size: 1rem; cursor: pointer; text-decoration: none;
-    border-radius: 999px; padding: .5rem 1.1rem;
-    border: 1.5px solid var(--line); background: transparent; color: var(--ink);
-    display: inline-flex; align-items: center; gap: .35rem;
+  @media (prefers-reduced-motion: no-preference) {
+    .card.in-next { animation: inNext .38s ease-out; }
+    .card.in-prev { animation: inPrev .38s ease-out; }
+    @keyframes inNext { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes inPrev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
   }
-  button:hover, .btn:hover { border-color: var(--marigold); }
-  button:focus-visible, .btn:focus-visible, textarea:focus-visible, input:focus-visible {
-    outline: 3px solid var(--marigold); outline-offset: 2px;
-  }
-  button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .btn.wa { border-color: var(--wa); color: var(--wa); font-weight: 600; }
-  button.danger { color: var(--muted); }
-  button:disabled { opacity: .35; cursor: default; }
 
-  .meaning {
-    margin-top: 1.25rem; background: var(--panel); border: 1px solid var(--line);
-    border-radius: 14px; padding: 1.1rem 1.3rem; white-space: pre-line;
+  /* tools */
+  .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(3.1rem, 1fr)); justify-items: center; row-gap: 1rem; margin-top: 2.4rem; }
+  .tool { display: flex; flex-direction: column; align-items: center; gap: .35rem; font-size: .8rem; color: var(--mist); text-decoration: none; min-width: 0; white-space: nowrap; }
+  .tool .ic {
+    width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center;
+    border: 1px solid var(--line); background: #FFFFFF; color: var(--ivory); box-shadow: 0 1px 3px rgba(16,32,95,.06);
+    transition: background .15s, border-color .15s;
   }
-  .meaning[hidden] { display: none; }
+  .tool:hover .ic { border-color: var(--gold); }
+  .tool:active .ic { background: #EEF0F9; }
+  .tool svg { width: 22px; height: 22px; }
+  @media (max-width: 380px) { .tool .ic { width: 44px; height: 44px; } .tool svg { width: 20px; height: 20px; } }
+  .tool.wa .ic { color: var(--wa); border-color: rgba(27,150,86,.4); }
+  .tool.primary .ic { background: var(--gold); border-color: var(--gold); color: var(--deep); }
 
-  .pager { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.5rem; }
-
-  form {
-    margin-top: 2rem; background: var(--panel); border: 1px solid var(--line);
-    border-radius: 18px; padding: 1.4rem;
+  /* bottom dock */
+  .dock {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+    padding: .75rem 1.25rem calc(env(safe-area-inset-bottom, 0px) + .9rem);
+    background: linear-gradient(180deg, rgba(236,238,248,0) 0%, rgba(236,238,248,.95) 35%);
   }
-  form h2 { font-size: 1.25rem; margin: 0 0 1rem; }
-  label { display: block; font-weight: 500; margin: 1rem 0 .35rem; }
-  label:first-of-type { margin-top: 0; }
-  .field { display: flex; gap: .5rem; align-items: flex-start; }
-  textarea, input[type=text] {
-    flex: 1; width: 100%; font: inherit; font-size: 1.05rem; color: var(--ink);
-    background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px;
-    padding: .6rem .8rem; resize: vertical;
+  .dock-inner { max-width: 40rem; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+  .nav { display: inline-flex; align-items: center; gap: .3rem; padding: .55rem .9rem; border-radius: 999px; color: var(--ivory); font-size: 1rem; }
+  .nav svg { width: 20px; height: 20px; }
+  .nav:disabled { opacity: .3; cursor: default; }
+  .nav.next { justify-self: end; }
+  .nav.prev { justify-self: start; }
+  .fab {
+    width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--gold); color: var(--deep);
+    box-shadow: 0 6px 20px rgba(214,146,30,.35);
   }
-  textarea#newQuote { font-family: "Tiro Devanagari Hindi", serif; min-height: 6rem; }
-  .mic { flex: none; padding: .55rem .8rem; }
-  .mic.on { background: var(--marigold); color: #1F2A5A; border-color: var(--marigold); }
-  .hint { color: var(--muted); font-size: .95rem; margin: .35rem 0 0; }
-  .formfoot { display: flex; justify-content: flex-end; margin-top: 1.25rem; }
+  .fab svg { width: 28px; height: 28px; }
+  .fab-label { display: block; text-align: center; font-size: .8rem; color: var(--mist); margin-top: .25rem; }
 
-  nav.series { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 1.25rem; margin-top: 2.5rem; }
+  /* sheets */
+  .scrim { position: fixed; inset: 0; background: rgba(16,32,95,.35); z-index: 9; opacity: 0; transition: opacity .25s; }
+  .scrim.show { opacity: 1; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    max-width: 40rem; margin: 0 auto; max-height: 88dvh; overflow-y: auto;
+    background: var(--sheet); border-radius: 22px 22px 0 0; border-top: 1px solid var(--line); box-shadow: 0 -10px 40px rgba(16,32,95,.12);
+    padding: .6rem 1.4rem calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+    transform: translateY(105%); visibility: hidden;
+    transition: transform .3s ease, visibility 0s linear .3s;
+  }
+  .sheet.open { transform: none; visibility: visible; transition: transform .3s ease; }
+  @media (prefers-reduced-motion: reduce) { .sheet, .scrim { transition: none; } }
+  .handle { width: 42px; height: 4px; border-radius: 4px; background: var(--line); margin: 0 auto 1rem; }
+  .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
+  .sheet h2 { font-family: var(--sans); font-weight: 600; color: var(--deep); font-size: 1.5rem; margin: 0; }
+  .close { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); }
+  .close svg { width: 22px; height: 22px; }
+  .meaning-quote { font-family: var(--serif); color: var(--mist); font-size: 1.05rem; margin: 0 0 1rem; padding-left: .9rem; border-left: 2px solid var(--gold); }
+  .meaning-body p { margin: 0 0 1rem; font-size: 1.1rem; line-height: 1.75; }
+
+  label { display: block; font-weight: 500; margin: 1.1rem 0 .4rem; color: var(--ivory); }
+  label small { color: var(--mist); font-weight: 400; }
+  .field { position: relative; }
+  textarea, input[type=text], input[type=url] {
+    width: 100%; font: inherit; font-size: 1.05rem; color: var(--ivory);
+    background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px;
+    padding: .7rem 3.6rem .7rem .9rem; resize: vertical;
+  }
+  input[type=text], input[type=url] { padding-right: .9rem; }
+  textarea::placeholder, input::placeholder { color: #8A91B8; }
+  textarea:focus, input:focus { border-color: var(--gold); outline: none; }
+  #newQuote { font-family: var(--serif); min-height: 6.5rem; font-size: 1.2rem; }
+  #newMeaning { min-height: 5rem; }
+  .mic {
+    position: absolute; right: .5rem; top: .5rem; width: 42px; height: 42px; border-radius: 50%;
+    display: grid; place-items: center; background: rgba(242,176,64,.18); color: var(--gold-ink);
+  }
+  .mic svg { width: 20px; height: 20px; }
+  .mic.on { background: var(--gold); color: var(--deep); animation: pulse 1.2s infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(245,185,74,.18); } }
+  .hint { color: var(--mist); font-size: .9rem; margin: .5rem 0 0; }
+  .form-actions { display: flex; gap: .7rem; margin-top: 1.5rem; }
+  .btn { flex: 1; padding: .75rem 1rem; border-radius: 999px; font-weight: 600; text-align: center; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--ivory); }
+  .btn.solid { background: var(--gold); color: var(--deep); }
+  .btn:disabled { opacity: .5; }
 
   .toast {
-    position: fixed; left: 50%; transform: translateX(-50%);
-    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-    background: var(--ink); color: var(--bg); padding: .5rem 1.1rem; border-radius: 999px;
-    font-size: 1rem; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; text-align: center;
+    position: fixed; left: 50%; transform: translateX(-50%); z-index: 20;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 7.5rem);
+    background: var(--deep); color: #FFFFFF; padding: .5rem 1.1rem; border-radius: 999px;
+    font-size: .95rem; font-weight: 500; opacity: 0; transition: opacity .2s; pointer-events: none;
+    max-width: 90vw; text-align: center;
   }
   .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1><img src="icons/icon-192.png" alt="" width="28" height="28"> सुविचार</h1>
-    <span class="count" id="count"></span>
+  <header class="bar">
+    <img src="icons/icon-192.png" alt="">
+    <span class="brand">सुविचार</span>
+    <span class="spacer"></span>
+    <button class="install" id="installBtn" hidden>Install</button>
+    <span class="count" id="count" aria-label="Quote number"></span>
+    <button class="lockbtn" id="lockBtn" aria-label="Owner key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
   </header>
-  <button id="installBtn" class="primary install" hidden>ऐप इंस्टॉल करें</button>
+  <div class="tabs">
+    <button class="numtoggle" id="langToggle" aria-label="Switch section"><span data-v="hi">हिंदी</span><span data-v="en">English</span><span data-v="yt">YouTube</span></button>
+  </div>
 
-  <section class="stage" id="stage" aria-live="polite">
-    <p class="empty" id="status">सुविचार लोड हो रहे हैं…</p>
-    <div id="viewer" hidden>
-      <blockquote>
-        <p class="quote" id="quote"></p>
-        <div class="source" id="source"></div>
-        <span class="tag" id="tag"></span>
-      </blockquote>
-      <div class="actions">
-        <button class="primary" id="toggleMeaning" aria-expanded="false">अर्थ पढ़ें</button>
-        <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">WhatsApp पर भेजें</a>
-        <button id="shareBtn">शेयर करें</button>
-        <button id="copyBtn">कॉपी करें</button>
-        <button class="danger" id="deleteBtn">हटाएँ</button>
+  <main class="stage" id="stage">
+    <div class="glow" aria-hidden="true"></div>
+    <article class="card" id="card" aria-live="polite">
+      <p class="quote" id="quote"></p>
+      <p class="source" id="source"></p>
+      <a class="linkchip" id="linkChip" href="#" target="_blank" rel="noopener" hidden></a>
+      <p class="notes" id="notes" hidden></p>
+      <span class="chip" id="tag" hidden>Added by you</span>
+    </article>
+
+    <div class="empty" id="empty" hidden><strong id="emptyTitle"></strong><span id="emptyText"></span></div>
+    <div class="tools" id="tools">
+      <a class="tool primary" id="openBtn" href="#" target="_blank" rel="noopener" hidden><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8Z" fill="currentColor"/></svg></span>Open</a>
+      <button class="tool primary" id="meaningBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5Z"/><path d="M12 6v13.5"/></svg></span>Meaning</button>
+      <a class="tool wa" id="waBtn" href="#" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 5 16.3A8.5 8.5 0 1 1 8 19.2Z"/><path d="M9 9.2c.2 2.6 2.2 4.8 5 5.6l1.2-1.3 1.8.8c-.3 1.3-1.3 2-2.5 1.9C11 16 8 13 7.8 9.6c-.1-1.2.6-2.2 1.9-2.4l.8 1.8Z"/></svg></span>WhatsApp</a>
+      <button class="tool" id="shareBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/></svg></span>Share</button>
+      <button class="tool" id="copyBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg></span>Copy</button>
+      <button class="tool" id="editBtn" hidden><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/></svg></span>Edit</button>
+      <button class="tool" id="deleteBtn" hidden><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg></span>Delete</button>
+    </div>
+  </main>
+
+  <nav class="dock" aria-label="Change quote">
+    <div class="dock-inner">
+      <button class="nav prev" id="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>Previous</button>
+      <div class="fab-wrap" id="fabWrap">
+        <button class="fab" id="addBtn" aria-label="Add new quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        <span class="fab-label" aria-hidden="true">Add</span>
       </div>
-      <div class="meaning" id="meaning" hidden></div>
-      <div class="pager">
-        <button id="prev">पिछला</button>
-        <button id="next">अगला</button>
+      <button class="nav next" id="next">Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></button>
+    </div>
+  </nav>
+
+  <div class="scrim" id="scrim" hidden></div>
+
+  <section class="sheet" id="meaningSheet" role="dialog" aria-modal="true" aria-labelledby="meaningTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="meaningTitle">Meaning</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <p class="meaning-quote" id="meaningQuote"></p>
+    <div class="meaning-body" id="meaningBody"></div>
+  </section>
+
+  <section class="sheet" id="addSheet" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="addTitle">Add a quote</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <form id="addForm" autocomplete="off" novalidate>
+      <div class="langpick" role="radiogroup" aria-label="Quote language">
+        <label><input type="radio" name="qlang" value="hi" checked><span>हिंदी</span></label>
+        <label><input type="radio" name="qlang" value="en"><span>English</span></label>
+        <label><input type="radio" name="qlang" value="yt"><span>YouTube</span></label>
+      </div>
+      <label for="newQuote" id="lblQuote">Quote</label>
+      <div class="field">
+        <textarea id="newQuote" placeholder="Type here, or tap the mic and speak"></textarea>
+        <button type="button" class="mic" data-target="newQuote" aria-label="Speak the quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+      </div>
+      <div id="linkWrap" hidden>
+        <label for="newLink">Link <small>(optional)</small></label>
+        <input type="url" id="newLink" inputmode="url" placeholder="Paste a YouTube or any video link">
+      </div>
+      <div id="authorWrap">
+        <label for="newSource">Author <small>(optional)</small></label>
+        <input type="text" id="newSource" placeholder="e.g. चाणक्य, or Unknown">
+      </div>
+      <label for="newMeaning" id="lblMeaning">Meaning <small>(optional)</small></label>
+      <div class="field">
+        <textarea id="newMeaning" placeholder="The meaning in your own words"></textarea>
+        <button type="button" class="mic" data-target="newMeaning" aria-label="Speak the meaning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+      </div>
+      <p class="hint" id="micHint" hidden>Voice typing isn't available in this browser. Use the mic on your phone's keyboard instead.</p>
+      <div class="form-actions">
+        <button type="button" class="btn ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn solid" id="saveBtn">Save</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="sheet" id="keySheet" role="dialog" aria-modal="true" aria-labelledby="keyTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="keyTitle">Owner access</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div id="keyLocked">
+      <p class="keytext" id="keyMsg">Enter your secret key to add, edit and delete, and to see your YouTube tab on this device.</p>
+      <form id="keyForm" novalidate>
+        <label for="keyInput">Secret key</label>
+        <div class="field">
+          <input type="password" id="keyInput" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false">
+          <button type="button" class="eye" id="eyeBtn" aria-label="Show key" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+        <p class="keystatus" id="keyStatus" role="alert" hidden></p>
+        <div class="form-actions"><button type="submit" class="btn solid" id="unlockBtn">Unlock</button></div>
+      </form>
+    </div>
+    <div id="keyOpen" hidden>
+      <p class="keytext">This device is unlocked. Anything you add here is saved to your Google Sheet and appears on all your devices.</p>
+      <div class="form-actions">
+        <button type="button" class="btn ghost" id="relockBtn">Lock this device</button>
+        <button type="button" class="btn solid" id="refreshBtn">Refresh now</button>
       </div>
     </div>
   </section>
 
-  <form id="addForm" autocomplete="off">
-    <h2>नया सुविचार जोड़ें</h2>
-    <label for="newQuote">सुविचार</label>
-    <div class="field">
-      <textarea id="newQuote" required placeholder="यहाँ लिखें या 🎤 दबाकर बोलें"></textarea>
-      <button type="button" class="mic" data-target="newQuote" aria-label="सुविचार बोलकर लिखें">🎤</button>
-    </div>
-    <label for="newSource">किसका कथन है (वैकल्पिक)</label>
-    <input type="text" id="newSource" placeholder="जैसे: चाणक्य, या लेखक अज्ञात">
-    <label for="newMeaning">अर्थ (वैकल्पिक)</label>
-    <div class="field">
-      <textarea id="newMeaning" placeholder="इसका अर्थ अपने शब्दों में"></textarea>
-      <button type="button" class="mic" data-target="newMeaning" aria-label="अर्थ बोलकर लिखें">🎤</button>
-    </div>
-    <p class="hint" id="micHint" hidden>इस ब्राउज़र में 🎤 से बोलकर लिखना उपलब्ध नहीं है। अपने फ़ोन के कीबोर्ड पर बने 🎤 बटन से बोलकर लिख सकते हैं।</p>
-    <div class="formfoot"><button type="submit" class="primary" id="saveBtn">सुविचार सहेजें</button></div>
-  </form>
-
-</main>
-<div class="toast" id="toast" role="status"></div>
+  <div class="toast" id="toast" role="status"></div>
 
 <script>
 const BUILT_IN = [
@@ -176,89 +341,357 @@ const BUILT_IN = [
   { id: "b3", builtIn: true,
     text: "मुसीबत आने पर कुछ बिखर जाते हैं\nऔर कुछ सवर जाते हैं।",
     source: "प्रचलित सुविचार; लेखक अज्ञात",
-    meaning: "एक ही मुसीबत किसी को तोड़ देती है और किसी को निखार देती है। फर्क परिस्थिति में नहीं, उसे देखने और उससे निपटने के तरीके में होता है।\n\nजैसे आग में तपकर सोना और चमकता है, वैसे ही कुछ लोग कठिनाइयों से सीखकर और मज़बूत बन जाते हैं।" }
+    meaning: "एक ही मुसीबत किसी को तोड़ देती है और किसी को निखार देती है। फर्क परिस्थिति में नहीं, उसे देखने और उससे निपटने के तरीके में होता है।\n\nजैसे आग में तपकर सोना और चमकता है, वैसे ही कुछ लोग कठिनाइयों से सीखकर और मज़बूत बन जाते हैं।" },
+  { id: "e1", builtIn: true, lang: "en",
+    text: "Never tell a man to go to hell\nunless you can send him there.",
+    source: "Attributed to Lyndon B. Johnson; a similar line is credited to Bill Clinton",
+    meaning: "Don't make threats or angry declarations you can't back up. Empty threats cost you credibility, and they give the other person a reason to resist you without any real consequence.\n\nIt's advice about power and restraint: if you truly have the power to act, you rarely need to announce it; if you don't, saying it only exposes your weakness. Choose your words according to what you can actually deliver." }
 ];
-const KEY = "suvichar-mine";
+const EYE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>`, EYE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>`;
+const API = "https://script.google.com/macros/s/AKfycbyfjsKDGbq9eAXCI5pSD5Jm60RsZXqfIRJ5_CKZm-CG5ALm5GZMdX3CD2vhVcdxIP5Zuw/exec";
 const $ = id => document.getElementById(id);
-const toDev = n => String(n).replace(/\d/g, d => "०१२३४५६७८९"[d]);
-let mine = [], quotes = [], i = 0;
+const LS = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+};
+let lang = ["hi", "en", "yt"].includes(LS.get("suvichar-lang")) ? LS.get("suvichar-lang") : "hi";
+let key = LS.get("suvichar-key") || "";
+let owner = !!key && LS.get("suvichar-owner") === "1";
+let all = [], quotes = [], i = 0, editingId = null, pendingShare = null, lastError = "";
+const pos = { hi: null, en: null, yt: null };
+try { Object.assign(pos, JSON.parse(LS.get("suvichar-pos2") || "{}")); } catch (e) {}
+const toDev = n => lang !== "hi" ? String(n) : String(n).replace(/\d/g, d => "०१२३४५६७८९"[d]);
 
 function toast(msg) {
   const t = $("toast"); t.textContent = msg; t.classList.add("show");
-  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2600);
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2800);
 }
-function loadMine() {
-  try { mine = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(mine)) mine = []; } catch (e) { mine = []; }
-  quotes = BUILT_IN.concat(mine);
-}
-function saveMine() {
-  try { localStorage.setItem(KEY, JSON.stringify(mine)); return true; } catch (e) { return false; }
-}
-function plain(q) { return q.text + (q.source ? "\n— " + q.source : ""); }
 
-function render() {
-  $("status").hidden = true; $("viewer").hidden = false;
-  const q = quotes[i];
+/* ---------- data from the Google Sheet ---------- */
+function loadCache() {
+  try { const c = JSON.parse(LS.get("suvichar-cache") || "null"); return Array.isArray(c) ? c : null; } catch (e) { return null; }
+}
+function saveCache() { LS.set("suvichar-cache", JSON.stringify(all)); }
+
+async function fetchAll(opts = {}) {
+  try {
+    lastError = "";
+    let res;
+    try { res = await fetch(API + (key ? "?key=" + encodeURIComponent(key) : ""), { cache: "no-store" }); }
+    catch (e) { lastError = navigator.onLine === false ? "offline" : "network"; throw e; }
+    const raw = await res.text();
+    let data;
+    try { data = JSON.parse(raw); } catch (e) { lastError = /sign in|accounts\.google/i.test(raw) ? "login-page" : "not-json"; throw e; }
+    if (!data.ok) { lastError = "sheet:" + (data.error || "unknown"); throw new Error(data.error); }
+    owner = !!data.owner;
+    LS.set("suvichar-owner", owner ? "1" : "0");
+    all = (data.items || []).map(q => ({ ...q, lang: ["hi", "en", "yt"].includes(q.lang) ? q.lang : "hi" }));
+    saveCache();
+    const cur = opts.focusId || (quotes[i] && quotes[i].id);
+    applyOwner(); select(cur); render();
+    return true;
+  } catch (e) {
+    if (!opts.silent) toast("Couldn't reach your sheet. Showing your last saved copy.");
+    return false;
+  }
+}
+
+async function post(action, item) {
+  const res = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ key, action, item })
+  });
+  const data = await res.json();
+  if (!data.ok) { const err = new Error(data.error || "error"); err.code = data.error; throw err; }
+  return data;
+}
+
+/* ---------- owner mode ---------- */
+function applyOwner() {
+  document.querySelector('#langToggle span[data-v="yt"]').hidden = !owner;
+  document.querySelector('input[name=qlang][value=yt]').closest("label").hidden = !owner;
+  $("fabWrap").hidden = !owner;
+  $("lockBtn").classList.toggle("on", owner);
+  $("lockBtn").setAttribute("aria-label", owner ? "Owner access: unlocked" : "Owner access: locked");
+  if (!owner && lang === "yt") { lang = "hi"; paintLang(); }
+}
+
+/* ---------- display ---------- */
+function select(keepId) {
+  quotes = all.filter(q => q.lang === lang);
+  const want = keepId || pos[lang];
+  const k = quotes.findIndex(q => q.id === want);
+  i = k >= 0 ? k : 0;
+}
+function paintLang() {
+  document.querySelectorAll("#langToggle span").forEach(s => s.classList.toggle("on", s.dataset.v === lang));
+  document.documentElement.lang = lang === "hi" ? "hi" : "en";
+}
+const plain = q => q.lang === "yt"
+  ? q.text + (q.link ? "\n" + q.link : "") + (q.meaning ? "\n\n" + q.meaning : "")
+  : q.text + (q.source ? "\n— " + q.source : "");
+function normLink(s) {
+  s = (s || "").trim(); if (!s) return "";
+  if (!/^https?:\/\//i.test(s)) s = "https://" + s;
+  try { const u = new URL(s); return /^https?:$/.test(u.protocol) ? u.href : ""; } catch (e) { return ""; }
+}
+function linkLabel(s) {
+  try { const h = new URL(s).hostname.replace(/^www\.|^m\./, ""); return (/youtu/.test(h) ? "▶ YouTube video" : h) + " ↗"; } catch (e) { return "Open link ↗"; }
+}
+
+function render(dir) {
+  const has = quotes.length > 0;
+  $("card").hidden = !has; $("tools").hidden = !has; $("empty").hidden = has;
+  $("count").textContent = has ? `${toDev(i + 1)} / ${toDev(quotes.length)}` : "";
+  $("prev").disabled = !has || i === 0;
+  $("next").disabled = !has || i === quotes.length - 1;
+  if (!has) {
+    const E = {
+      hi: ["अभी कोई हिंदी सुविचार नहीं", owner ? "Add दबाकर पहला सुविचार जोड़ें।" : ""],
+      en: ["No English quotes yet", owner ? "Tap Add to save your first one." : ""],
+      yt: ["No YouTube inspirations yet", "Tap Add to save an idea or a video link. On Android, you can also share a video straight from the YouTube app to this app."]
+    }[lang];
+    $("emptyTitle").textContent = E[0]; $("emptyText").textContent = E[1];
+    return;
+  }
+  const q = quotes[i], yt = q.lang === "yt";
   const qEl = $("quote"); qEl.textContent = "";
+  qEl.lang = q.lang === "hi" ? "hi" : "en"; $("source").lang = qEl.lang;
   q.text.split(/\n+/).forEach(line => { const s = document.createElement("span"); s.textContent = line; qEl.appendChild(s); });
-  $("source").textContent = q.source ? "— " + q.source : "";
-  $("tag").textContent = q.builtIn ? "" : "आपका जोड़ा हुआ";
-  const m = $("meaning"); m.textContent = q.meaning || ""; m.hidden = true;
-  const tg = $("toggleMeaning"); tg.hidden = !q.meaning; tg.textContent = "अर्थ पढ़ें"; tg.setAttribute("aria-expanded", "false");
+  qEl.classList.toggle("long", q.text.length > 90);
+  qEl.classList.toggle("en", q.lang === "en");
+  qEl.classList.toggle("idea", yt);
+  $("source").textContent = yt ? "" : (q.source || "");
+  $("source").hidden = yt || !q.source;
+  $("linkChip").hidden = $("openBtn").hidden = !(yt && q.link);
+  if (yt && q.link) { $("linkChip").href = $("openBtn").href = q.link; $("linkChip").textContent = linkLabel(q.link); }
+  $("notes").hidden = !(yt && q.meaning);
+  $("notes").textContent = yt ? (q.meaning || "") : "";
+  $("tag").hidden = true;
+  $("meaningBtn").hidden = yt || !q.meaning;
+  $("editBtn").hidden = $("deleteBtn").hidden = !owner;
   $("waBtn").href = "https://wa.me/?text=" + encodeURIComponent(plain(q));
-  $("deleteBtn").hidden = !!q.builtIn;
-  $("count").textContent = `${toDev(i + 1)} / ${toDev(quotes.length)}`;
-  $("prev").disabled = i === 0;
-  $("next").disabled = i === quotes.length - 1;
-  try { localStorage.setItem("suvichar-pos", q.id); } catch (e) {}
+  const card = $("card");
+  card.classList.remove("in-next", "in-prev"); void card.offsetWidth;
+  if (dir) card.classList.add(dir > 0 ? "in-next" : "in-prev");
+  pos[lang] = q.id; LS.set("suvichar-pos2", JSON.stringify(pos));
 }
-
-$("toggleMeaning").onclick = () => {
-  const m = $("meaning"), open = m.hidden;
-  m.hidden = !open;
-  $("toggleMeaning").setAttribute("aria-expanded", String(open));
-  $("toggleMeaning").textContent = open ? "अर्थ छिपाएँ" : "अर्थ पढ़ें";
+function setLang(l, keepId) {
+  if (l === "yt" && !owner) return;
+  lang = l; LS.set("suvichar-lang", lang);
+  paintLang(); select(keepId); render();
+}
+$("langToggle").onclick = e => {
+  const s = e.target.closest("span[data-v]");
+  const order = owner ? ["hi", "en", "yt"] : ["hi", "en"];
+  setLang(s ? s.dataset.v : order[(order.indexOf(lang) + 1) % order.length]);
 };
-$("prev").onclick = () => { if (i > 0) { i--; render(); } };
-$("next").onclick = () => { if (i < quotes.length - 1) { i++; render(); } };
-document.addEventListener("keydown", e => {
-  if (e.target.matches("textarea, input")) return;
-  if (e.key === "ArrowLeft") $("prev").click();
-  if (e.key === "ArrowRight") $("next").click();
+function go(d) { const n = i + d; if (n < 0 || n >= quotes.length) return; i = n; render(d); }
+$("prev").onclick = () => go(-1);
+$("next").onclick = () => go(1);
+
+/* swipe */
+let sx = null, sy = null;
+$("stage").addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+$("stage").addEventListener("touchend", e => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
+  sx = sy = null;
 });
+
+/* sheets */
+let openSheet = null, lastFocus = null;
+function showSheet(id) {
+  lastFocus = document.activeElement;
+  openSheet = $(id);
+  $("scrim").hidden = false; requestAnimationFrame(() => $("scrim").classList.add("show"));
+  openSheet.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function hideSheet() {
+  if (!openSheet) return;
+  if (activeRec) activeRec.stop();
+  openSheet.classList.remove("open"); openSheet = null;
+  $("scrim").classList.remove("show"); setTimeout(() => { if (!openSheet) $("scrim").hidden = true; }, 250);
+  document.body.style.overflow = "";
+  if (lastFocus) lastFocus.focus();
+}
+$("scrim").onclick = hideSheet;
+document.querySelectorAll("[data-close]").forEach(b => b.onclick = hideSheet);
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") hideSheet();
+  if (openSheet || e.target.matches("textarea, input")) return;
+  if (e.key === "ArrowLeft") go(-1);
+  if (e.key === "ArrowRight") go(1);
+});
+
+$("meaningBtn").onclick = () => {
+  const q = quotes[i];
+  $("meaningQuote").textContent = q.text.replace(/\n+/g, " ");
+  $("meaningQuote").lang = q.lang; $("meaningBody").lang = q.lang;
+  const body = $("meaningBody"); body.textContent = "";
+  q.meaning.split(/\n{2,}/).forEach(para => { const p = document.createElement("p"); p.textContent = para.trim(); body.appendChild(p); });
+  showSheet("meaningSheet");
+  setTimeout(() => $("meaningSheet").querySelector("[data-close]").focus(), 320);
+};
+function formLang() { return document.querySelector("input[name=qlang]:checked").value; }
+function paintForm() {
+  const k = formLang(), en = k === "en", yt = k === "yt", ed = !!editingId;
+  $("addTitle").textContent = (ed ? "Edit " : "Add ") + (yt ? (ed ? "inspiration" : "an inspiration") : (ed ? "quote" : "a quote"));
+  $("lblQuote").textContent = yt ? "Idea / title" : "Quote";
+  $("lblMeaning").innerHTML = yt ? "Notes <small>(optional)</small>" : "Meaning <small>(optional)</small>";
+  $("newQuote").placeholder = yt ? "Your video idea, or what you liked about this video" : "Type here, or tap the mic and speak";
+  $("newMeaning").placeholder = yt ? "Anything to remember: hook, format, thumbnail idea…" : "The meaning in your own words";
+  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt;
+  $("newQuote").lang = $("newMeaning").lang = k === "hi" ? "hi" : "en";
+  $("newQuote").style.fontFamily = yt ? "var(--sans)" : (en ? "var(--serif)" : "");
+  $("newSource").placeholder = en ? "e.g. Mahatma Gandhi, or Unknown" : "e.g. चाणक्य, or Unknown";
+}
+document.querySelectorAll("input[name=qlang]").forEach(r => r.onchange = paintForm);
+function openAdd(prefill) {
+  if (!owner) { openKey(); return; }
+  editingId = prefill && prefill.id || null;
+  $("addForm").reset();
+  const k = (prefill && prefill.lang) || lang;
+  document.querySelector(`input[name=qlang][value=${k}]`).checked = true;
+  if (prefill) {
+    $("newQuote").value = prefill.text || ""; $("newSource").value = prefill.source || "";
+    $("newLink").value = prefill.link || ""; $("newMeaning").value = prefill.meaning || "";
+  }
+  paintForm(); showSheet("addSheet");
+  setTimeout(() => $("newQuote").focus(), 320);
+}
+$("addBtn").onclick = () => openAdd();
+$("editBtn").onclick = () => openAdd({ ...quotes[i] });
+$("cancelBtn").onclick = () => { $("addForm").reset(); editingId = null; hideSheet(); };
+
 $("copyBtn").onclick = async () => {
-  try { await navigator.clipboard.writeText(plain(quotes[i])); toast("सुविचार कॉपी हो गया"); }
-  catch (e) { toast("कॉपी नहीं हो सका, टेक्स्ट चुनकर कॉपी करें"); }
+  try { await navigator.clipboard.writeText(plain(quotes[i])); toast("Copied"); }
+  catch (e) { toast("Couldn't copy"); }
 };
 $("shareBtn").onclick = async () => {
   const text = plain(quotes[i]);
   if (navigator.share) { try { await navigator.share({ text }); } catch (e) {} }
-  else { try { await navigator.clipboard.writeText(text); toast("शेयर मेन्यू उपलब्ध नहीं, इसलिए कॉपी कर दिया"); } catch (e) { toast("शेयर उपलब्ध नहीं है"); } }
+  else { try { await navigator.clipboard.writeText(text); toast("Sharing not available here, so it was copied"); } catch (e) { toast("Sharing not available"); } }
 };
-$("deleteBtn").onclick = () => {
+function keyProblem(err) {
+  if (err && err.code === "bad-key") { owner = false; LS.set("suvichar-owner", "0"); applyOwner(); render(); toast("Your key didn't work. Please unlock again."); openKey(); return true; }
+  return false;
+}
+$("deleteBtn").onclick = async () => {
   const q = quotes[i];
-  if (q.builtIn || !confirm("क्या यह सुविचार हटाना है?")) return;
-  mine = mine.filter(x => x.id !== q.id);
-  if (!saveMine()) { toast("हटाया नहीं जा सका"); return; }
-  quotes = BUILT_IN.concat(mine);
-  if (i >= quotes.length) i = quotes.length - 1;
-  render(); toast("सुविचार हटा दिया");
+  if (!confirm(q.lang === "yt" ? "Delete this inspiration?" : "Delete this quote?")) return;
+  try {
+    await post("delete", { id: q.id });
+    const next = quotes[i + 1] || quotes[i - 1];
+    all = all.filter(x => x.id !== q.id); saveCache();
+    select(next && next.id); render(); toast("Deleted");
+  } catch (err) { if (!keyProblem(err)) toast("Couldn't delete. Check your internet and try again."); }
 };
 
-$("addForm").onsubmit = ev => {
+$("addForm").onsubmit = async ev => {
   ev.preventDefault();
-  const text = $("newQuote").value.trim();
-  if (!text) { toast("पहले सुविचार लिखें या बोलें"); return; }
-  const q = { id: "q" + Date.now(), text, source: $("newSource").value.trim(), meaning: $("newMeaning").value.trim(), createdAt: Date.now() };
-  mine.push(q);
-  if (!saveMine()) { mine.pop(); toast("सहेजा नहीं जा सका। फ़ोन की स्टोरेज जाँचें।"); return; }
-  quotes = BUILT_IN.concat(mine);
-  i = quotes.length - 1;
-  $("addForm").reset(); render(); toast("सुविचार सहेजा गया");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const kind = formLang();
+  let text = $("newQuote").value.trim();
+  const rawLink = $("newLink").value.trim();
+  const link = kind === "yt" ? normLink(rawLink) : "";
+  if (kind === "yt" && rawLink && !link) { toast("That link doesn't look right"); $("newLink").focus(); return; }
+  if (kind === "yt" && !text && link) text = "Saved video";
+  if (!text) { toast(kind === "yt" ? "Please add an idea or a link" : "Please type or speak a quote first"); $("newQuote").focus(); return; }
+  const item = { id: editingId || undefined, lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim() };
+  const btn = $("saveBtn"); btn.disabled = true; btn.textContent = "Saving…";
+  try {
+    const res = await post(editingId ? "update" : "add", item);
+    const id = editingId || res.id;
+    const wasEdit = !!editingId;
+    editingId = null; $("addForm").reset(); hideSheet();
+    lang = kind; LS.set("suvichar-lang", lang); paintLang();
+    const local = { ...item, id };
+    const k = all.findIndex(x => x.id === id);
+    if (k >= 0) all[k] = local; else all.push(local);
+    saveCache(); select(id); render(1);
+    toast(wasEdit ? "Changes saved" : (kind === "yt" ? "Inspiration saved" : "Quote saved"));
+    fetchAll({ silent: true, focusId: id });
+  } catch (err) {
+    if (!keyProblem(err)) toast("Couldn't save. Check your internet and try again.");
+  } finally { btn.disabled = false; btn.textContent = "Save"; }
 };
 
-/* बोलकर लिखना */
+/* ---------- key sheet ---------- */
+function openKey(msg) {
+  keyStatus(""); $("keyInput").type = "password"; $("eyeBtn").innerHTML = EYE; $("eyeBtn").setAttribute("aria-pressed", "false");
+  $("keyLocked").hidden = owner; $("keyOpen").hidden = !owner;
+  if (msg) $("keyMsg").textContent = msg;
+  showSheet("keySheet");
+  if (!owner) setTimeout(() => $("keyInput").focus(), 320);
+}
+$("lockBtn").onclick = () => openKey();
+function keyStatus(msg) { $("keyStatus").textContent = msg || ""; $("keyStatus").hidden = !msg; }
+function explain(err) {
+  if (err === "offline") return "You seem to be offline. Connect to the internet and try again.";
+  if (err === "network") return "Couldn't connect to your Google Sheet link. Check your internet; if it still fails, the Apps Script deployment may need 'Who has access' set to Anyone.";
+  if (err === "login-page") return "Google asked for a sign-in instead of answering. In Apps Script, redeploy with 'Who has access: Anyone'.";
+  if (err === "not-json") return "The sheet link answered with an error page. Open the Web app URL in your browser to see the message.";
+  if (err && err.startsWith("sheet:")) {
+    const m = err.slice(6);
+    if (/not found/i.test(m)) return "The connector couldn't find a tab named 'Quotes' in your sheet. Rename the tab to exactly Quotes.";
+    return "Your sheet reported a problem: " + m;
+  }
+  return "Something went wrong. Please try again.";
+}
+$("eyeBtn").onclick = () => {
+  const show = $("keyInput").type === "password";
+  $("keyInput").type = show ? "text" : "password";
+  $("eyeBtn").setAttribute("aria-pressed", String(show));
+  $("eyeBtn").setAttribute("aria-label", show ? "Hide key" : "Show key");
+  $("eyeBtn").innerHTML = show ? EYE_OFF : EYE;
+  $("keyInput").focus();
+};
+$("keyInput").oninput = () => keyStatus("");
+$("keyForm").onsubmit = async ev => {
+  ev.preventDefault();
+  const k = $("keyInput").value.trim();
+  if (!k) { keyStatus("Please type your secret key."); $("keyInput").focus(); return; }
+  const btn = $("unlockBtn"); btn.disabled = true; btn.textContent = "Checking…"; keyStatus("");
+  const old = key; key = k;
+  const ok = await fetchAll({ silent: true });
+  btn.disabled = false; btn.textContent = "Unlock";
+  if (ok && owner) {
+    LS.set("suvichar-key", key); $("keyInput").value = "";
+    hideSheet(); toast("Unlocked. You can add quotes now.");
+    await moveOldLocalQuotes();
+    if (pendingShare) { const p = pendingShare; pendingShare = null; setTimeout(() => openAdd(p), 350); }
+  } else {
+    key = old;
+    keyStatus(ok
+      ? "That key doesn't match the one in your Apps Script. Tap the eye to check it for typos, capital letters or extra spaces. If you changed the key after deploying, you need to deploy a new version (Deploy → Manage deployments → Edit → New version)."
+      : explain(lastError));
+  }
+};
+$("relockBtn").onclick = () => {
+  key = ""; owner = false; LS.del("suvichar-key"); LS.set("suvichar-owner", "0");
+  all = all.filter(q => q.lang !== "yt"); saveCache();
+  applyOwner(); select(); render(); hideSheet(); toast("Locked on this device");
+};
+$("refreshBtn").onclick = async () => { hideSheet(); if (await fetchAll()) toast("Up to date"); };
+
+/* quotes saved only on this phone by the older version get moved into the sheet */
+async function moveOldLocalQuotes() {
+  let old = [];
+  try { old = JSON.parse(LS.get("suvichar-mine") || "[]"); } catch (e) {}
+  if (!Array.isArray(old) || !old.length) return;
+  let moved = 0;
+  for (const q of old) {
+    try { await post("add", { lang: q.lang || "hi", text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "" }); moved++; } catch (e) { break; }
+  }
+  if (moved === old.length) LS.del("suvichar-mine"); else LS.set("suvichar-mine", JSON.stringify(old.slice(moved)));
+  if (moved) { toast(`Moved ${moved} saved item${moved > 1 ? "s" : ""} into your sheet`); fetchAll({ silent: true }); }
+}
+
+/* voice typing */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let activeRec = null;
 document.querySelectorAll(".mic").forEach(btn => {
@@ -268,42 +701,45 @@ document.querySelectorAll(".mic").forEach(btn => {
     const target = $(btn.dataset.target);
     const base = target.value ? target.value.replace(/\s*$/, " ") : "";
     let rec;
-    try { rec = new SR(); } catch (e) { toast("बोलकर लिखना शुरू नहीं हो सका"); return; }
-    rec.lang = "hi-IN"; rec.interimResults = true; rec.continuous = true;
-    rec.onresult = e => {
-      let t = "";
-      for (let k = 0; k < e.results.length; k++) t += e.results[k][0].transcript;
-      target.value = base + t;
-    };
+    try { rec = new SR(); } catch (e) { toast("Couldn't start voice typing"); return; }
+    rec.lang = formLang() === "en" ? "en-IN" : "hi-IN"; rec.interimResults = true; rec.continuous = true;
+    rec.onresult = e => { let t = ""; for (let k = 0; k < e.results.length; k++) t += e.results[k][0].transcript; target.value = base + t; };
     rec.onerror = e => {
-      if (e.error === "not-allowed" || e.error === "service-not-allowed")
-        toast("माइक की अनुमति नहीं मिली। Chrome की सेटिंग में इस साइट के लिए माइक चालू करें।");
-      else if (e.error === "no-speech") toast("कोई आवाज़ सुनाई नहीं दी");
-      else toast("बोलकर लिखना रुक गया");
+      if (e.error === "not-allowed" || e.error === "service-not-allowed") toast("Mic permission denied. Allow the microphone for this site in Chrome settings.");
+      else if (e.error === "no-speech") toast("No speech heard");
+      else toast("Voice typing stopped");
     };
-    rec.onend = () => { btn.classList.remove("on"); btn.textContent = "🎤"; activeRec = null; };
-    try { rec.start(); } catch (e) { toast("बोलकर लिखना शुरू नहीं हो सका"); return; }
-    activeRec = rec; btn.classList.add("on"); btn.textContent = "रोकें";
-    toast("बोलिए… रुकने के लिए ‘रोकें’ दबाएँ");
+    rec.onend = () => { btn.classList.remove("on"); activeRec = null; };
+    try { rec.start(); } catch (e) { toast("Couldn't start voice typing"); return; }
+    activeRec = rec; btn.classList.add("on");
+    toast("Listening… tap the mic again to stop");
   };
 });
 if (!SR) $("micHint").hidden = false;
 
-/* इंस्टॉल */
+/* install */
 let deferred = null;
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; $("installBtn").hidden = false; });
-$("installBtn").onclick = async () => {
-  if (!deferred) return;
-  deferred.prompt(); await deferred.userChoice; deferred = null; $("installBtn").hidden = true;
-};
-window.addEventListener("appinstalled", () => { $("installBtn").hidden = true; toast("ऐप इंस्टॉल हो गया"); });
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
-}
+$("installBtn").onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $("installBtn").hidden = true; };
+window.addEventListener("appinstalled", () => { $("installBtn").hidden = true; toast("App installed"); });
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
 
-loadMine();
-try { const pos = localStorage.getItem("suvichar-pos"); const k = quotes.findIndex(q => q.id === pos); if (k >= 0) i = k; } catch (e) {}
-render();
+all = loadCache() || BUILT_IN.map(q => ({ lang: "hi", ...q }));
+applyOwner(); paintLang(); select(); render();
+fetchAll({ silent: !!loadCache() });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") fetchAll({ silent: true }); });
+
+/* shared from another app (e.g. YouTube → Share → सुविचार) */
+(function () {
+  const p = new URLSearchParams(location.search);
+  const title = p.get("title") || "", text = p.get("text") || "", url = p.get("url") || "";
+  if (!title && !text && !url) return;
+  history.replaceState(null, "", location.pathname);
+  const found = url || (text.match(/https?:\/\/\S+/) || [""])[0];
+  const share = { lang: "yt", link: found, text: title || text.replace(found, "").trim() };
+  if (owner) openAdd(share);
+  else { pendingShare = share; openKey("Unlock with your secret key to save this video to your YouTube tab."); }
+})();
 </script>
 </body>
 </html>
