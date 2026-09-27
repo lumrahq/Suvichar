@@ -99,6 +99,25 @@
   .eye { position: absolute; right: .35rem; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); }
   .eye svg { width: 21px; height: 21px; }
   .keystatus { margin: .7rem 0 0; font-size: .95rem; color: #B42318; background: #FEF3F2; border: 1px solid #FECDCA; border-radius: 10px; padding: .55rem .75rem; }
+  .syncpill { display: block; margin: .5rem auto 0; font-size: .85rem; color: var(--mist); background: #FFFFFF; border: 1px solid var(--line); border-radius: 999px; padding: .15rem .8rem; }
+  .syncpill.warn { color: #B42318; border-color: #FECDCA; background: #FEF3F2; }
+  .trchip { color: var(--deep); border-color: var(--line); cursor: pointer; font: inherit; font-size: .95rem; margin-left: .3rem; }
+  #newTranscript { min-height: 9rem; font-size: .95rem; padding-right: .9rem; }
+  .trrow { display: flex; align-items: center; gap: .7rem; margin-top: .6rem; flex-wrap: wrap; }
+  .upbtn { flex: none; margin: 0; padding: .5rem 1rem; font-size: .9rem; cursor: pointer; }
+  .trinfo { color: var(--mist); font-size: .9rem; }
+  .sheet.reader { max-height: 94dvh; }
+  .readersub { color: var(--mist); margin: -.3rem 0 .6rem; }
+  .searchrow { position: sticky; top: -.6rem; z-index: 1; background: var(--sheet); display: flex; gap: .45rem; align-items: center; padding: .5rem 0; }
+  .searchrow input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 12px; padding: .55rem .8rem; }
+  .searchrow input:focus { border-color: var(--gold); outline: none; }
+  .trcount { color: var(--mist); font-size: .85rem; min-width: 3.2rem; text-align: center; }
+  .navmini { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); font-size: 1rem; }
+  .navmini:disabled { opacity: .35; }
+  .readerbody p { margin: 0 0 1.1rem; font-size: 1.08rem; line-height: 1.85; }
+  .readerbody mark { background: rgba(242,176,64,.35); color: inherit; border-radius: 3px; padding: 0 1px; }
+  .readerbody mark.cur { background: var(--gold); }
+  .readerbody .loading { color: var(--mist); }
   .keytext { color: var(--mist); margin: 0 0 .5rem; }
   .fab-wrap[hidden] { display: none !important; }
   .chip { display: inline-block; margin-top: .9rem; font-size: .85rem; color: var(--gold-ink); border: 1px solid rgba(214,146,30,.45); border-radius: 999px; padding: .05rem .7rem; }
@@ -213,6 +232,7 @@
     <button class="lockbtn" id="lockBtn" aria-label="Owner key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
   </header>
   <div class="tabs">
+    <button class="syncpill" id="syncPill" hidden></button>
     <button class="numtoggle" id="langToggle" aria-label="Switch section"><span data-v="hi">हिंदी</span><span data-v="en">English</span><span data-v="yt">YouTube</span></button>
   </div>
 
@@ -223,6 +243,7 @@
       <p class="source" id="source"></p>
       <a class="linkchip" id="linkChip" href="#" target="_blank" rel="noopener" hidden></a>
       <p class="notes" id="notes" hidden></p>
+      <button class="linkchip trchip" id="trChip" hidden>📄 Read transcript</button>
       <span class="chip" id="tag" hidden>Added by you</span>
     </article>
 
@@ -291,12 +312,38 @@
         <textarea id="newMeaning" placeholder="The meaning in your own words"></textarea>
         <button type="button" class="mic" data-target="newMeaning" aria-label="Speak the meaning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
       </div>
+      <div id="trWrap" hidden>
+        <label for="newTranscript">Transcript <small>(optional)</small></label>
+        <textarea id="newTranscript" lang="en" placeholder="Paste the video's transcript here, or upload a PDF or text file"></textarea>
+        <div class="trrow">
+          <label class="btn ghost upbtn" for="trFile">Upload file (PDF, TXT, SRT, VTT)</label>
+          <input type="file" id="trFile" accept=".pdf,.txt,.srt,.vtt,application/pdf,text/plain,text/vtt" hidden>
+          <span class="trinfo" id="trInfo"></span>
+        </div>
+      </div>
       <p class="hint" id="micHint" hidden>Voice typing isn't available in this browser. Use the mic on your phone's keyboard instead.</p>
       <div class="form-actions">
         <button type="button" class="btn ghost" id="cancelBtn">Cancel</button>
         <button type="submit" class="btn solid" id="saveBtn">Save</button>
       </div>
     </form>
+  </section>
+
+  <section class="sheet reader" id="readerSheet" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="readerTitle">Transcript</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <p class="readersub" id="readerSub"></p>
+    <div class="searchrow">
+      <input type="search" id="trSearch" placeholder="Search in transcript" autocomplete="off">
+      <span class="trcount" id="trCount"></span>
+      <button type="button" class="navmini" id="trPrev" aria-label="Previous match">↑</button>
+      <button type="button" class="navmini" id="trNext" aria-label="Next match">↓</button>
+    </div>
+    <div class="readerbody" id="readerBody"></div>
+    <div class="form-actions"><button type="button" class="btn ghost" id="trCopy">Copy transcript</button></div>
   </section>
 
   <section class="sheet" id="keySheet" role="dialog" aria-modal="true" aria-labelledby="keyTitle">
@@ -386,7 +433,7 @@ async function fetchAll(opts = {}) {
     if (!data.ok) { lastError = "sheet:" + (data.error || "unknown"); throw new Error(data.error); }
     owner = !!data.owner;
     LS.set("suvichar-owner", owner ? "1" : "0");
-    all = (data.items || []).map(q => ({ ...q, lang: ["hi", "en", "yt"].includes(q.lang) ? q.lang : "hi" }));
+    all = applyQueue((data.items || []).map(q => ({ ...q, lang: ["hi", "en", "yt"].includes(q.lang) ? q.lang : "hi" })));
     saveCache();
     const cur = opts.focusId || (quotes[i] && quotes[i].id);
     applyOwner(); select(cur); render();
@@ -469,6 +516,7 @@ function render(dir) {
   if (yt && q.link) { $("linkChip").href = $("openBtn").href = q.link; $("linkChip").textContent = linkLabel(q.link); }
   $("notes").hidden = !(yt && q.meaning);
   $("notes").textContent = yt ? (q.meaning || "") : "";
+  $("trChip").hidden = !(yt && q.hasTranscript && owner);
   $("tag").hidden = true;
   $("meaningBtn").hidden = yt || !q.meaning;
   $("editBtn").hidden = $("deleteBtn").hidden = !owner;
@@ -545,7 +593,7 @@ function paintForm() {
   $("lblMeaning").innerHTML = yt ? "Notes <small>(optional)</small>" : "Meaning <small>(optional)</small>";
   $("newQuote").placeholder = yt ? "Your video idea, or what you liked about this video" : "Type here, or tap the mic and speak";
   $("newMeaning").placeholder = yt ? "Anything to remember: hook, format, thumbnail idea…" : "The meaning in your own words";
-  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt;
+  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt; $("trWrap").hidden = !yt;
   $("newQuote").lang = $("newMeaning").lang = k === "hi" ? "hi" : "en";
   $("newQuote").style.fontFamily = yt ? "var(--sans)" : (en ? "var(--serif)" : "");
   $("newSource").placeholder = en ? "e.g. Mahatma Gandhi, or Unknown" : "e.g. चाणक्य, or Unknown";
@@ -560,6 +608,20 @@ function openAdd(prefill) {
   if (prefill) {
     $("newQuote").value = prefill.text || ""; $("newSource").value = prefill.source || "";
     $("newLink").value = prefill.link || ""; $("newMeaning").value = prefill.meaning || "";
+  }
+  trDirty = false; $("trInfo").textContent = ""; $("newTranscript").disabled = false;
+  $("newTranscript").placeholder = "Paste the video's transcript here, or upload a PDF or text file";
+  if (prefill && prefill.id && prefill.hasTranscript) {
+    const id = prefill.id;
+    $("newTranscript").disabled = true; $("newTranscript").placeholder = "Loading transcript…";
+    getTranscript(id).then(txt => {
+      if (editingId !== id || trDirty) return;
+      $("newTranscript").value = txt; $("newTranscript").disabled = false; trInfo();
+    }).catch(() => {
+      if (editingId !== id) return;
+      $("newTranscript").disabled = false;
+      $("newTranscript").placeholder = "Couldn't load the saved transcript. Leave this empty to keep it, or paste a new one to replace it.";
+    });
   }
   paintForm(); showSheet("addSheet");
   setTimeout(() => $("newQuote").focus(), 320);
@@ -577,22 +639,97 @@ $("shareBtn").onclick = async () => {
   if (navigator.share) { try { await navigator.share({ text }); } catch (e) {} }
   else { try { await navigator.clipboard.writeText(text); toast("Sharing not available here, so it was copied"); } catch (e) { toast("Sharing not available"); } }
 };
+/* ---------- instant saving: changes show at once, then sync in the background ---------- */
+let queue = [];
+try { queue = JSON.parse(LS.get("suvichar-queue") || "[]"); if (!Array.isArray(queue)) queue = []; } catch (e) { queue = []; }
+let syncing = false, syncFailed = false;
+const saveQueue = () => LS.set("suvichar-queue", JSON.stringify(queue));
+const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "" });
+
+function applyQueue(list) {
+  for (const op of queue) {
+    if (op.op === "add") { if (!list.some(x => x.id === op.item.id)) list.push({ ...op.item }); }
+    else if (op.op === "update") { const k = list.findIndex(x => x.id === op.item.id); if (k >= 0) list[k] = { ...list[k], ...op.item }; }
+    else if (op.op === "delete") list = list.filter(x => x.id !== op.item.id);
+    else if (op.op === "transcript") { const it = list.find(x => x.id === op.item.id); if (it) it.hasTranscript = !!op.item.text; }
+  }
+  return list;
+}
+function paintSync() {
+  const p = $("syncPill"), n = queue.length;
+  p.hidden = n === 0;
+  if (!n) return;
+  p.classList.toggle("warn", syncFailed && !syncing);
+  p.textContent = syncing || !syncFailed
+    ? `Saving to your sheet… (${n})`
+    : `${n} change${n > 1 ? "s" : ""} not saved to your sheet yet · Tap to retry`;
+}
+$("syncPill").onclick = () => { if (!syncing) processQueue(); };
+
+function enqueue(op, item) {
+  if (item.id.startsWith("tmp-")) {
+    const add = queue.find(o => o.op === "add" && o.item.id === item.id && !o.sending);
+    if (add) {
+      if (op === "update") add.item = clean(item);
+      if (op === "delete") queue = queue.filter(o => o !== add && !(o.item.id === item.id && !o.sending));
+      saveQueue(); paintSync(); return;
+    }
+  }
+  if (op === "delete") queue = queue.filter(o => !(o.op === "transcript" && o.item.id === item.id && !o.sending));
+  queue.push({ op, item: clean(item) });
+  saveQueue(); paintSync(); processQueue();
+}
+function enqueueTranscript(id, text) {
+  queue = queue.filter(o => !(o.op === "transcript" && o.item.id === id && !o.sending));
+  queue.push({ op: "transcript", item: { id, text } });
+  saveQueue(); paintSync(); processQueue();
+}
+
+async function processQueue() {
+  if (syncing || !queue.length || !key) { paintSync(); return; }
+  syncing = true; syncFailed = false; paintSync();
+  while (queue.length) {
+    const op = queue[0];
+    op.sending = true;
+    try {
+      const res = await post(op.op, op.op === "add" ? { ...op.item, id: undefined } : op.item);
+      queue.shift();
+      if (op.op === "add" && res.id) {
+        const tmp = op.item.id;
+        all.forEach(x => { if (x.id === tmp) x.id = res.id; });
+        queue.forEach(o => { if (o.item.id === tmp) o.item.id = res.id; });
+        for (const l in pos) if (pos[l] === tmp) pos[l] = res.id;
+        all = all.filter((x, idx) => all.findIndex(y => y.id === x.id) === idx);
+      }
+      saveQueue(); saveCache(); paintSync();
+    } catch (err) {
+      if (err && err.code === "not-found") { queue.shift(); saveQueue(); continue; }
+      op.sending = false;
+      syncing = false; syncFailed = true; paintSync();
+      keyProblem(err);
+      return;
+    }
+  }
+  syncing = false; paintSync();
+  LS.set("suvichar-pos2", JSON.stringify(pos));
+}
+window.addEventListener("online", () => processQueue());
+
 function keyProblem(err) {
   if (err && err.code === "bad-key") { owner = false; LS.set("suvichar-owner", "0"); applyOwner(); render(); toast("Your key didn't work. Please unlock again."); openKey(); return true; }
   return false;
 }
-$("deleteBtn").onclick = async () => {
+
+$("deleteBtn").onclick = () => {
   const q = quotes[i];
   if (!confirm(q.lang === "yt" ? "Delete this inspiration?" : "Delete this quote?")) return;
-  try {
-    await post("delete", { id: q.id });
-    const next = quotes[i + 1] || quotes[i - 1];
-    all = all.filter(x => x.id !== q.id); saveCache();
-    select(next && next.id); render(); toast("Deleted");
-  } catch (err) { if (!keyProblem(err)) toast("Couldn't delete. Check your internet and try again."); }
+  const next = quotes[i + 1] || quotes[i - 1];
+  all = all.filter(x => x.id !== q.id); saveCache();
+  select(next && next.id); render(); toast("Deleted");
+  enqueue("delete", q);
 };
 
-$("addForm").onsubmit = async ev => {
+$("addForm").onsubmit = ev => {
   ev.preventDefault();
   const kind = formLang();
   let text = $("newQuote").value.trim();
@@ -601,24 +738,194 @@ $("addForm").onsubmit = async ev => {
   if (kind === "yt" && rawLink && !link) { toast("That link doesn't look right"); $("newLink").focus(); return; }
   if (kind === "yt" && !text && link) text = "Saved video";
   if (!text) { toast(kind === "yt" ? "Please add an idea or a link" : "Please type or speak a quote first"); $("newQuote").focus(); return; }
-  const item = { id: editingId || undefined, lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim() };
-  const btn = $("saveBtn"); btn.disabled = true; btn.textContent = "Saving…";
-  try {
-    const res = await post(editingId ? "update" : "add", item);
-    const id = editingId || res.id;
-    const wasEdit = !!editingId;
-    editingId = null; $("addForm").reset(); hideSheet();
-    lang = kind; LS.set("suvichar-lang", lang); paintLang();
-    const local = { ...item, id };
-    const k = all.findIndex(x => x.id === id);
-    if (k >= 0) all[k] = local; else all.push(local);
-    saveCache(); select(id); render(1);
-    toast(wasEdit ? "Changes saved" : (kind === "yt" ? "Inspiration saved" : "Quote saved"));
-    fetchAll({ silent: true, focusId: id });
-  } catch (err) {
-    if (!keyProblem(err)) toast("Couldn't save. Check your internet and try again.");
-  } finally { btn.disabled = false; btn.textContent = "Save"; }
+  const wasEdit = !!editingId;
+  const item = { id: editingId || "tmp-" + Date.now(), lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim() };
+  const prev = all.find(x => x.id === item.id);
+  const trText = $("newTranscript").value.trim();
+  const trChanged = kind === "yt" && trDirty;
+  item.hasTranscript = trChanged ? !!trText : !!(prev && prev.hasTranscript);
+  editingId = null; $("addForm").reset(); hideSheet();
+  const k = all.findIndex(x => x.id === item.id);
+  if (k >= 0) all[k] = item; else all.push(item);
+  saveCache();
+  lang = kind; LS.set("suvichar-lang", lang); paintLang();
+  select(item.id); render(1);
+  toast(wasEdit ? "Changes saved" : (kind === "yt" ? "Inspiration saved" : "Quote saved"));
+  enqueue(wasEdit ? "update" : "add", item);
+  if (trChanged) { rememberTranscript(item.id, trText); enqueueTranscript(item.id, trText); }
 };
+
+/* ---------- transcripts ---------- */
+let trDirty = false;
+const trMem = {};
+function rememberTranscript(id, text) { trMem[id] = text; try { localStorage.setItem("suvichar-tr:" + id, text); } catch (e) {} }
+async function getTranscript(id) {
+  const pending = [...queue].reverse().find(o => o.op === "transcript" && o.item.id === id);
+  if (pending) return pending.item.text;
+  if (trMem[id] != null) return trMem[id];
+  const saved = LS.get("suvichar-tr:" + id);
+  if (saved != null) { trMem[id] = saved; return saved; }
+  const res = await fetch(API + "?key=" + encodeURIComponent(key) + "&transcript=" + encodeURIComponent(id), { cache: "no-store" });
+  const data = await res.json();
+  if (!data.ok) { const err = new Error(data.error); err.code = data.error; throw err; }
+  rememberTranscript(id, data.text || "");
+  return data.text || "";
+}
+function trInfo(msg) {
+  const n = $("newTranscript").value.length;
+  $("trInfo").textContent = msg || (n ? n.toLocaleString("en-IN") + " characters" : "");
+}
+$("newTranscript").addEventListener("input", () => { trDirty = true; trInfo(); });
+
+/* turns .srt / .vtt subtitle files into clean, readable paragraphs */
+function cleanSubs(raw) {
+  const lines = raw.replace(/\r/g, "").split("\n");
+  const out = []; let prev = "", skipBlock = false;
+  for (let l of lines) {
+    l = l.trim();
+    if (!l) { skipBlock = false; continue; }
+    if (skipBlock) continue;
+    if (/^(NOTE|STYLE|REGION)\b/.test(l)) { skipBlock = true; continue; }
+    if (/^WEBVTT/.test(l) || /^(Kind|Language):/i.test(l) || /^\d+$/.test(l) || /-->/.test(l)) continue;
+    l = l.replace(/<[^>]+>/g, "").replace(/\{\\[^}]*\}/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+    if (!l || l === prev) continue;
+    if (prev && l.startsWith(prev)) { out[out.length - 1] = l; prev = l; continue; } // rolling auto-captions
+    out.push(l); prev = l;
+  }
+  const paras = []; let cur = [], words = 0;
+  for (const l of out) {
+    cur.push(l); words += l.split(" ").length;
+    if (words >= 90 && /[.?!।]["”')]?$/.test(l)) { paras.push(cur.join(" ")); cur = []; words = 0; }
+    else if (words >= 160) { paras.push(cur.join(" ")); cur = []; words = 0; }
+  }
+  if (cur.length) paras.push(cur.join(" "));
+  return paras.join("\n\n");
+}
+const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+let pdfLoading = null;
+function loadPdfJs() {
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if (!pdfLoading) pdfLoading = new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = PDFJS + "pdf.min.js";
+    s.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.js"; ok(window.pdfjsLib); };
+    s.onerror = () => { pdfLoading = null; fail(new Error("load")); };
+    document.head.appendChild(s);
+  });
+  return pdfLoading;
+}
+async function pdfToText(file) {
+  const lib = await loadPdfJs();
+  const pdf = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const pages = [];
+  for (let n = 1; n <= pdf.numPages; n++) {
+    trInfo(`Reading PDF… page ${n} of ${pdf.numPages}`);
+    const content = await (await pdf.getPage(n)).getTextContent();
+    // lines that sit close together form a paragraph; a bigger vertical gap starts a new one
+    let page = "", lastY = null;
+    for (const it of content.items) {
+      if (!it.str) continue;
+      const y = it.transform[5], h = Math.abs(it.transform[3]) || it.height || 10;
+      if (lastY !== null) {
+        const gap = lastY - y;
+        if (gap > h * 1.9) page += "\n\n";
+        else if (Math.abs(gap) > h * 0.4) page += " ";
+      }
+      page += it.str; lastY = y;
+    }
+    page = page.replace(/[ \t]{2,}/g, " ").replace(/ *\n\n */g, "\n\n").trim();
+    if (page) pages.push(page);
+  }
+  return pages.join("\n\n");
+}
+$("trFile").onchange = async () => {
+  const f = $("trFile").files[0];
+  $("trFile").value = "";
+  if (!f) return;
+  const isPdf = /\.pdf$/i.test(f.name) || f.type === "application/pdf";
+  if (f.size > (isPdf ? 20 : 3) * 1024 * 1024) { toast(isPdf ? "That PDF is too large (over 20 MB)" : "That file is too large (over 3 MB)"); return; }
+  let txt;
+  if (isPdf) {
+    $("newTranscript").disabled = true;
+    try { txt = await pdfToText(f); }
+    catch (e) { $("newTranscript").disabled = false; trInfo(); toast(e.message === "load" ? "Couldn't load the PDF reader. Check your internet." : "Couldn't read that PDF"); return; }
+    $("newTranscript").disabled = false;
+    if (!txt.trim()) { trInfo(); toast("This PDF has no text to copy (it may be a scanned image)"); return; }
+    txt = txt.trim();
+    $("newTranscript").value = txt; trDirty = true;
+    trInfo(`Loaded “${f.name}” · ${txt.length.toLocaleString("en-IN")} characters`);
+    return;
+  }
+  try { txt = await f.text(); } catch (e) { toast("Couldn't read that file"); return; }
+  const isSubs = /\.(srt|vtt)$/i.test(f.name) || /-->/.test(txt.slice(0, 2000));
+  txt = (isSubs ? cleanSubs(txt) : txt.replace(/\r/g, "")).trim();
+  if (!txt) { toast("That file looks empty"); return; }
+  $("newTranscript").disabled = false;
+  $("newTranscript").value = txt; trDirty = true;
+  trInfo(`Loaded “${f.name}” · ${txt.length.toLocaleString("en-IN")} characters`);
+};
+
+/* reading view with search */
+let trParas = [], trMarks = [], trCur = -1, readerText = "";
+function paintParas(query) {
+  const body = $("readerBody"); body.textContent = ""; trMarks = [];
+  const rx = query ? new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi") : null;
+  for (const para of trParas) {
+    const p = document.createElement("p");
+    if (!rx) p.textContent = para;
+    else {
+      let last = 0, m; rx.lastIndex = 0;
+      while ((m = rx.exec(para))) {
+        if (m.index > last) p.appendChild(document.createTextNode(para.slice(last, m.index)));
+        const mk = document.createElement("mark"); mk.textContent = m[0]; p.appendChild(mk); trMarks.push(mk);
+        last = m.index + m[0].length;
+      }
+      if (last < para.length) p.appendChild(document.createTextNode(para.slice(last)));
+    }
+    body.appendChild(p);
+  }
+}
+function goMatch(k) {
+  if (!trMarks.length) { $("trCount").textContent = $("trSearch").value.trim().length > 1 ? "0 found" : ""; $("trPrev").disabled = $("trNext").disabled = true; return; }
+  if (trMarks[trCur]) trMarks[trCur].classList.remove("cur");
+  trCur = (k + trMarks.length) % trMarks.length;
+  trMarks[trCur].classList.add("cur");
+  trMarks[trCur].scrollIntoView({ block: "center", behavior: "smooth" });
+  $("trCount").textContent = `${trCur + 1} of ${trMarks.length}`;
+  $("trPrev").disabled = $("trNext").disabled = trMarks.length < 2;
+}
+let trTimer;
+$("trSearch").addEventListener("input", () => {
+  clearTimeout(trTimer);
+  trTimer = setTimeout(() => {
+    const q = $("trSearch").value.trim();
+    trCur = -1;
+    paintParas(q.length > 1 ? q : "");
+    if (q.length > 1) goMatch(0); else { $("trCount").textContent = ""; $("trPrev").disabled = $("trNext").disabled = true; }
+  }, 200);
+});
+$("trSearch").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); goMatch(trCur + (e.shiftKey ? -1 : 1)); } });
+$("trPrev").onclick = () => goMatch(trCur - 1);
+$("trNext").onclick = () => goMatch(trCur + 1);
+$("trCopy").onclick = async () => { try { await navigator.clipboard.writeText(readerText); toast("Transcript copied"); } catch (e) { toast("Couldn't copy"); } };
+
+async function openReader(q) {
+  $("readerSub").textContent = q.text;
+  $("trSearch").value = ""; $("trCount").textContent = ""; $("trPrev").disabled = $("trNext").disabled = true;
+  trParas = []; readerText = "";
+  $("readerBody").innerHTML = '<p class="loading">Loading transcript…</p>';
+  showSheet("readerSheet");
+  try {
+    readerText = await getTranscript(q.id);
+    trParas = readerText.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+    if (trParas.length === 1 && readerText.includes("\n")) trParas = readerText.split("\n").map(s => s.trim()).filter(Boolean);
+    if (!trParas.length) { $("readerBody").innerHTML = '<p class="loading">This transcript is empty.</p>'; return; }
+    paintParas("");
+  } catch (err) {
+    if (!keyProblem(err)) $("readerBody").innerHTML = '<p class="loading">Couldn\'t load the transcript. Check your internet and try again.</p>';
+  }
+}
+$("trChip").onclick = () => openReader(quotes[i]);
 
 /* ---------- key sheet ---------- */
 function openKey(msg) {
@@ -662,6 +969,7 @@ $("keyForm").onsubmit = async ev => {
   if (ok && owner) {
     LS.set("suvichar-key", key); $("keyInput").value = "";
     hideSheet(); toast("Unlocked. You can add quotes now.");
+    processQueue();
     await moveOldLocalQuotes();
     if (pendingShare) { const p = pendingShare; pendingShare = null; setTimeout(() => openAdd(p), 350); }
   } else {
@@ -673,6 +981,8 @@ $("keyForm").onsubmit = async ev => {
 };
 $("relockBtn").onclick = () => {
   key = ""; owner = false; LS.del("suvichar-key"); LS.set("suvichar-owner", "0");
+  try { Object.keys(localStorage).filter(k => k.startsWith("suvichar-tr:")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+  for (const k in trMem) delete trMem[k];
   all = all.filter(q => q.lang !== "yt"); saveCache();
   applyOwner(); select(); render(); hideSheet(); toast("Locked on this device");
 };
@@ -726,7 +1036,8 @@ if ("serviceWorker" in navigator) window.addEventListener("load", () => navigato
 
 all = loadCache() || BUILT_IN.map(q => ({ lang: "hi", ...q }));
 applyOwner(); paintLang(); select(); render();
-fetchAll({ silent: !!loadCache() });
+all = applyQueue(all); select(); render(); paintSync();
+fetchAll({ silent: !!loadCache() }).then(() => processQueue());
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") fetchAll({ silent: true }); });
 
 /* shared from another app (e.g. YouTube → Share → सुविचार) */
