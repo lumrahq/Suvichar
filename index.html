@@ -118,6 +118,63 @@
   .readerbody mark { background: rgba(242,176,64,.35); color: inherit; border-radius: 3px; padding: 0 1px; }
   .readerbody mark.cur { background: var(--gold); }
   .readerbody .loading { color: var(--mist); }
+  .scount { color: var(--mist); font-size: .9rem; margin: .2rem 0 .6rem; min-height: 1.2em; }
+  .sresult { display: block; width: 100%; text-align: left; background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px; padding: .75rem .9rem; margin-bottom: .6rem; color: var(--ivory); }
+  .sresult:hover { border-color: var(--gold); }
+  .sresult .stag { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .02em; border-radius: 999px; padding: .05rem .55rem; margin-bottom: .35rem; background: #FFFFFF; border: 1px solid var(--line); color: var(--mist); }
+  .sresult .stag.hi { color: #A7650A; border-color: rgba(214,146,30,.45); }
+  .sresult .stag.en { color: #2F4AA8; border-color: rgba(47,74,168,.35); }
+  .sresult .stag.yt { color: #C4302B; border-color: rgba(196,48,43,.35); }
+  .sresult .stext { display: block; font-size: 1.02rem; line-height: 1.55; }
+  .sresult .sext { display: block; font-size: .88rem; color: var(--mist); margin-top: .25rem; line-height: 1.5; }
+  .sresult mark { background: rgba(242,176,64,.35); color: inherit; border-radius: 3px; padding: 0 1px; }
+  .strbtn { width: 100%; margin: .4rem 0 .8rem; }
+  .menuitem { display: flex; align-items: center; gap: .9rem; width: 100%; padding: .95rem .4rem; font-size: 1.05rem; color: var(--ivory); border-bottom: 1px solid var(--line); text-align: left; }
+  .menuitem:last-child { border-bottom: 0; color: var(--mist); justify-content: center; }
+  .menuitem .mi { width: 22px; height: 22px; display: grid; place-items: center; }
+  .menuitem:last-child .mi { display: none; }
+  .menuitem svg { width: 22px; height: 22px; }
+  .menuitem.danger { color: #B42318; }
+  .cardprev { display: grid; place-items: center; background: #EEF0F8; border-radius: 16px; padding: .8rem; margin-bottom: .9rem; }
+  .cardprev img { max-width: 100%; max-height: 46dvh; border-radius: 10px; box-shadow: 0 6px 24px rgba(16,32,95,.18); }
+  .optrow { display: flex; gap: .5rem; margin-bottom: .6rem; }
+  .optrow label { flex: 1; margin: 0; }
+  .optrow input { position: absolute; opacity: 0; pointer-events: none; }
+  .optrow span { display: block; text-align: center; padding: .5rem; border-radius: 12px; border: 1px solid var(--line); color: var(--mist); font-weight: 500; cursor: pointer; font-size: .95rem; }
+  .optrow input:checked + span { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
+  .optrow input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+  #cHandle { width: 100%; }
+  .sfilter { display: flex; gap: .4rem; overflow-x: auto; margin-top: .6rem; padding-bottom: 2px; scrollbar-width: none; }
+  .sfilter::-webkit-scrollbar { display: none; }
+  .sfilter button { flex: none; font-size: .85rem; padding: .25rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; color: var(--mist); }
+  .sfilter button.on { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
+  .statusrow { display: flex; gap: .35rem; margin-top: 1rem; flex-wrap: wrap; }
+  .statusrow button { font-size: .82rem; padding: .2rem .7rem; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; color: var(--mist); }
+  .statusrow button.on { color: #FFFFFF; border-color: transparent; }
+  .statusrow button.on[data-s="Idea"] { background: #6B74A8; }
+  .statusrow button.on[data-s="Scripting"] { background: #C98314; }
+  .statusrow button.on[data-s="Recorded"] { background: #2F6FB0; }
+  .statusrow button.on[data-s="Published"] { background: #1B9656; }
+  .statuspick span { font-size: .85rem; padding: .5rem .2rem; }
+  .catfilter button { font-weight: 500; }
+  .catfilter button.on { background: var(--gold); color: var(--deep); border-color: var(--gold); }
+  .catfilter button.addcat { border-style: dashed; }
+  #ytFilter button { font-size: .78rem; padding: .15rem .6rem; }
+  .catchip { display: inline-block; margin: 1rem .3rem 0 0; font-size: .85rem; font-weight: 500; color: var(--gold-ink); background: rgba(242,176,64,.16); border-radius: 999px; padding: .15rem .75rem; }
+  #newCat { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
+  #newCat:focus { border-color: var(--gold); outline: none; }
+  .catadd { display: flex; gap: .5rem; margin-bottom: 1rem; }
+  .catadd input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 12px; padding: .6rem .8rem; }
+  .catadd input:focus { border-color: var(--gold); outline: none; }
+  .catadd .btn { flex: none; padding: .6rem 1.3rem; }
+  .catlist { list-style: none; margin: 0; padding: 0; }
+  .catlist li { display: flex; align-items: center; gap: .6rem; padding: .7rem .2rem; border-bottom: 1px solid var(--line); }
+  .catlist li:last-child { border-bottom: 0; }
+  .catlist .cname { flex: 1; font-size: 1.05rem; }
+  .catlist .ccount { color: var(--mist); font-size: .9rem; }
+  .catlist .cdel { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #B42318; }
+  .catlist .cdel svg { width: 20px; height: 20px; }
+  .catlist .cempty { color: var(--mist); justify-content: center; }
   .keytext { color: var(--mist); margin: 0 0 .5rem; }
   .fab-wrap[hidden] { display: none !important; }
   .chip { display: inline-block; margin-top: .9rem; font-size: .85rem; color: var(--gold-ink); border: 1px solid rgba(214,146,30,.45); border-radius: 999px; padding: .05rem .7rem; }
@@ -140,7 +197,7 @@
   .tool:hover .ic { border-color: var(--gold); }
   .tool:active .ic { background: #EEF0F9; }
   .tool svg { width: 22px; height: 22px; }
-  @media (max-width: 380px) { .tool .ic { width: 44px; height: 44px; } .tool svg { width: 20px; height: 20px; } }
+  @media (max-width: 380px) { .tool .ic { width: 44px; height: 44px; } .tool svg { width: 20px; height: 20px; } .tool { font-size: .72rem; } }
   .tool.wa .ic { color: var(--wa); border-color: rgba(27,150,86,.4); }
   .tool.primary .ic { background: var(--gold); border-color: var(--gold); color: var(--deep); }
 
@@ -229,11 +286,14 @@
     <span class="spacer"></span>
     <button class="install" id="installBtn" hidden>Install</button>
     <span class="count" id="count" aria-label="Quote number"></span>
+    <button class="lockbtn" id="searchBtn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
     <button class="lockbtn" id="lockBtn" aria-label="Owner key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
   </header>
   <div class="tabs">
-    <button class="syncpill" id="syncPill" hidden></button>
     <button class="numtoggle" id="langToggle" aria-label="Switch section"><span data-v="hi">हिंदी</span><span data-v="en">English</span><span data-v="yt">YouTube</span></button>
+    <div class="sfilter catfilter" id="ytCats" hidden></div>
+    <div class="sfilter" id="ytFilter" hidden></div>
+    <button class="syncpill" id="syncPill" hidden></button>
   </div>
 
   <main class="stage" id="stage">
@@ -244,6 +304,8 @@
       <a class="linkchip" id="linkChip" href="#" target="_blank" rel="noopener" hidden></a>
       <p class="notes" id="notes" hidden></p>
       <button class="linkchip trchip" id="trChip" hidden>📄 Read transcript</button>
+      <span class="catchip" id="catChip" hidden></span>
+      <div class="statusrow" id="statusRow" hidden role="group" aria-label="Video status"></div>
       <span class="chip" id="tag" hidden>Added by you</span>
     </article>
 
@@ -251,11 +313,10 @@
     <div class="tools" id="tools">
       <a class="tool primary" id="openBtn" href="#" target="_blank" rel="noopener" hidden><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8Z" fill="currentColor"/></svg></span>Open</a>
       <button class="tool primary" id="meaningBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5Z"/><path d="M12 6v13.5"/></svg></span>Meaning</button>
+      <button class="tool" id="imageBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m20.5 16-4.5-4.5L6 19.5"/></svg></span>Image</button>
       <a class="tool wa" id="waBtn" href="#" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 5 16.3A8.5 8.5 0 1 1 8 19.2Z"/><path d="M9 9.2c.2 2.6 2.2 4.8 5 5.6l1.2-1.3 1.8.8c-.3 1.3-1.3 2-2.5 1.9C11 16 8 13 7.8 9.6c-.1-1.2.6-2.2 1.9-2.4l.8 1.8Z"/></svg></span>WhatsApp</a>
       <button class="tool" id="shareBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/></svg></span>Share</button>
-      <button class="tool" id="copyBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg></span>Copy</button>
-      <button class="tool" id="editBtn" hidden><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/></svg></span>Edit</button>
-      <button class="tool" id="deleteBtn" hidden><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg></span>Delete</button>
+      <button class="tool" id="moreBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5.5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="18.5" cy="12" r="1.9"/></svg></span>More</button>
     </div>
   </main>
 
@@ -299,6 +360,19 @@
         <textarea id="newQuote" placeholder="Type here, or tap the mic and speak"></textarea>
         <button type="button" class="mic" data-target="newQuote" aria-label="Speak the quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
       </div>
+      <div id="catWrap" hidden>
+        <label for="newCat">Category</label>
+        <select id="newCat"></select>
+      </div>
+      <div id="statusWrap" hidden>
+        <label>Status</label>
+        <div class="langpick statuspick" role="radiogroup" aria-label="Status">
+          <label><input type="radio" name="qstatus" value="Idea" checked><span>Idea</span></label>
+          <label><input type="radio" name="qstatus" value="Scripting"><span>Scripting</span></label>
+          <label><input type="radio" name="qstatus" value="Recorded"><span>Recorded</span></label>
+          <label><input type="radio" name="qstatus" value="Published"><span>Published</span></label>
+        </div>
+      </div>
       <div id="linkWrap" hidden>
         <label for="newLink">Link <small>(optional)</small></label>
         <input type="url" id="newLink" inputmode="url" placeholder="Paste a YouTube or any video link">
@@ -327,6 +401,68 @@
         <button type="submit" class="btn solid" id="saveBtn">Save</button>
       </div>
     </form>
+  </section>
+
+  <section class="sheet" id="catSheet" role="dialog" aria-modal="true" aria-labelledby="catTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="catTitle">Categories</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <form class="catadd" id="catAddForm" novalidate>
+      <input type="text" id="catNew" placeholder="New category name" maxlength="30" autocomplete="off">
+      <button type="submit" class="btn solid">Add</button>
+    </form>
+    <ul class="catlist" id="catList"></ul>
+  </section>
+
+  <section class="sheet" id="moreSheet" role="dialog" aria-modal="true" aria-label="More actions">
+    <div class="handle"></div>
+    <button class="menuitem" id="copyBtn"><span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg></span>Copy text</button>
+    <button class="menuitem" id="editBtn" hidden><span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/></svg></span>Edit</button>
+    <button class="menuitem danger" id="deleteBtn" hidden><span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg></span>Delete</button>
+    <button class="menuitem" data-close><span class="mi"></span>Cancel</button>
+  </section>
+
+  <section class="sheet reader" id="imageSheet" role="dialog" aria-modal="true" aria-labelledby="imageTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="imageTitle">Quote card</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="cardprev"><img id="cardImg" alt="Preview of the quote card"></div>
+    <div class="optrow" role="radiogroup" aria-label="Size">
+      <label><input type="radio" name="csize" value="square" checked><span>Square</span></label>
+      <label><input type="radio" name="csize" value="story"><span>Story</span></label>
+    </div>
+    <div class="optrow" role="radiogroup" aria-label="Style">
+      <label><input type="radio" name="cstyle" value="ivory" checked><span>Ivory</span></label>
+      <label><input type="radio" name="cstyle" value="indigo"><span>Indigo</span></label>
+      <label><input type="radio" name="cstyle" value="sunrise"><span>Sunrise</span></label>
+    </div>
+    <label for="cHandle">Channel name on the card <small>(optional)</small></label>
+    <input type="text" id="cHandle" placeholder="e.g. @YourChannel" autocomplete="off">
+    <div class="form-actions">
+      <button type="button" class="btn ghost" id="cDownload">Download</button>
+      <button type="button" class="btn solid" id="cShare">Share image</button>
+    </div>
+  </section>
+
+  <section class="sheet reader" id="searchSheet" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="searchTitle">Search</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="searchrow">
+      <input type="search" id="sInput" placeholder="Search quotes, authors, ideas…" autocomplete="off" enterkeyhint="search">
+    </div>
+    <p class="scount" id="sCount"></p>
+    <div class="sresults" id="sResults"></div>
+    <div id="sTrWrap" hidden>
+      <button type="button" class="btn ghost strbtn" id="sTrBtn">Search inside transcripts</button>
+      <div class="sresults" id="sTrResults"></div>
+    </div>
   </section>
 
   <section class="sheet reader" id="readerSheet" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
@@ -394,6 +530,7 @@ const BUILT_IN = [
     source: "Attributed to Lyndon B. Johnson; a similar line is credited to Bill Clinton",
     meaning: "Don't make threats or angry declarations you can't back up. Empty threats cost you credibility, and they give the other person a reason to resist you without any real consequence.\n\nIt's advice about power and restraint: if you truly have the power to act, you rarely need to announce it; if you don't, saying it only exposes your weakness. Choose your words according to what you can actually deliver." }
 ];
+const TRASH_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg>`;
 const EYE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>`, EYE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>`;
 const API = "https://script.google.com/macros/s/AKfycbyfjsKDGbq9eAXCI5pSD5Jm60RsZXqfIRJ5_CKZm-CG5ALm5GZMdX3CD2vhVcdxIP5Zuw/exec";
 const $ = id => document.getElementById(id);
@@ -421,15 +558,27 @@ function loadCache() {
 }
 function saveCache() { LS.set("suvichar-cache", JSON.stringify(all)); }
 
+/* Reads from the sheet; Google sometimes answers the first request with an error page, so try up to 3 times */
+async function getJSON(url) {
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt) await new Promise(r => setTimeout(r, 1200 * attempt));
+    let res;
+    try { res = await fetch(url, { cache: "no-store", credentials: "omit" }); }
+    catch (e) { lastErr = navigator.onLine === false ? "offline" : "network"; if (lastErr === "offline") break; continue; }
+    const raw = await res.text();
+    try { return JSON.parse(raw); }
+    catch (e) { lastErr = /sign in|accounts\.google/i.test(raw) ? "login-page" : "not-json"; }
+  }
+  const err = new Error(lastErr); err.kind = lastErr; throw err;
+}
+
 async function fetchAll(opts = {}) {
   try {
     lastError = "";
-    let res;
-    try { res = await fetch(API + (key ? "?key=" + encodeURIComponent(key) : ""), { cache: "no-store" }); }
-    catch (e) { lastError = navigator.onLine === false ? "offline" : "network"; throw e; }
-    const raw = await res.text();
     let data;
-    try { data = JSON.parse(raw); } catch (e) { lastError = /sign in|accounts\.google/i.test(raw) ? "login-page" : "not-json"; throw e; }
+    try { data = await getJSON(API + (key ? "?key=" + encodeURIComponent(key) : "")); }
+    catch (e) { lastError = e.kind || "network"; throw e; }
     if (!data.ok) { lastError = "sheet:" + (data.error || "unknown"); throw new Error(data.error); }
     owner = !!data.owner;
     LS.set("suvichar-owner", owner ? "1" : "0");
@@ -466,8 +615,114 @@ function applyOwner() {
 }
 
 /* ---------- display ---------- */
+const STATUSES = ["Idea", "Scripting", "Recorded", "Published"];
+let ytFilter = STATUSES.includes(LS.get("suvichar-ytfilter")) ? LS.get("suvichar-ytfilter") : "All";
+const statusOf = q => STATUSES.includes(q.status) ? q.status : "Idea";
+const DEFAULT_CATS = ["Motivational", "Share Market"];
+let catList;
+try { catList = JSON.parse(LS.get("suvichar-catlist") || "null"); } catch (e) { catList = null; }
+if (!Array.isArray(catList)) catList = DEFAULT_CATS.slice();
+let ytCat = LS.get("suvichar-ytcat") || "All";
+const saveCats = () => LS.set("suvichar-catlist", JSON.stringify(catList));
+function categories() {
+  const used = all.filter(q => q.lang === "yt" && q.category).map(q => q.category);
+  const seen = new Set(), list = [];
+  for (const c of [...catList, ...used]) { const k = c.toLowerCase(); if (!seen.has(k)) { seen.add(k); list.push(c); } }
+  return list;
+}
+const inCat = q => ytCat === "All" || (ytCat === "Uncategorised" ? !q.category : (q.category || "").toLowerCase() === ytCat.toLowerCase());
+function addCategory(raw) {
+  const name = (raw || "").trim().replace(/\s+/g, " ").slice(0, 30);
+  if (!name || /^(all|uncategorised)$/i.test(name)) return "";
+  const existing = categories().find(c => c.toLowerCase() === name.toLowerCase());
+  if (!catList.some(c => c.toLowerCase() === name.toLowerCase())) { catList.push(existing || name); saveCats(); }
+  return existing || name;
+}
+function newCategory() { return addCategory(prompt("Name of the new category:") || ""); }
+function deleteCategory(c) {
+  const inIt = all.filter(q => q.lang === "yt" && (q.category || "").toLowerCase() === c.toLowerCase());
+  const msg = inIt.length
+    ? `Delete “${c}”? Its ${inIt.length} video${inIt.length > 1 ? "s" : ""} will stay in your list, moved to Uncategorised.`
+    : `Delete the category “${c}”?`;
+  if (!confirm(msg)) return;
+  catList = catList.filter(x => x.toLowerCase() !== c.toLowerCase()); saveCats();
+  for (const q of inIt) {
+    const item = { ...q, category: "" };
+    const k = all.findIndex(x => x.id === q.id); if (k >= 0) all[k] = item;
+    enqueue("update", item);
+  }
+  saveCache();
+  if (ytCat.toLowerCase() === c.toLowerCase()) { ytCat = "All"; LS.set("suvichar-ytcat", "All"); }
+  select(); render(); paintCatList();
+  toast(`Deleted “${c}”`);
+}
+function paintCatList() {
+  const ul = $("catList"); ul.textContent = "";
+  const cats = categories();
+  if (!cats.length) { const li = document.createElement("li"); li.className = "cempty"; li.textContent = "No categories yet. Add one above."; ul.appendChild(li); return; }
+  for (const c of cats) {
+    const n = all.filter(q => q.lang === "yt" && (q.category || "").toLowerCase() === c.toLowerCase()).length;
+    const li = document.createElement("li");
+    const name = document.createElement("span"); name.className = "cname"; name.textContent = c;
+    const count = document.createElement("span"); count.className = "ccount"; count.textContent = n === 1 ? "1 video" : `${n} videos`;
+    const del = document.createElement("button"); del.type = "button"; del.className = "cdel"; del.setAttribute("aria-label", `Delete ${c}`);
+    del.innerHTML = TRASH_SVG; del.onclick = () => deleteCategory(c);
+    li.append(name, count, del); ul.appendChild(li);
+  }
+}
+$("catAddForm").onsubmit = ev => {
+  ev.preventDefault();
+  const c = addCategory($("catNew").value);
+  if (!c) { $("catNew").focus(); return; }
+  $("catNew").value = ""; paintCatList(); render();
+  toast(`Added “${c}”`);
+};
+function paintCats() {
+  const box = $("ytCats");
+  box.hidden = !(owner && lang === "yt");
+  if (box.hidden) return;
+  const yts = all.filter(q => q.lang === "yt");
+  box.textContent = "";
+  const chips = ["All", ...categories()];
+  if (yts.some(q => !q.category)) chips.push("Uncategorised");
+  if (!chips.some(c => c.toLowerCase() === ytCat.toLowerCase())) { ytCat = "All"; }
+  chips.forEach(c => {
+    const n = c === "All" ? yts.length : c === "Uncategorised" ? yts.filter(q => !q.category).length : yts.filter(q => (q.category || "").toLowerCase() === c.toLowerCase()).length;
+    const b = document.createElement("button"); b.type = "button";
+    const on = c.toLowerCase() === ytCat.toLowerCase();
+    b.textContent = `${c} ${n}`; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+    b.onclick = () => { ytCat = c; LS.set("suvichar-ytcat", c); select(); render(); };
+    box.appendChild(b);
+  });
+  const add = document.createElement("button"); add.type = "button"; add.className = "addcat"; add.textContent = "✎ Edit";
+  add.setAttribute("aria-label", "Add or delete categories");
+  add.onclick = () => { paintCatList(); showSheet("catSheet"); };
+  box.appendChild(add);
+  centerOn(box);
+}
+function centerOn(box) {
+  const on = box.querySelector("button.on");
+  if (on) box.scrollLeft = Math.max(0, on.offsetLeft - box.offsetLeft - (box.clientWidth - on.offsetWidth) / 2);
+}
+function paintFilter() {
+  paintCats();
+  const box = $("ytFilter");
+  box.hidden = !(owner && lang === "yt");
+  if (box.hidden) return;
+  const yts = all.filter(q => q.lang === "yt" && inCat(q));
+  box.textContent = "";
+  ["All", ...STATUSES].forEach(s => {
+    const n = s === "All" ? yts.length : yts.filter(q => statusOf(q) === s).length;
+    const b = document.createElement("button"); b.type = "button";
+    b.textContent = `${s} ${n}`; b.classList.toggle("on", s === ytFilter);
+    b.setAttribute("aria-pressed", String(s === ytFilter));
+    b.onclick = () => { ytFilter = s; LS.set("suvichar-ytfilter", s); select(); render(); };
+    box.appendChild(b);
+  });
+  centerOn(box);
+}
 function select(keepId) {
-  quotes = all.filter(q => q.lang === lang);
+  quotes = all.filter(q => q.lang === lang && (lang !== "yt" || ((ytFilter === "All" || statusOf(q) === ytFilter) && inCat(q))));
   const want = keepId || pos[lang];
   const k = quotes.findIndex(q => q.id === want);
   i = k >= 0 ? k : 0;
@@ -489,6 +744,7 @@ function linkLabel(s) {
 }
 
 function render(dir) {
+  paintFilter();
   const has = quotes.length > 0;
   $("card").hidden = !has; $("tools").hidden = !has; $("empty").hidden = has;
   $("count").textContent = has ? `${toDev(i + 1)} / ${toDev(quotes.length)}` : "";
@@ -498,7 +754,10 @@ function render(dir) {
     const E = {
       hi: ["अभी कोई हिंदी सुविचार नहीं", owner ? "Add दबाकर पहला सुविचार जोड़ें।" : ""],
       en: ["No English quotes yet", owner ? "Tap Add to save your first one." : ""],
-      yt: ["No YouTube inspirations yet", "Tap Add to save an idea or a video link. On Android, you can also share a video straight from the YouTube app to this app."]
+      yt: (ytFilter !== "All" || ytCat !== "All") && all.some(q => q.lang === "yt")
+        ? [ytCat !== "All" ? `Nothing in “${ytCat}”${ytFilter !== "All" ? " marked " + ytFilter : ""} yet` : `No videos marked “${ytFilter}”`,
+           owner ? "Tap Add to save one here, or tap All above to see everything." : ""]
+        : ["No YouTube inspirations yet", "Tap Add to save an idea or a video link. On Android, you can also share a video straight from the YouTube app to this app."]
     }[lang];
     $("emptyTitle").textContent = E[0]; $("emptyText").textContent = E[1];
     return;
@@ -517,6 +776,15 @@ function render(dir) {
   $("notes").hidden = !(yt && q.meaning);
   $("notes").textContent = yt ? (q.meaning || "") : "";
   $("trChip").hidden = !(yt && q.hasTranscript && owner);
+  $("catChip").hidden = !(yt && q.category); $("catChip").textContent = yt && q.category ? "🏷 " + q.category : "";
+  const sr = $("statusRow"); sr.hidden = !(yt && owner); sr.textContent = "";
+  if (yt && owner) STATUSES.forEach(s => {
+    const b = document.createElement("button"); b.type = "button"; b.dataset.s = s; b.textContent = s;
+    const on = statusOf(q) === s; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+    b.onclick = () => setStatus(q, s);
+    sr.appendChild(b);
+  });
+  $("imageBtn").hidden = yt;
   $("tag").hidden = true;
   $("meaningBtn").hidden = yt || !q.meaning;
   $("editBtn").hidden = $("deleteBtn").hidden = !owner;
@@ -553,7 +821,8 @@ $("stage").addEventListener("touchend", e => {
 /* sheets */
 let openSheet = null, lastFocus = null;
 function showSheet(id) {
-  lastFocus = document.activeElement;
+  if (openSheet && openSheet !== $(id)) openSheet.classList.remove("open");
+  else lastFocus = document.activeElement;
   openSheet = $(id);
   $("scrim").hidden = false; requestAnimationFrame(() => $("scrim").classList.add("show"));
   openSheet.classList.add("open");
@@ -593,12 +862,24 @@ function paintForm() {
   $("lblMeaning").innerHTML = yt ? "Notes <small>(optional)</small>" : "Meaning <small>(optional)</small>";
   $("newQuote").placeholder = yt ? "Your video idea, or what you liked about this video" : "Type here, or tap the mic and speak";
   $("newMeaning").placeholder = yt ? "Anything to remember: hook, format, thumbnail idea…" : "The meaning in your own words";
-  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt; $("trWrap").hidden = !yt;
+  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt; $("trWrap").hidden = !yt; $("statusWrap").hidden = !yt; $("catWrap").hidden = !yt;
   $("newQuote").lang = $("newMeaning").lang = k === "hi" ? "hi" : "en";
   $("newQuote").style.fontFamily = yt ? "var(--sans)" : (en ? "var(--serif)" : "");
   $("newSource").placeholder = en ? "e.g. Mahatma Gandhi, or Unknown" : "e.g. चाणक्य, or Unknown";
 }
 document.querySelectorAll("input[name=qlang]").forEach(r => r.onchange = paintForm);
+function fillCats(selected) {
+  const sel = $("newCat"); sel.textContent = "";
+  const opt = (v, label) => { const o = document.createElement("option"); o.value = v; o.textContent = label; sel.appendChild(o); };
+  opt("", "No category");
+  categories().forEach(c => opt(c, c));
+  opt("__new", "+ New category…");
+  sel.value = selected && categories().some(c => c === selected) ? selected : "";
+}
+$("newCat").addEventListener("change", () => {
+  if ($("newCat").value !== "__new") return;
+  const c = newCategory(); fillCats(c);
+});
 function openAdd(prefill) {
   if (!owner) { openKey(); return; }
   editingId = prefill && prefill.id || null;
@@ -608,6 +889,7 @@ function openAdd(prefill) {
   if (prefill) {
     $("newQuote").value = prefill.text || ""; $("newSource").value = prefill.source || "";
     $("newLink").value = prefill.link || ""; $("newMeaning").value = prefill.meaning || "";
+    const st = document.querySelector(`input[name=qstatus][value="${statusOf(prefill)}"]`); if (st) st.checked = true;
   }
   trDirty = false; $("trInfo").textContent = ""; $("newTranscript").disabled = false;
   $("newTranscript").placeholder = "Paste the video's transcript here, or upload a PDF or text file";
@@ -623,14 +905,17 @@ function openAdd(prefill) {
       $("newTranscript").placeholder = "Couldn't load the saved transcript. Leave this empty to keep it, or paste a new one to replace it.";
     });
   }
+  fillCats(prefill && prefill.id ? prefill.category : (lang === "yt" && ytCat !== "All" && ytCat !== "Uncategorised" ? ytCat : ""));
   paintForm(); showSheet("addSheet");
   setTimeout(() => $("newQuote").focus(), 320);
 }
 $("addBtn").onclick = () => openAdd();
-$("editBtn").onclick = () => openAdd({ ...quotes[i] });
+$("editBtn").onclick = () => { hideSheet(); setTimeout(() => openAdd({ ...quotes[i] }), 60); };
 $("cancelBtn").onclick = () => { $("addForm").reset(); editingId = null; hideSheet(); };
 
+$("moreBtn").onclick = () => showSheet("moreSheet");
 $("copyBtn").onclick = async () => {
+  hideSheet();
   try { await navigator.clipboard.writeText(plain(quotes[i])); toast("Copied"); }
   catch (e) { toast("Couldn't copy"); }
 };
@@ -644,7 +929,7 @@ let queue = [];
 try { queue = JSON.parse(LS.get("suvichar-queue") || "[]"); if (!Array.isArray(queue)) queue = []; } catch (e) { queue = []; }
 let syncing = false, syncFailed = false;
 const saveQueue = () => LS.set("suvichar-queue", JSON.stringify(queue));
-const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "" });
+const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "", status: q.lang === "yt" ? (q.status || "Idea") : "", category: q.lang === "yt" ? (q.category || "") : "" });
 
 function applyQueue(list) {
   for (const op of queue) {
@@ -721,6 +1006,7 @@ function keyProblem(err) {
 }
 
 $("deleteBtn").onclick = () => {
+  hideSheet();
   const q = quotes[i];
   if (!confirm(q.lang === "yt" ? "Delete this inspiration?" : "Delete this quote?")) return;
   const next = quotes[i + 1] || quotes[i - 1];
@@ -739,7 +1025,9 @@ $("addForm").onsubmit = ev => {
   if (kind === "yt" && !text && link) text = "Saved video";
   if (!text) { toast(kind === "yt" ? "Please add an idea or a link" : "Please type or speak a quote first"); $("newQuote").focus(); return; }
   const wasEdit = !!editingId;
-  const item = { id: editingId || "tmp-" + Date.now(), lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim() };
+  const item = { id: editingId || "tmp-" + Date.now(), lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim(),
+    status: kind === "yt" ? document.querySelector("input[name=qstatus]:checked").value : "",
+    category: kind === "yt" && $("newCat").value !== "__new" ? $("newCat").value : "" };
   const prev = all.find(x => x.id === item.id);
   const trText = $("newTranscript").value.trim();
   const trChanged = kind === "yt" && trDirty;
@@ -765,8 +1053,7 @@ async function getTranscript(id) {
   if (trMem[id] != null) return trMem[id];
   const saved = LS.get("suvichar-tr:" + id);
   if (saved != null) { trMem[id] = saved; return saved; }
-  const res = await fetch(API + "?key=" + encodeURIComponent(key) + "&transcript=" + encodeURIComponent(id), { cache: "no-store" });
-  const data = await res.json();
+  const data = await getJSON(API + "?key=" + encodeURIComponent(key) + "&transcript=" + encodeURIComponent(id));
   if (!data.ok) { const err = new Error(data.error); err.code = data.error; throw err; }
   rememberTranscript(id, data.text || "");
   return data.text || "";
@@ -909,7 +1196,7 @@ $("trPrev").onclick = () => goMatch(trCur - 1);
 $("trNext").onclick = () => goMatch(trCur + 1);
 $("trCopy").onclick = async () => { try { await navigator.clipboard.writeText(readerText); toast("Transcript copied"); } catch (e) { toast("Couldn't copy"); } };
 
-async function openReader(q) {
+async function openReader(q, preset) {
   $("readerSub").textContent = q.text;
   $("trSearch").value = ""; $("trCount").textContent = ""; $("trPrev").disabled = $("trNext").disabled = true;
   trParas = []; readerText = "";
@@ -921,11 +1208,215 @@ async function openReader(q) {
     if (trParas.length === 1 && readerText.includes("\n")) trParas = readerText.split("\n").map(s => s.trim()).filter(Boolean);
     if (!trParas.length) { $("readerBody").innerHTML = '<p class="loading">This transcript is empty.</p>'; return; }
     paintParas("");
+    if (preset) { $("trSearch").value = preset; $("trSearch").dispatchEvent(new Event("input")); }
   } catch (err) {
     if (!keyProblem(err)) $("readerBody").innerHTML = '<p class="loading">Couldn\'t load the transcript. Check your internet and try again.</p>';
   }
 }
 $("trChip").onclick = () => openReader(quotes[i]);
+
+/* ---------- video status ---------- */
+function setStatus(q, s) {
+  if (statusOf(q) === s) return;
+  const item = { ...q, status: s };
+  const k = all.findIndex(x => x.id === q.id); if (k >= 0) all[k] = item;
+  saveCache();
+  const stillShown = ytFilter === "All" || ytFilter === s;
+  select(stillShown ? q.id : undefined); render();
+  toast(stillShown ? `Marked as ${s}` : `Moved to “${s}”`);
+  enqueue("update", item);
+}
+
+/* ---------- quote card as an image ---------- */
+const CARD_STYLES = {
+  ivory:   { bg: ["#FBF7EE", "#F1EAD9"], glow: "rgba(242,176,64,.28)", text: "#10205F", sub: "#5B6494", accent: "#C98314", brand: "#10205F" },
+  indigo:  { bg: ["#0B1A6E", "#040C44"], glow: "rgba(245,185,74,.30)", text: "#FBF1DA", sub: "#AEB6E6", accent: "#F5B94A", brand: "#F5B94A" },
+  sunrise: { bg: ["#F7B84B", "#E0782C"], glow: "rgba(255,255,255,.35)", text: "#1D1446", sub: "#4A2F2A", accent: "#1D1446", brand: "#1D1446" }
+};
+let logoImg = null;
+function loadLogo() {
+  if (logoImg) return Promise.resolve(logoImg);
+  return new Promise(ok => { const im = new Image(); im.onload = () => { logoImg = im; ok(im); }; im.onerror = () => ok(null); im.src = "icons/icon-192.png"; });
+}
+function wrapPara(ctx, para, maxW) {
+  const out = []; let line = "";
+  for (const word of para.split(/\s+/).filter(Boolean)) {
+    const test = line ? line + " " + word : word;
+    if (ctx.measureText(test).width <= maxW || !line) line = test;
+    else { out.push(line); line = word; }
+  }
+  if (line) out.push(line);
+  return out;
+}
+/* wraps text and evens out line lengths, so no single word is left alone on the last line */
+function wrapLines(ctx, text, maxW) {
+  const out = [];
+  for (const para of text.split(/\n+/)) {
+    let best = wrapPara(ctx, para, maxW);
+    if (best.length > 1) {
+      for (let w = maxW * .96; w >= maxW * .6; w -= maxW * .02) {
+        const tryLines = wrapPara(ctx, para, w);
+        if (tryLines.length !== best.length) break;
+        best = tryLines;
+      }
+    }
+    out.push(...best);
+  }
+  return out;
+}
+async function drawCard() {
+  const q = quotes[i]; if (!q) return null;
+  const story = document.querySelector("input[name=csize]:checked").value === "story";
+  const st = CARD_STYLES[document.querySelector("input[name=cstyle]:checked").value];
+  const handle = $("cHandle").value.trim();
+  const W = 1080, H = story ? 1920 : 1080, pad = 110;
+  const serif = '"Tiro Devanagari Hindi", "Noto Serif Devanagari", Georgia, serif';
+  const sans = '"Mukta", "Noto Sans Devanagari", "Helvetica Neue", Arial, sans-serif';
+  try { await Promise.all([document.fonts.load(`80px ${serif}`, q.text), document.fonts.load(`40px ${sans}`, (q.source || "") + handle)]); } catch (e) {}
+  const logo = await loadLogo();
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const ctx = c.getContext("2d");
+  const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, st.bg[0]); g.addColorStop(1, st.bg[1]);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const rg = ctx.createRadialGradient(W / 2, H * .45, 0, W / 2, H * .45, W * .6);
+  rg.addColorStop(0, st.glow); rg.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+
+  // header: logo + name
+  const top = story ? 170 : 90, ls = story ? 96 : 76;
+  if (logo) { ctx.save(); const r = ls * .22; ctx.beginPath(); if (ctx.roundRect) { ctx.roundRect(pad, top, ls, ls, r); ctx.clip(); } ctx.drawImage(logo, pad, top, ls, ls); ctx.restore(); }
+  ctx.fillStyle = st.brand; ctx.textBaseline = "middle"; ctx.textAlign = "left";
+  ctx.font = `${story ? 56 : 46}px ${serif}`; ctx.fillText("सुविचार", pad + (logo ? ls + 24 : 0), top + ls / 2 + 4);
+
+  // quote, largest size that fits
+  const maxW = W - pad * 2, boxTop = top + ls + (story ? 160 : 70), boxBottom = H - (story ? 420 : 250);
+  const clean = q.text.trim();
+  let size = story ? 104 : 80, lines, lh;
+  for (; size >= 34; size -= 2) {
+    ctx.font = `${size}px ${serif}`; lines = wrapLines(ctx, clean, maxW); lh = size * 1.55;
+    if (lines.length * lh <= boxBottom - boxTop) break;
+  }
+  const blockH = lines.length * lh;
+  let y = boxTop + (boxBottom - boxTop - blockH) / 2 + lh / 2;
+  ctx.textAlign = "center"; ctx.fillStyle = st.text;
+  ctx.fillStyle = st.accent; ctx.font = `${size * 1.6}px Georgia, serif`;
+  ctx.fillText("“", W / 2, y - lh * .95);
+  ctx.fillStyle = st.text; ctx.font = `${size}px ${serif}`;
+  for (const l of lines) { ctx.fillText(l, W / 2, y); y += lh; }
+
+  // author
+  if (q.source) {
+    ctx.font = `${story ? 40 : 34}px ${sans}`; ctx.fillStyle = st.sub;
+    const al = wrapLines(ctx, "— " + q.source, maxW - 80).slice(0, 2);
+    let ay = y + (story ? 40 : 24);
+    for (const l of al) { ctx.fillText(l, W / 2, ay); ay += (story ? 54 : 46); }
+  }
+  // footer
+  ctx.strokeStyle = st.accent; ctx.lineWidth = 4; ctx.globalAlpha = .8;
+  ctx.beginPath(); ctx.moveTo(W / 2 - 60, H - (story ? 230 : 130)); ctx.lineTo(W / 2 + 60, H - (story ? 230 : 130)); ctx.stroke();
+  ctx.globalAlpha = 1;
+  if (handle) { ctx.font = `600 ${story ? 40 : 34}px ${sans}`; ctx.fillStyle = st.brand; ctx.fillText(handle, W / 2, H - (story ? 170 : 80)); }
+  return c;
+}
+let cardBlob = null, cardUrl = null, cardTimer;
+async function refreshCard() {
+  const c = await drawCard(); if (!c) return;
+  cardBlob = await new Promise(ok => c.toBlob(ok, "image/png"));
+  if (cardUrl) URL.revokeObjectURL(cardUrl);
+  cardUrl = URL.createObjectURL(cardBlob);
+  $("cardImg").src = cardUrl;
+}
+const cardName = () => "suvichar-" + (quotes[i] ? quotes[i].id : "card") + ".png";
+$("imageBtn").onclick = () => {
+  $("cHandle").value = LS.get("suvichar-handle") || "";
+  $("cardImg").removeAttribute("src");
+  showSheet("imageSheet"); refreshCard();
+};
+document.querySelectorAll("input[name=csize], input[name=cstyle]").forEach(r => r.onchange = refreshCard);
+$("cHandle").addEventListener("input", () => { LS.set("suvichar-handle", $("cHandle").value.trim()); clearTimeout(cardTimer); cardTimer = setTimeout(refreshCard, 300); });
+$("cDownload").onclick = () => {
+  if (!cardUrl) return;
+  const a = document.createElement("a"); a.href = cardUrl; a.download = cardName();
+  document.body.appendChild(a); a.click(); a.remove();
+  toast("Image downloaded");
+};
+$("cShare").onclick = async () => {
+  if (!cardBlob) return;
+  const file = new File([cardBlob], cardName(), { type: "image/png" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file] }); } catch (e) {}
+  } else { $("cDownload").click(); toast("Sharing images isn't available here, so it was downloaded"); }
+};
+
+/* ---------- search ---------- */
+const SECTION = { hi: "हिंदी", en: "English", yt: "YouTube" };
+function escRx(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function withMarks(el, text, q) {
+  el.textContent = "";
+  if (!q) { el.textContent = text; return; }
+  const rx = new RegExp(escRx(q), "gi"); let last = 0, m;
+  while ((m = rx.exec(text))) {
+    if (m.index > last) el.appendChild(document.createTextNode(text.slice(last, m.index)));
+    const mk = document.createElement("mark"); mk.textContent = m[0]; el.appendChild(mk);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) el.appendChild(document.createTextNode(text.slice(last)));
+}
+function snippet(text, q, room = 70) {
+  const at = text.toLowerCase().indexOf(q.toLowerCase());
+  if (at < 0) return text.length > room * 2 ? text.slice(0, room * 2) + "…" : text;
+  const s = Math.max(0, at - room), e = Math.min(text.length, at + q.length + room);
+  return (s ? "…" : "") + text.slice(s, e).replace(/\s+/g, " ") + (e < text.length ? "…" : "");
+}
+function resultButton(q, main, extra, query, onTap) {
+  const b = document.createElement("button"); b.type = "button"; b.className = "sresult";
+  const tag = document.createElement("span"); tag.className = "stag " + q.lang; tag.textContent = SECTION[q.lang]; b.appendChild(tag);
+  const m = document.createElement("span"); m.className = "stext"; m.lang = q.lang === "hi" ? "hi" : "en"; withMarks(m, main, query); b.appendChild(m);
+  if (extra) { const x = document.createElement("span"); x.className = "sext"; withMarks(x, extra, query); b.appendChild(x); }
+  b.onclick = onTap;
+  return b;
+}
+function jumpTo(q) {
+  hideSheet();
+  lang = q.lang; LS.set("suvichar-lang", lang); paintLang(); select(q.id); render(1);
+}
+function runSearch() {
+  const query = $("sInput").value.trim();
+  const box = $("sResults"); box.textContent = "";
+  $("sTrResults").textContent = "";
+  $("sTrWrap").hidden = !(owner && query.length > 1);
+  $("sTrBtn").disabled = false; $("sTrBtn").textContent = "Search inside transcripts";
+  if (query.length < 2) { $("sCount").textContent = query ? "Type at least 2 letters" : ""; return; }
+  const ql = query.toLowerCase();
+  const hits = all.filter(q => (owner || q.lang !== "yt") &&
+    [q.text, q.source, q.meaning, q.link, q.category].some(f => (f || "").toLowerCase().includes(ql)));
+  $("sCount").textContent = hits.length ? `${hits.length} found` : "Nothing found in quotes and ideas";
+  hits.slice(0, 60).forEach(q => {
+    const inText = q.text.toLowerCase().includes(ql);
+    const extraField = [q.source, q.meaning, q.link, q.category].find(f => (f || "").toLowerCase().includes(ql));
+    box.appendChild(resultButton(q, q.text.replace(/\n+/g, " "), inText ? (q.lang === "yt" ? "" : q.source) : snippet(extraField, query), query, () => jumpTo(q)));
+  });
+}
+let sTimer;
+$("sInput").addEventListener("input", () => { clearTimeout(sTimer); sTimer = setTimeout(runSearch, 150); });
+$("searchBtn").onclick = () => { showSheet("searchSheet"); runSearch(); setTimeout(() => $("sInput").focus(), 320); };
+$("sTrBtn").onclick = async () => {
+  const query = $("sInput").value.trim();
+  if (query.length < 2) return;
+  const btn = $("sTrBtn"); btn.disabled = true; btn.textContent = "Searching transcripts…";
+  const box = $("sTrResults"); box.textContent = "";
+  try {
+    const data = await getJSON(API + "?key=" + encodeURIComponent(key) + "&tsearch=" + encodeURIComponent(query));
+    if (!data.ok) { const err = new Error(data.error); err.code = data.error; throw err; }
+    if (!Array.isArray(data.results)) { btn.textContent = "Transcript search will work after the next connector update"; return; }
+    const found = (data.results || []).map(r => ({ r, q: all.find(x => x.id === r.id) })).filter(x => x.q);
+    btn.textContent = found.length ? `Found in ${found.length} transcript${found.length > 1 ? "s" : ""}` : "Not found in any transcript";
+    found.forEach(({ r, q }) => box.appendChild(resultButton(q, q.text, `${r.count}× in transcript: ${r.snippet}`, query, () => { jumpTo(q); setTimeout(() => openReader(q, query), 350); })));
+  } catch (err) {
+    btn.disabled = false;
+    if (!keyProblem(err)) btn.textContent = err.code ? "Update the connector to search transcripts (tap to retry)" : "Couldn't search transcripts. Tap to try again";
+  }
+};
 
 /* ---------- key sheet ---------- */
 function openKey(msg) {
