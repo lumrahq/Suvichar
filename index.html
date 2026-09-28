@@ -94,6 +94,8 @@
   .numtoggle span { cursor: pointer; }
   .lockbtn { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); border: 1px solid var(--line); background: #FFFFFF; }
   .lockbtn svg { width: 18px; height: 18px; }
+  .lockbtn[hidden] { display: none !important; }
+  @media (max-width: 380px) { .brand { font-size: 1.25rem; } .bar { gap: .5rem; } .lockbtn { width: 34px; height: 34px; } }
   .lockbtn.on { color: var(--gold-ink); border-color: rgba(214,146,30,.5); }
   #keyInput { padding-right: 3.4rem; }
   .eye { position: absolute; right: .35rem; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); }
@@ -143,7 +145,8 @@
   .optrow span { display: block; text-align: center; padding: .5rem; border-radius: 12px; border: 1px solid var(--line); color: var(--mist); font-weight: 500; cursor: pointer; font-size: .95rem; }
   .optrow input:checked + span { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
   .optrow input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
-  #cHandle { width: 100%; }
+  .cfield { width: 100%; }
+  #imageSheet label { margin-top: .8rem; }
   .sfilter { display: flex; gap: .4rem; overflow-x: auto; margin-top: .6rem; padding-bottom: 2px; scrollbar-width: none; }
   .sfilter::-webkit-scrollbar { display: none; }
   .sfilter button { flex: none; font-size: .85rem; padding: .25rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; color: var(--mist); }
@@ -175,6 +178,10 @@
   .catlist .cdel { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #B42318; }
   .catlist .cdel svg { width: 20px; height: 20px; }
   .catlist .cempty { color: var(--mist); justify-content: center; }
+  .linkbtn { display: block; margin: 1rem auto 0; font-size: .9rem; color: var(--mist); text-decoration: underline; text-underline-offset: 3px; }
+  .setsel { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
+  .setsel:focus { border-color: var(--gold); outline: none; }
+  #setSheet .keytext { font-weight: 600; color: var(--ivory); }
   .keytext { color: var(--mist); margin: 0 0 .5rem; }
   .fab-wrap[hidden] { display: none !important; }
   .chip { display: inline-block; margin-top: .9rem; font-size: .85rem; color: var(--gold-ink); border: 1px solid rgba(214,146,30,.45); border-radius: 999px; padding: .05rem .7rem; }
@@ -286,6 +293,7 @@
     <span class="spacer"></span>
     <button class="install" id="installBtn" hidden>Install</button>
     <span class="count" id="count" aria-label="Quote number"></span>
+    <button class="lockbtn" id="setBtn" aria-label="Settings" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
     <button class="lockbtn" id="searchBtn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
     <button class="lockbtn" id="lockBtn" aria-label="Owner key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
   </header>
@@ -367,7 +375,7 @@
       <div id="statusWrap" hidden>
         <label>Status</label>
         <div class="langpick statuspick" role="radiogroup" aria-label="Status">
-          <label><input type="radio" name="qstatus" value="Idea" checked><span>Idea</span></label>
+          <label><input type="radio" name="qstatus" value="Idea"><span>Idea</span></label>
           <label><input type="radio" name="qstatus" value="Scripting"><span>Scripting</span></label>
           <label><input type="radio" name="qstatus" value="Recorded"><span>Recorded</span></label>
           <label><input type="radio" name="qstatus" value="Published"><span>Published</span></label>
@@ -440,8 +448,24 @@
       <label><input type="radio" name="cstyle" value="indigo"><span>Indigo</span></label>
       <label><input type="radio" name="cstyle" value="sunrise"><span>Sunrise</span></label>
     </div>
-    <label for="cHandle">Channel name on the card <small>(optional)</small></label>
-    <input type="text" id="cHandle" placeholder="e.g. @YourChannel" autocomplete="off">
+    <label for="cMsg">Message on top <small>(optional)</small></label>
+    <input type="text" id="cMsg" class="cfield" placeholder="e.g. सुप्रभात · Good Morning 🌞" autocomplete="off" maxlength="60">
+    <label>Message size</label>
+    <div class="optrow" role="radiogroup" aria-label="Message size">
+      <label><input type="radio" name="cmsize" value="s"><span>Small</span></label>
+      <label><input type="radio" name="cmsize" value="m" checked><span>Medium</span></label>
+      <label><input type="radio" name="cmsize" value="l"><span>Large</span></label>
+      <label><input type="radio" name="cmsize" value="xl"><span>XL</span></label>
+    </div>
+    <label for="cHandle">Footer <small>(optional)</small></label>
+    <input type="text" id="cHandle" class="cfield" placeholder="e.g. @YourChannel, or any message" autocomplete="off" maxlength="60">
+    <label>Footer size</label>
+    <div class="optrow" role="radiogroup" aria-label="Footer size">
+      <label><input type="radio" name="cfsize" value="s"><span>Small</span></label>
+      <label><input type="radio" name="cfsize" value="m" checked><span>Medium</span></label>
+      <label><input type="radio" name="cfsize" value="l"><span>Large</span></label>
+      <label><input type="radio" name="cfsize" value="xl"><span>XL</span></label>
+    </div>
     <div class="form-actions">
       <button type="button" class="btn ghost" id="cDownload">Download</button>
       <button type="button" class="btn solid" id="cShare">Share image</button>
@@ -482,6 +506,32 @@
     <div class="form-actions"><button type="button" class="btn ghost" id="trCopy">Copy transcript</button></div>
   </section>
 
+  <section class="sheet" id="setSheet" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="setTitle">Settings</h2>
+      <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <p class="keytext">Auto-lock on this device</p>
+    <label for="setIdle">Lock after no use for</label>
+    <select id="setIdle" class="setsel">
+      <option value="1">1 minute</option><option value="2">2 minutes</option><option value="5">5 minutes</option>
+      <option value="10">10 minutes</option><option value="15">15 minutes</option><option value="30">30 minutes</option>
+      <option value="60">1 hour</option><option value="0">Never</option>
+    </select>
+    <label for="setAway">Lock when I switch away for</label>
+    <select id="setAway" class="setsel">
+      <option value="0">Immediately</option><option value="1">1 minute</option><option value="3">3 minutes</option>
+      <option value="5">5 minutes</option><option value="10">10 minutes</option><option value="30">30 minutes</option>
+      <option value="-1">Never</option>
+    </select>
+    <p class="hint">“Switch away” means going to another app or tab, or closing the app.</p>
+    <div class="form-actions">
+      <button type="button" class="btn ghost" id="setRefresh">Refresh from sheet</button>
+      <button type="button" class="btn solid" id="setLockNow">Lock now</button>
+    </div>
+  </section>
+
   <section class="sheet" id="keySheet" role="dialog" aria-modal="true" aria-labelledby="keyTitle">
     <div class="handle"></div>
     <div class="sheet-head">
@@ -499,11 +549,11 @@
         <p class="keystatus" id="keyStatus" role="alert" hidden></p>
         <div class="form-actions"><button type="submit" class="btn solid" id="unlockBtn">Unlock</button></div>
       </form>
+      <button type="button" class="linkbtn" id="relockBtn" hidden>Forget the key on this device</button>
     </div>
     <div id="keyOpen" hidden>
       <p class="keytext">This device is unlocked. Anything you add here is saved to your Google Sheet and appears on all your devices.</p>
       <div class="form-actions">
-        <button type="button" class="btn ghost" id="relockBtn">Lock this device</button>
         <button type="button" class="btn solid" id="refreshBtn">Refresh now</button>
       </div>
     </div>
@@ -531,6 +581,8 @@ const BUILT_IN = [
     meaning: "Don't make threats or angry declarations you can't back up. Empty threats cost you credibility, and they give the other person a reason to resist you without any real consequence.\n\nIt's advice about power and restraint: if you truly have the power to act, you rarely need to announce it; if you don't, saying it only exposes your weakness. Choose your words according to what you can actually deliver." }
 ];
 const TRASH_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg>`;
+const LOCK_SHUT = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>`;
+const LOCK_OPEN = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.7"/></svg>`;
 const EYE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>`, EYE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>`;
 const API = "https://script.google.com/macros/s/AKfycbyfjsKDGbq9eAXCI5pSD5Jm60RsZXqfIRJ5_CKZm-CG5ALm5GZMdX3CD2vhVcdxIP5Zuw/exec";
 const $ = id => document.getElementById(id);
@@ -540,8 +592,56 @@ const LS = {
   del(k) { try { localStorage.removeItem(k); } catch (e) {} }
 };
 let lang = ["hi", "en", "yt"].includes(LS.get("suvichar-lang")) ? LS.get("suvichar-lang") : "hi";
-let key = LS.get("suvichar-key") || "";
-let owner = !!key && LS.get("suvichar-owner") === "1";
+/* ---------- the vault: your key is never stored; private data is kept encrypted ----------
+   - "suvichar-verifier": a one-way fingerprint that can check a typed key but can't reveal it
+   - YouTube items, transcripts and unsynced changes are saved with AES-GCM, using a key derived from yours
+   - while unlocked, the working keys live in memory (and this tab's session) only; locking wipes them */
+let key = "", vaultKey = null;
+const SS = {
+  get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { sessionStorage.removeItem(k); } catch (e) {} }
+};
+const te = new TextEncoder(), td = new TextDecoder();
+function toB64(bytes) { let s = ""; for (let p = 0; p < bytes.length; p += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(p, p + 0x8000)); return btoa(s); }
+const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const hex = bytes => Array.from(bytes, b => b.toString(16).padStart(2, "0")).join("");
+const hasVault = () => !!LS.get("suvichar-verifier") && !!LS.get("suvichar-salt");
+async function deriveVault(pass, saltB64) {
+  const base = await crypto.subtle.importKey("raw", te.encode(pass), "PBKDF2", false, ["deriveBits"]);
+  const bits = new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", salt: fromB64(saltB64), iterations: 150000, hash: "SHA-256" }, base, 512));
+  const raw = bits.slice(0, 32);
+  const aes = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["encrypt", "decrypt"]);
+  return { aes, raw, check: hex(bits.slice(32)) };
+}
+async function seal(obj, k = vaultKey) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, k, te.encode(JSON.stringify(obj))));
+  const out = new Uint8Array(12 + ct.length); out.set(iv); out.set(ct, 12);
+  return toB64(out);
+}
+async function unseal(b64, k = vaultKey) {
+  const all8 = fromB64(b64);
+  return JSON.parse(td.decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: all8.slice(0, 12) }, k, all8.slice(12))));
+}
+async function readSealed(name, fallback) {
+  const s = LS.get(name); if (!s || !vaultKey) return fallback;
+  try { return await unseal(s); } catch (e) { return fallback; }
+}
+let sealGen = { priv: 0, queue: 0 };
+async function writeSealed(name, obj, slot) {
+  if (!vaultKey) return;
+  const n = ++sealGen[slot], k = vaultKey;
+  const s = await seal(obj, k);
+  if (n === sealGen[slot] && vaultKey === k) LS.set(name, s);
+}
+// auto-lock timings (minutes) chosen in Settings; idle 0 = never, away -1 = never
+const numSetting = (k, d, ok) => { const v = Number(LS.get(k)); return LS.get(k) !== null && ok.includes(v) ? v : d; };
+let idleMin = numSetting("suvichar-idle", 5, [0, 1, 2, 5, 10, 15, 30, 60]);
+let awayMin = numSetting("suvichar-away", 3, [-1, 0, 1, 3, 5, 10, 30]);
+const awayTooLong = since => awayMin >= 0 && Date.now() - since > awayMin * 60e3;
+// stays unlocked only if the app was in use within the last 3 minutes
+let owner = false;   // true only while unlocked
 let all = [], quotes = [], i = 0, editingId = null, pendingShare = null, lastError = "";
 const pos = { hi: null, en: null, yt: null };
 try { Object.assign(pos, JSON.parse(LS.get("suvichar-pos2") || "{}")); } catch (e) {}
@@ -554,9 +654,12 @@ function toast(msg) {
 
 /* ---------- data from the Google Sheet ---------- */
 function loadCache() {
-  try { const c = JSON.parse(LS.get("suvichar-cache") || "null"); return Array.isArray(c) ? c : null; } catch (e) { return null; }
+  try { const c = JSON.parse(LS.get("suvichar-cache") || "null"); return Array.isArray(c) ? c.filter(q => q.lang !== "yt") : null; } catch (e) { return null; }
 }
-function saveCache() { LS.set("suvichar-cache", JSON.stringify(all)); }
+function saveCache() {
+  LS.set("suvichar-cache", JSON.stringify(all.filter(q => q.lang !== "yt")));
+  if (vaultKey) writeSealed("suvichar-private", all.filter(q => q.lang === "yt"), "priv");
+}
 
 /* Reads from the sheet; Google sometimes answers the first request with an error page, so try up to 3 times */
 async function getJSON(url) {
@@ -573,15 +676,22 @@ async function getJSON(url) {
   const err = new Error(lastErr); err.kind = lastErr; throw err;
 }
 
+let lastCheckOwner = false;
 async function fetchAll(opts = {}) {
   try {
     lastError = "";
     let data;
-    try { data = await getJSON(API + (key ? "?key=" + encodeURIComponent(key) : "")); }
+    const sentKey = owner || opts.checking ? key : "";
+    try { data = await getJSON(API + (sentKey ? "?key=" + encodeURIComponent(sentKey) : "")); }
     catch (e) { lastError = e.kind || "network"; throw e; }
     if (!data.ok) { lastError = "sheet:" + (data.error || "unknown"); throw new Error(data.error); }
-    owner = !!data.owner;
-    LS.set("suvichar-owner", owner ? "1" : "0");
+    lastCheckOwner = !!data.owner;
+    if (sentKey && !data.owner) {           // the key was changed in Apps Script
+      if (opts.checking) return true;
+      keyRejected(); return false;
+    }
+    if (sentKey !== key) return false;      // locked while this was loading
+    if (opts.checking) return true;
     all = applyQueue((data.items || []).map(q => ({ ...q, lang: ["hi", "en", "yt"].includes(q.lang) ? q.lang : "hi" })));
     saveCache();
     const cur = opts.focusId || (quotes[i] && quotes[i].id);
@@ -609,15 +719,18 @@ function applyOwner() {
   document.querySelector('#langToggle span[data-v="yt"]').hidden = !owner;
   document.querySelector('input[name=qlang][value=yt]').closest("label").hidden = !owner;
   $("fabWrap").hidden = !owner;
+  $("setBtn").hidden = !owner;
   $("lockBtn").classList.toggle("on", owner);
-  $("lockBtn").setAttribute("aria-label", owner ? "Owner access: unlocked" : "Owner access: locked");
+  $("lockBtn").setAttribute("aria-label", owner ? "Unlocked. Tap to lock" : "Locked. Tap to unlock");
+  $("lockBtn").innerHTML = owner ? LOCK_OPEN : LOCK_SHUT;
   if (!owner && lang === "yt") { lang = "hi"; paintLang(); }
 }
 
 /* ---------- display ---------- */
 const STATUSES = ["Idea", "Scripting", "Recorded", "Published"];
-let ytFilter = STATUSES.includes(LS.get("suvichar-ytfilter")) ? LS.get("suvichar-ytfilter") : "All";
-const statusOf = q => STATUSES.includes(q.status) ? q.status : "Idea";
+let ytFilter = [...STATUSES, "None"].includes(LS.get("suvichar-ytfilter")) ? LS.get("suvichar-ytfilter") : "All";
+const matchStatus = q => ytFilter === "All" || statusOf(q) === (ytFilter === "None" ? "" : ytFilter);
+const statusOf = q => { const s = (q.status || "").trim(); return STATUSES.includes(s) ? s : ""; };  // "" = no status
 const DEFAULT_CATS = ["Motivational", "Share Market"];
 let catList;
 try { catList = JSON.parse(LS.get("suvichar-catlist") || "null"); } catch (e) { catList = null; }
@@ -711,10 +824,13 @@ function paintFilter() {
   if (box.hidden) return;
   const yts = all.filter(q => q.lang === "yt" && inCat(q));
   box.textContent = "";
-  ["All", ...STATUSES].forEach(s => {
-    const n = s === "All" ? yts.length : yts.filter(q => statusOf(q) === s).length;
+  const chips = ["All", ...STATUSES];
+  if (yts.some(q => !statusOf(q))) chips.push("None");
+  if (!chips.includes(ytFilter)) ytFilter = "All";
+  chips.forEach(s => {
+    const n = s === "All" ? yts.length : yts.filter(q => statusOf(q) === (s === "None" ? "" : s)).length;
     const b = document.createElement("button"); b.type = "button";
-    b.textContent = `${s} ${n}`; b.classList.toggle("on", s === ytFilter);
+    b.textContent = `${s === "None" ? "No status" : s} ${n}`; b.classList.toggle("on", s === ytFilter);
     b.setAttribute("aria-pressed", String(s === ytFilter));
     b.onclick = () => { ytFilter = s; LS.set("suvichar-ytfilter", s); select(); render(); };
     box.appendChild(b);
@@ -722,7 +838,7 @@ function paintFilter() {
   centerOn(box);
 }
 function select(keepId) {
-  quotes = all.filter(q => q.lang === lang && (lang !== "yt" || ((ytFilter === "All" || statusOf(q) === ytFilter) && inCat(q))));
+  quotes = all.filter(q => q.lang === lang && (lang !== "yt" || (matchStatus(q) && inCat(q))));
   const want = keepId || pos[lang];
   const k = quotes.findIndex(q => q.id === want);
   i = k >= 0 ? k : 0;
@@ -755,7 +871,8 @@ function render(dir) {
       hi: ["अभी कोई हिंदी सुविचार नहीं", owner ? "Add दबाकर पहला सुविचार जोड़ें।" : ""],
       en: ["No English quotes yet", owner ? "Tap Add to save your first one." : ""],
       yt: (ytFilter !== "All" || ytCat !== "All") && all.some(q => q.lang === "yt")
-        ? [ytCat !== "All" ? `Nothing in “${ytCat}”${ytFilter !== "All" ? " marked " + ytFilter : ""} yet` : `No videos marked “${ytFilter}”`,
+        ? [ytCat !== "All" ? `Nothing in “${ytCat}”${ytFilter !== "All" ? (ytFilter === "None" ? " without a status" : " marked " + ytFilter) : ""} yet`
+                           : (ytFilter === "None" ? "Every video has a status" : `No videos marked “${ytFilter}”`),
            owner ? "Tap Add to save one here, or tap All above to see everything." : ""]
         : ["No YouTube inspirations yet", "Tap Add to save an idea or a video link. On Android, you can also share a video straight from the YouTube app to this app."]
     }[lang];
@@ -868,6 +985,10 @@ function paintForm() {
   $("newSource").placeholder = en ? "e.g. Mahatma Gandhi, or Unknown" : "e.g. चाणक्य, or Unknown";
 }
 document.querySelectorAll("input[name=qlang]").forEach(r => r.onchange = paintForm);
+let lastStatusPick = "";
+document.querySelectorAll("input[name=qstatus]").forEach(r => r.addEventListener("click", () => {
+  if (lastStatusPick === r.value) { r.checked = false; lastStatusPick = ""; } else lastStatusPick = r.value;
+}));
 function fillCats(selected) {
   const sel = $("newCat"); sel.textContent = "";
   const opt = (v, label) => { const o = document.createElement("option"); o.value = v; o.textContent = label; sel.appendChild(o); };
@@ -889,7 +1010,7 @@ function openAdd(prefill) {
   if (prefill) {
     $("newQuote").value = prefill.text || ""; $("newSource").value = prefill.source || "";
     $("newLink").value = prefill.link || ""; $("newMeaning").value = prefill.meaning || "";
-    const st = document.querySelector(`input[name=qstatus][value="${statusOf(prefill)}"]`); if (st) st.checked = true;
+    const st = statusOf(prefill) && document.querySelector(`input[name=qstatus][value="${statusOf(prefill)}"]`); if (st) st.checked = true;
   }
   trDirty = false; $("trInfo").textContent = ""; $("newTranscript").disabled = false;
   $("newTranscript").placeholder = "Paste the video's transcript here, or upload a PDF or text file";
@@ -906,6 +1027,7 @@ function openAdd(prefill) {
     });
   }
   fillCats(prefill && prefill.id ? prefill.category : (lang === "yt" && ytCat !== "All" && ytCat !== "Uncategorised" ? ytCat : ""));
+  { const c = document.querySelector("input[name=qstatus]:checked"); lastStatusPick = c ? c.value : ""; }
   paintForm(); showSheet("addSheet");
   setTimeout(() => $("newQuote").focus(), 320);
 }
@@ -925,11 +1047,10 @@ $("shareBtn").onclick = async () => {
   else { try { await navigator.clipboard.writeText(text); toast("Sharing not available here, so it was copied"); } catch (e) { toast("Sharing not available"); } }
 };
 /* ---------- instant saving: changes show at once, then sync in the background ---------- */
-let queue = [];
-try { queue = JSON.parse(LS.get("suvichar-queue") || "[]"); if (!Array.isArray(queue)) queue = []; } catch (e) { queue = []; }
+let queue = [];   // loaded from the vault when you unlock
 let syncing = false, syncFailed = false;
-const saveQueue = () => LS.set("suvichar-queue", JSON.stringify(queue));
-const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "", status: q.lang === "yt" ? (q.status || "Idea") : "", category: q.lang === "yt" ? (q.category || "") : "" });
+const saveQueue = () => { if (vaultKey) writeSealed("suvichar-queue-sealed", queue, "queue"); };
+const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "", status: q.lang === "yt" ? (statusOf(q) || " ") : "", category: q.lang === "yt" ? (q.category || "") : "" });
 
 function applyQueue(list) {
   for (const op of queue) {
@@ -1001,7 +1122,7 @@ async function processQueue() {
 window.addEventListener("online", () => processQueue());
 
 function keyProblem(err) {
-  if (err && err.code === "bad-key") { owner = false; LS.set("suvichar-owner", "0"); applyOwner(); render(); toast("Your key didn't work. Please unlock again."); openKey(); return true; }
+  if (err && err.code === "bad-key") { keyRejected(); return true; }
   return false;
 }
 
@@ -1026,7 +1147,7 @@ $("addForm").onsubmit = ev => {
   if (!text) { toast(kind === "yt" ? "Please add an idea or a link" : "Please type or speak a quote first"); $("newQuote").focus(); return; }
   const wasEdit = !!editingId;
   const item = { id: editingId || "tmp-" + Date.now(), lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim(),
-    status: kind === "yt" ? document.querySelector("input[name=qstatus]:checked").value : "",
+    status: kind === "yt" ? ((document.querySelector("input[name=qstatus]:checked") || {}).value || "") : "",
     category: kind === "yt" && $("newCat").value !== "__new" ? $("newCat").value : "" };
   const prev = all.find(x => x.id === item.id);
   const trText = $("newTranscript").value.trim();
@@ -1046,12 +1167,15 @@ $("addForm").onsubmit = ev => {
 /* ---------- transcripts ---------- */
 let trDirty = false;
 const trMem = {};
-function rememberTranscript(id, text) { trMem[id] = text; try { localStorage.setItem("suvichar-tr:" + id, text); } catch (e) {} }
+function rememberTranscript(id, text) {
+  trMem[id] = text;
+  if (vaultKey) seal(text).then(s => { if (vaultKey) LS.set("suvichar-trx:" + id, s); }).catch(() => {});
+}
 async function getTranscript(id) {
   const pending = [...queue].reverse().find(o => o.op === "transcript" && o.item.id === id);
   if (pending) return pending.item.text;
   if (trMem[id] != null) return trMem[id];
-  const saved = LS.get("suvichar-tr:" + id);
+  const saved = await readSealed("suvichar-trx:" + id, null);
   if (saved != null) { trMem[id] = saved; return saved; }
   const data = await getJSON(API + "?key=" + encodeURIComponent(key) + "&transcript=" + encodeURIComponent(id));
   if (!data.ok) { const err = new Error(data.error); err.code = data.error; throw err; }
@@ -1217,13 +1341,13 @@ $("trChip").onclick = () => openReader(quotes[i]);
 
 /* ---------- video status ---------- */
 function setStatus(q, s) {
-  if (statusOf(q) === s) return;
-  const item = { ...q, status: s };
+  const next = statusOf(q) === s ? "" : s;   // tapping the selected status again clears it
+  const item = { ...q, status: next };
   const k = all.findIndex(x => x.id === q.id); if (k >= 0) all[k] = item;
   saveCache();
-  const stillShown = ytFilter === "All" || ytFilter === s;
+  const stillShown = matchStatus(item);
   select(stillShown ? q.id : undefined); render();
-  toast(stillShown ? `Marked as ${s}` : `Moved to “${s}”`);
+  toast(!next ? "Status cleared" : stillShown ? `Marked as ${next}` : `Moved to “${next}”`);
   enqueue("update", item);
 }
 
@@ -1268,54 +1392,91 @@ async function drawCard() {
   const q = quotes[i]; if (!q) return null;
   const story = document.querySelector("input[name=csize]:checked").value === "story";
   const st = CARD_STYLES[document.querySelector("input[name=cstyle]:checked").value];
-  const handle = $("cHandle").value.trim();
-  const W = 1080, H = story ? 1920 : 1080, pad = 110;
+  const msg = $("cMsg").value.trim(), handle = $("cHandle").value.trim();
+  const SIZES = { s: .8, m: 1, l: 1.25, xl: 1.55 };
+  const pick = n => SIZES[(document.querySelector(`input[name=${n}]:checked`) || {}).value || "m"];
+  const msgScale = pick("cmsize"), footScale = pick("cfsize");
+  const W = 1080, H = story ? 1920 : 1080, pad = 100, maxW = W - pad * 2;
   const serif = '"Tiro Devanagari Hindi", "Noto Serif Devanagari", Georgia, serif';
   const sans = '"Mukta", "Noto Sans Devanagari", "Helvetica Neue", Arial, sans-serif';
-  try { await Promise.all([document.fonts.load(`80px ${serif}`, q.text), document.fonts.load(`40px ${sans}`, (q.source || "") + handle)]); } catch (e) {}
+  try { await Promise.all([document.fonts.load(`80px ${serif}`, q.text + msg + "सुविचार"), document.fonts.load(`600 40px ${sans}`, (q.source || "") + handle)]); } catch (e) {}
   const logo = await loadLogo();
   const c = document.createElement("canvas"); c.width = W; c.height = H;
   const ctx = c.getContext("2d");
+  ctx.textBaseline = "middle"; ctx.textAlign = "left"; ctx.direction = "ltr";
+  // draws one line exactly centred, measuring it ourselves (reliable on every browser)
+  const centre = (text, y) => { const w = ctx.measureText(text).width; ctx.fillText(text, Math.round((W - w) / 2), y); };
+
   const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, st.bg[0]); g.addColorStop(1, st.bg[1]);
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  const rg = ctx.createRadialGradient(W / 2, H * .45, 0, W / 2, H * .45, W * .6);
+  const rg = ctx.createRadialGradient(W / 2, H * .48, 0, W / 2, H * .48, W * .62);
   rg.addColorStop(0, st.glow); rg.addColorStop(1, "rgba(0,0,0,0)");
   ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
 
-  // header: logo + name
-  const top = story ? 170 : 90, ls = story ? 96 : 76;
-  if (logo) { ctx.save(); const r = ls * .22; ctx.beginPath(); if (ctx.roundRect) { ctx.roundRect(pad, top, ls, ls, r); ctx.clip(); } ctx.drawImage(logo, pad, top, ls, ls); ctx.restore(); }
-  ctx.fillStyle = st.brand; ctx.textBaseline = "middle"; ctx.textAlign = "left";
-  ctx.font = `${story ? 56 : 46}px ${serif}`; ctx.fillText("सुविचार", pad + (logo ? ls + 24 : 0), top + ls / 2 + 4);
+  // header: logo + name, centred
+  const top = story ? 150 : 70, ls = story ? 92 : 70, gap = 20;
+  ctx.font = `${story ? 54 : 44}px ${serif}`;
+  const brandW = ctx.measureText("सुविचार").width, hw = (logo ? ls + gap : 0) + brandW, hx = (W - hw) / 2;
+  if (logo) { ctx.save(); ctx.beginPath(); if (ctx.roundRect) { ctx.roundRect(hx, top, ls, ls, ls * .22); ctx.clip(); } ctx.drawImage(logo, hx, top, ls, ls); ctx.restore(); }
+  ctx.fillStyle = st.brand; ctx.fillText("सुविचार", hx + (logo ? ls + gap : 0), top + ls / 2 + 3);
 
-  // quote, largest size that fits
-  const maxW = W - pad * 2, boxTop = top + ls + (story ? 160 : 70), boxBottom = H - (story ? 420 : 250);
-  const clean = q.text.trim();
-  let size = story ? 104 : 80, lines, lh;
-  for (; size >= 34; size -= 2) {
-    ctx.font = `${size}px ${serif}`; lines = wrapLines(ctx, clean, maxW); lh = size * 1.55;
-    if (lines.length * lh <= boxBottom - boxTop) break;
+  // footer (bottom), sized by the chosen text size
+  const footSize = Math.round((story ? 46 : 40) * footScale);
+  let footLines = [], footLH = footSize * 1.35;
+  if (handle) { ctx.font = `600 ${footSize}px ${sans}`; footLines = wrapLines(ctx, handle, maxW).slice(0, 2); }
+  const bottomPad = story ? 170 : 70;
+  const footTop = H - bottomPad - footLines.length * footLH;
+  const lineY = footTop - (footLines.length ? 34 : 0) - (story ? 60 : 40);
+
+  // middle area between header and footer
+  const areaTop = top + ls + (story ? 90 : 50), areaBottom = lineY - (story ? 70 : 40);
+
+  // message on top of the quote
+  const msgSize = Math.round((story ? 60 : 50) * msgScale);
+  let msgLines = [];
+  if (msg) { ctx.font = `${msgSize}px ${serif}`; msgLines = wrapLines(ctx, msg, maxW).slice(0, 2); }
+  const msgLH = msgSize * 1.4, msgGap = msg ? (story ? 60 : 36) : 0;
+
+  // author lines
+  const auSize = story ? 40 : 34, auLH = auSize * 1.4;
+  let auLines = [];
+  if (q.source) { ctx.font = `${auSize}px ${sans}`; auLines = wrapLines(ctx, "— " + q.source, maxW - 60).slice(0, 2); }
+  const auGap = auLines.length ? (story ? 44 : 28) : 0;
+
+  // quote: largest size that fits with everything else
+  const text = q.text.trim();
+  let size = story ? 104 : 80, lines = [], lh = 0, markH = 0;
+  const fixedH = msgLines.length * msgLH + msgGap + auGap + auLines.length * auLH;
+  for (; size >= 30; size -= 2) {
+    ctx.font = `${size}px ${serif}`; lines = wrapLines(ctx, text, maxW); lh = size * 1.55; markH = size * 1.1;
+    if (fixedH + markH + lines.length * lh <= areaBottom - areaTop) break;
   }
-  const blockH = lines.length * lh;
-  let y = boxTop + (boxBottom - boxTop - blockH) / 2 + lh / 2;
-  ctx.textAlign = "center"; ctx.fillStyle = st.text;
-  ctx.fillStyle = st.accent; ctx.font = `${size * 1.6}px Georgia, serif`;
-  ctx.fillText("“", W / 2, y - lh * .95);
+  const groupH = fixedH + markH + lines.length * lh;
+  let y = areaTop + Math.max(0, (areaBottom - areaTop - groupH) / 2);
+
+  if (msgLines.length) {
+    ctx.fillStyle = st.accent; ctx.font = `${msgSize}px ${serif}`;
+    for (const l of msgLines) { centre(l, y + msgLH / 2); y += msgLH; }
+    y += msgGap;
+  }
+  ctx.fillStyle = st.accent; ctx.font = `${Math.round(size * 1.6)}px Georgia, serif`;
+  centre("“", y + markH * .62); y += markH;
   ctx.fillStyle = st.text; ctx.font = `${size}px ${serif}`;
-  for (const l of lines) { ctx.fillText(l, W / 2, y); y += lh; }
-
-  // author
-  if (q.source) {
-    ctx.font = `${story ? 40 : 34}px ${sans}`; ctx.fillStyle = st.sub;
-    const al = wrapLines(ctx, "— " + q.source, maxW - 80).slice(0, 2);
-    let ay = y + (story ? 40 : 24);
-    for (const l of al) { ctx.fillText(l, W / 2, ay); ay += (story ? 54 : 46); }
+  for (const l of lines) { centre(l, y + lh / 2); y += lh; }
+  if (auLines.length) {
+    y += auGap; ctx.fillStyle = st.sub; ctx.font = `${auSize}px ${sans}`;
+    for (const l of auLines) { centre(l, y + auLH / 2); y += auLH; }
   }
-  // footer
+
+  // divider + footer
   ctx.strokeStyle = st.accent; ctx.lineWidth = 4; ctx.globalAlpha = .8;
-  ctx.beginPath(); ctx.moveTo(W / 2 - 60, H - (story ? 230 : 130)); ctx.lineTo(W / 2 + 60, H - (story ? 230 : 130)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W / 2 - 60, lineY); ctx.lineTo(W / 2 + 60, lineY); ctx.stroke();
   ctx.globalAlpha = 1;
-  if (handle) { ctx.font = `600 ${story ? 40 : 34}px ${sans}`; ctx.fillStyle = st.brand; ctx.fillText(handle, W / 2, H - (story ? 170 : 80)); }
+  if (footLines.length) {
+    ctx.fillStyle = st.brand; ctx.font = `600 ${footSize}px ${sans}`;
+    let fy = footTop;
+    for (const l of footLines) { centre(l, fy + footLH / 2); fy += footLH; }
+  }
   return c;
 }
 let cardBlob = null, cardUrl = null, cardTimer;
@@ -1329,10 +1490,17 @@ async function refreshCard() {
 const cardName = () => "suvichar-" + (quotes[i] ? quotes[i].id : "card") + ".png";
 $("imageBtn").onclick = () => {
   $("cHandle").value = LS.get("suvichar-handle") || "";
+  $("cMsg").value = LS.get("suvichar-cardmsg") || "";
+  for (const [n, k] of [["cmsize", "suvichar-card-msgsize"], ["cfsize", "suvichar-card-footsize"]]) {
+    const el = document.querySelector(`input[name=${n}][value="${LS.get(k) || LS.get("suvichar-cardts") || "m"}"]`); if (el) el.checked = true;
+  }
   $("cardImg").removeAttribute("src");
   showSheet("imageSheet"); refreshCard();
 };
 document.querySelectorAll("input[name=csize], input[name=cstyle]").forEach(r => r.onchange = refreshCard);
+document.querySelectorAll("input[name=cmsize]").forEach(r => r.onchange = () => { LS.set("suvichar-card-msgsize", r.value); refreshCard(); });
+document.querySelectorAll("input[name=cfsize]").forEach(r => r.onchange = () => { LS.set("suvichar-card-footsize", r.value); refreshCard(); });
+$("cMsg").addEventListener("input", () => { LS.set("suvichar-cardmsg", $("cMsg").value.trim()); clearTimeout(cardTimer); cardTimer = setTimeout(refreshCard, 300); });
 $("cHandle").addEventListener("input", () => { LS.set("suvichar-handle", $("cHandle").value.trim()); clearTimeout(cardTimer); cardTimer = setTimeout(refreshCard, 300); });
 $("cDownload").onclick = () => {
   if (!cardUrl) return;
@@ -1421,12 +1589,89 @@ $("sTrBtn").onclick = async () => {
 /* ---------- key sheet ---------- */
 function openKey(msg) {
   keyStatus(""); $("keyInput").type = "password"; $("eyeBtn").innerHTML = EYE; $("eyeBtn").setAttribute("aria-pressed", "false");
-  $("keyLocked").hidden = owner; $("keyOpen").hidden = !owner;
-  if (msg) $("keyMsg").textContent = msg;
+  $("keyLocked").hidden = false; $("keyOpen").hidden = true;
+  $("relockBtn").hidden = !hasVault();
+  $("keyMsg").textContent = msg || (hasVault()
+    ? "Enter your secret key to open your YouTube tab and to add, edit or delete."
+    : "Enter your secret key to add, edit and delete, and to see your YouTube tab on this device.");
   showSheet("keySheet");
   if (!owner) setTimeout(() => $("keyInput").focus(), 320);
 }
-$("lockBtn").onclick = () => openKey();
+/* ---------- auto-lock ---------- */
+let lastActive = Date.now(), lastSaved = 0;
+function markActive() {
+  lastActive = Date.now();
+  if (owner && lastActive - lastSaved > 15000) { LS.set("suvichar-active", String(lastActive)); lastSaved = lastActive; }
+}
+function wipeSecrets() {
+  key = ""; vaultKey = null; owner = false; SS.del("suvichar-sess");
+  queue = []; for (const k in trMem) delete trMem[k];
+  all = all.filter(q => q.lang !== "yt");
+  sealGen.priv++; sealGen.queue++;
+}
+function lockNow(reason) {
+  if (!owner) return;
+  LS.set("suvichar-active", "0");
+  wipeSecrets(); paintSync();
+  if (activeRec) activeRec.stop();
+  if (openSheet && openSheet.id !== "searchSheet") hideSheet();
+  if (lang === "yt") { lang = "hi"; paintLang(); }   // the saved choice stays "yt", so unlocking brings you back
+  applyOwner(); select(); render();
+  const mins = n => n === 1 ? "1 minute" : n === 60 ? "1 hour" : n + " minutes";
+  toast(reason === "idle" ? `Locked after ${mins(idleMin)} without use` : reason === "away" ? "Locked while you were away" : "Locked");
+}
+/* unlock with a known-good key: open the vault and bring back your private items and unsynced changes */
+async function openVault(k, v) {
+  key = k; vaultKey = v.aes; owner = true;
+  SS.set("suvichar-sess", JSON.stringify({ k, r: toB64(v.raw) }));
+  const priv = await readSealed("suvichar-private", []);
+  queue = await readSealed("suvichar-queue-sealed", []);
+  if (!Array.isArray(queue)) queue = [];
+  all = applyQueue(all.filter(q => q.lang !== "yt").concat(Array.isArray(priv) ? priv : []));
+  if (LS.get("suvichar-lang") === "yt") { lang = "yt"; paintLang(); }
+  lastActive = Date.now(); lastSaved = 0; markActive();
+  applyOwner(); select(); render(); paintSync();
+  processQueue();
+  fetchAll({ silent: true });
+}
+/* first unlock on this device (after Google confirmed the key): create the vault */
+async function createVault(k, carry = {}) {
+  const salt = toB64(crypto.getRandomValues(new Uint8Array(16)));
+  const v = await deriveVault(k, salt);
+  ["suvichar-private", "suvichar-queue-sealed"].forEach(n => LS.del(n));
+  Object.keys(localStorage).filter(n => n.startsWith("suvichar-trx:")).forEach(n => LS.del(n));
+  LS.set("suvichar-salt", salt); LS.set("suvichar-verifier", v.check);
+  vaultKey = v.aes;
+  await writeSealed("suvichar-private", carry.priv || [], "priv");
+  await writeSealed("suvichar-queue-sealed", carry.queue || [], "queue");
+  for (const [id, text] of Object.entries(carry.tr || {})) LS.set("suvichar-trx:" + id, await seal(text));
+  return v;
+}
+let carryOver = null;   // unsynced changes kept safe if the key is changed in Apps Script
+function keyRejected() {
+  carryOver = { queue: queue.slice(), priv: all.filter(q => q.lang === "yt") };
+  LS.del("suvichar-verifier"); LS.del("suvichar-salt");
+  const wasOwner = owner;
+  wipeSecrets(); applyOwner(); select(); render(); paintSync();
+  if (wasOwner || !$("keySheet").classList.contains("open"))
+    openKey("Your secret key has been changed in Apps Script. Enter the new key to unlock.");
+}
+["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => document.addEventListener(ev, markActive, { passive: true, capture: true }));
+setInterval(() => { if (owner && idleMin > 0 && Date.now() - lastActive > idleMin * 60e3) lockNow("idle"); }, 15000);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") { if (owner) LS.set("suvichar-active", String(Date.now() - (awayMin === 0 ? 1 : 0))); }
+  else if (owner && awayTooLong(Number(LS.get("suvichar-active") || 0))) lockNow("away");
+  else if (owner) markActive();
+});
+$("lockBtn").onclick = () => { if (owner) lockNow("manual"); else openKey(); };
+$("setBtn").onclick = () => {
+  $("setIdle").value = String(idleMin); $("setAway").value = String(awayMin);
+  showSheet("setSheet");
+};
+$("setIdle").onchange = () => { idleMin = Number($("setIdle").value); LS.set("suvichar-idle", String(idleMin)); markActive(); toast(idleMin ? `Will lock after ${$("setIdle").selectedOptions[0].text} without use` : "Won't lock for being idle"); };
+$("setAway").onchange = () => { awayMin = Number($("setAway").value); LS.set("suvichar-away", String(awayMin)); toast(awayMin < 0 ? "Won't lock when you switch away" : awayMin === 0 ? "Will lock as soon as you switch away" : `Will lock after ${$("setAway").selectedOptions[0].text} away`); };
+$("setLockNow").onclick = () => { hideSheet(); lockNow("manual"); };
+$("setRefresh").onclick = async () => { hideSheet(); if (await fetchAll()) toast("Up to date"); };
 function keyStatus(msg) { $("keyStatus").textContent = msg || ""; $("keyStatus").hidden = !msg; }
 function explain(err) {
   if (err === "offline") return "You seem to be offline. Connect to the internet and try again.";
@@ -1454,28 +1699,38 @@ $("keyForm").onsubmit = async ev => {
   const k = $("keyInput").value.trim();
   if (!k) { keyStatus("Please type your secret key."); $("keyInput").focus(); return; }
   const btn = $("unlockBtn"); btn.disabled = true; btn.textContent = "Checking…"; keyStatus("");
-  const old = key; key = k;
-  const ok = await fetchAll({ silent: true });
-  btn.disabled = false; btn.textContent = "Unlock";
-  if (ok && owner) {
-    LS.set("suvichar-key", key); $("keyInput").value = "";
-    hideSheet(); toast("Unlocked. You can add quotes now.");
-    processQueue();
-    await moveOldLocalQuotes();
+  const done = () => { btn.disabled = false; btn.textContent = "Unlock"; };
+  try {
+    if (hasVault()) {                       // checked on this device, no internet needed
+      const v = await deriveVault(k, LS.get("suvichar-salt"));
+      if (v.check !== LS.get("suvichar-verifier")) { done(); keyStatus("That's not the right key. Tap the eye to check it for typos, capital letters or extra spaces."); return; }
+      $("keyInput").value = ""; done(); hideSheet();
+      await openVault(k, v); toast("Unlocked");
+    } else {                                // first time on this device: Google checks the key
+      const old = key; key = k;
+      const ok = await fetchAll({ silent: true, checking: true });
+      const accepted = ok && lastCheckOwner;
+      if (!accepted) {
+        key = old; done();
+        keyStatus(ok
+          ? "That key doesn't match the one in your Apps Script. Tap the eye to check it for typos, capital letters or extra spaces. If you changed the key after deploying, you need to deploy a new version (Deploy → Manage deployments → Edit → New version)."
+          : explain(lastError));
+        return;
+      }
+      const v = await createVault(k, carryOver || {}); carryOver = null;
+      $("keyInput").value = ""; done(); hideSheet();
+      await openVault(k, v); toast("Unlocked. You can add quotes now.");
+      await moveOldLocalQuotes();
+    }
     if (pendingShare) { const p = pendingShare; pendingShare = null; setTimeout(() => openAdd(p), 350); }
-  } else {
-    key = old;
-    keyStatus(ok
-      ? "That key doesn't match the one in your Apps Script. Tap the eye to check it for typos, capital letters or extra spaces. If you changed the key after deploying, you need to deploy a new version (Deploy → Manage deployments → Edit → New version)."
-      : explain(lastError));
-  }
+  } catch (err) { done(); keyStatus("Something went wrong while unlocking. Please try again."); }
 };
 $("relockBtn").onclick = () => {
-  key = ""; owner = false; LS.del("suvichar-key"); LS.set("suvichar-owner", "0");
-  try { Object.keys(localStorage).filter(k => k.startsWith("suvichar-tr:")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
-  for (const k in trMem) delete trMem[k];
-  all = all.filter(q => q.lang !== "yt"); saveCache();
-  applyOwner(); select(); render(); hideSheet(); toast("Locked on this device");
+  if (!confirm("Forget the key on this device? Your private items stay safe in your Google Sheet; you'll just type the key again next time, and Google will check it.")) return;
+  wipeSecrets();
+  ["suvichar-verifier", "suvichar-salt", "suvichar-private", "suvichar-queue-sealed"].forEach(n => LS.del(n));
+  Object.keys(localStorage).filter(n => n.startsWith("suvichar-trx:")).forEach(n => LS.del(n));
+  applyOwner(); select(); render(); paintSync(); hideSheet(); toast("Key removed from this device");
 };
 $("refreshBtn").onclick = async () => { hideSheet(); if (await fetchAll()) toast("Up to date"); };
 
@@ -1527,8 +1782,27 @@ if ("serviceWorker" in navigator) window.addEventListener("load", () => navigato
 
 all = loadCache() || BUILT_IN.map(q => ({ lang: "hi", ...q }));
 applyOwner(); paintLang(); select(); render();
-all = applyQueue(all); select(); render(); paintSync();
-fetchAll({ silent: !!loadCache() }).then(() => processQueue());
+(async function startVault() {
+  // 1. older versions kept the key and private data in plain form: encrypt them and delete the plain copies
+  const oldKey = LS.get("suvichar-key");
+  const plainTr = {};
+  Object.keys(localStorage).filter(n => n.startsWith("suvichar-tr:")).forEach(n => { plainTr[n.slice(12)] = LS.get(n); LS.del(n); });
+  let oldQueue = []; try { oldQueue = JSON.parse(LS.get("suvichar-queue") || "[]"); } catch (e) {}
+  let oldCache = []; try { oldCache = JSON.parse(LS.get("suvichar-cache") || "[]"); } catch (e) {}
+  if (oldKey && !hasVault() && LS.get("suvichar-owner") === "1") {
+    try { await createVault(oldKey, { queue: Array.isArray(oldQueue) ? oldQueue : [], priv: (Array.isArray(oldCache) ? oldCache : []).filter(q => q.lang === "yt"), tr: plainTr }); vaultKey = null; } catch (e) {}
+  }
+  ["suvichar-key", "suvichar-owner", "suvichar-queue"].forEach(n => LS.del(n));
+  LS.set("suvichar-cache", JSON.stringify(all.filter(q => q.lang !== "yt")));
+  // 2. still within the allowed time since you last used it? stay unlocked
+  let sess = null; try { sess = JSON.parse(SS.get("suvichar-sess") || "null"); } catch (e) {}
+  if (sess && hasVault() && !awayTooLong(Number(LS.get("suvichar-active") || 0))) {
+    try { const aes = await crypto.subtle.importKey("raw", fromB64(sess.r), "AES-GCM", false, ["encrypt", "decrypt"]); await openVault(sess.k, { aes, raw: fromB64(sess.r) }); return; }
+    catch (e) { SS.del("suvichar-sess"); }
+  } else SS.del("suvichar-sess");
+  paintSync();
+  fetchAll({ silent: !!loadCache() });
+})();
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") fetchAll({ silent: true }); });
 
 /* shared from another app (e.g. YouTube → Share → सुविचार) */
