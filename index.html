@@ -3,8 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>सुविचार</title>
-<meta name="theme-color" content="#F8F8FD">
+<title>सुविचार · Hindi &amp; English quotes</title>
+<meta name="description" content="अच्छे विचार, हर दिन. Hindi and English quotes with their meanings, to read, share on WhatsApp and save as images.">
+<link rel="canonical" href="https://lumrahq.github.io/Suvichar/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="सुविचार">
+<meta property="og:title" content="सुविचार · Hindi &amp; English quotes">
+<meta property="og:description" content="अच्छे विचार, हर दिन. Read quotes with their meanings, share them on WhatsApp, and save them as images.">
+<meta property="og:url" content="https://lumrahq.github.io/Suvichar/">
+<meta property="og:image" content="https://lumrahq.github.io/Suvichar/icons/og-image.jpg">
+<meta property="og:image:secure_url" content="https://lumrahq.github.io/Suvichar/icons/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="सुविचार logo: an open book with a golden flame">
+<meta property="og:locale" content="hi_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="सुविचार · Hindi &amp; English quotes">
+<meta name="twitter:description" content="अच्छे विचार, हर दिन. Read, share and save quotes as images.">
+<meta name="twitter:image" content="https://lumrahq.github.io/Suvichar/icons/og-image.jpg">
+<meta name="theme-color" content="#F8F8FD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1033" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
@@ -25,6 +44,11 @@
     --sheet: #FFFFFF;
     --line: rgba(16, 32, 95, .14);
     --wa: #1B9656;
+    --surface: #FFFFFF; --field: #F6F7FC; --press: #EEF0F8;
+    --bg1: #F8F8FD; --bg2: #ECEEF8; --dock0: rgba(236,238,248,0); --dock1: rgba(236,238,248,.95);
+    --sel: #10205F; --on-sel: #FFFFFF; --placeholder: #8A91B8; --scrim: rgba(16,32,95,.35);
+    --danger: #B42318; --danger-bg: #FEF3F2; --danger-line: #FECDCA; --yt: #C4302B; --en: #2F4AA8;
+    color-scheme: light;
     --serif: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
     --sans: "Mukta", "Noto Sans Devanagari", "Nirmala UI", sans-serif;
   }
@@ -33,7 +57,7 @@
   html, body { height: 100%; overflow-x: hidden; }
   body {
     margin: 0; color: var(--ivory); font-family: var(--sans); font-size: 1.05rem; line-height: 1.6;
-    background: linear-gradient(180deg, #F8F8FD 0%, #ECEEF8 100%) fixed;
+    background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%) fixed;
     display: flex; flex-direction: column; min-height: 100dvh;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
@@ -48,15 +72,15 @@
     max-width: 40rem; width: 100%; margin: 0 auto;
   }
   .bar img { width: 38px; height: 38px; border-radius: 10px; }
-  .brand { font-family: var(--serif); font-size: 1.45rem; color: var(--deep); line-height: 1; padding-top: .2rem; }
+  .brand { font-family: var(--serif); font-size: 1.45rem; color: var(--ivory); line-height: 1; padding-top: .2rem; }
   .bar .spacer { flex: 1; }
   .install { font-size: .9rem; padding: .3rem .85rem; border-radius: 999px; background: var(--gold); color: var(--deep); font-weight: 600; }
   .tabs { max-width: 40rem; width: 100%; margin: 0 auto; padding: .4rem 1.25rem 0; }
   .tabs .numtoggle { display: flex; width: 100%; font-size: .95rem; padding: 3px; }
   .tabs .numtoggle span { flex: 1; text-align: center; padding: .35rem .5rem; }
-  .numtoggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: #FFFFFF; font-size: .85rem; }
+  .numtoggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); font-size: .85rem; }
   .numtoggle span { padding: .1rem .55rem; border-radius: 999px; color: var(--mist); line-height: 1.5; }
-  .numtoggle span.on { background: var(--deep); color: #FFFFFF; }
+  .numtoggle span.on { background: var(--sel); color: var(--on-sel); }
   .count { font-size: .95rem; color: var(--mist); font-variant-numeric: tabular-nums; min-width: 2.5rem; text-align: right; }
 
   /* quote stage */
@@ -84,15 +108,15 @@
   .langpick label { margin: 0; flex: 1; }
   .langpick input { position: absolute; opacity: 0; pointer-events: none; }
   .langpick span { display: block; text-align: center; padding: .55rem; border-radius: 12px; border: 1px solid var(--line); color: var(--mist); font-weight: 500; cursor: pointer; }
-  .langpick input:checked + span { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
+  .langpick input:checked + span { background: var(--sel); color: var(--on-sel); border-color: var(--sel); }
   .langpick input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
   .empty { text-align: center; color: var(--mist); }
-  .empty strong { display: block; font-size: 1.2rem; color: var(--ink, #10205F); margin-bottom: .3rem; }
+  .empty strong { display: block; font-size: 1.2rem; color: var(--ivory); margin-bottom: .3rem; }
   .quote.idea { font-family: var(--sans); font-weight: 600; font-size: clamp(1.5rem, 5.6vw, 2.1rem); line-height: 1.4; }
-  .linkchip { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; font-size: .95rem; color: #C4302B; text-decoration: none; background: #FFFFFF; border: 1px solid rgba(196,48,43,.3); border-radius: 999px; padding: .2rem .8rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .linkchip { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; font-size: .95rem; color: var(--yt); text-decoration: none; background: var(--surface); border: 1px solid rgba(196,48,43,.3); border-radius: 999px; padding: .2rem .8rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .notes { margin: 1rem 0 0; color: var(--mist); font-size: 1.05rem; white-space: pre-line; }
   .numtoggle span { cursor: pointer; }
-  .lockbtn { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); border: 1px solid var(--line); background: #FFFFFF; }
+  .lockbtn { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); border: 1px solid var(--line); background: var(--surface); }
   .lockbtn svg { width: 18px; height: 18px; }
   .lockbtn[hidden] { display: none !important; }
   @media (max-width: 380px) { .brand { font-size: 1.25rem; } .bar { gap: .5rem; } .lockbtn { width: 34px; height: 34px; } }
@@ -100,10 +124,10 @@
   #keyInput { padding-right: 3.4rem; }
   .eye { position: absolute; right: .35rem; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); }
   .eye svg { width: 21px; height: 21px; }
-  .keystatus { margin: .7rem 0 0; font-size: .95rem; color: #B42318; background: #FEF3F2; border: 1px solid #FECDCA; border-radius: 10px; padding: .55rem .75rem; }
-  .syncpill { display: block; margin: .5rem auto 0; font-size: .85rem; color: var(--mist); background: #FFFFFF; border: 1px solid var(--line); border-radius: 999px; padding: .15rem .8rem; }
-  .syncpill.warn { color: #B42318; border-color: #FECDCA; background: #FEF3F2; }
-  .trchip { color: var(--deep); border-color: var(--line); cursor: pointer; font: inherit; font-size: .95rem; margin-left: .3rem; }
+  .keystatus { margin: .7rem 0 0; font-size: .95rem; color: var(--danger); background: var(--danger-bg); border: 1px solid var(--danger-line); border-radius: 10px; padding: .55rem .75rem; }
+  .syncpill { display: block; margin: .5rem auto 0; font-size: .85rem; color: var(--mist); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: .15rem .8rem; }
+  .syncpill.warn { color: var(--danger); border-color: var(--danger-line); background: var(--danger-bg); }
+  .trchip { color: var(--ivory); border-color: var(--line); cursor: pointer; font: inherit; font-size: .95rem; margin-left: .3rem; }
   #newTranscript { min-height: 9rem; font-size: .95rem; padding-right: .9rem; }
   .trrow { display: flex; align-items: center; gap: .7rem; margin-top: .6rem; flex-wrap: wrap; }
   .upbtn { flex: none; margin: 0; padding: .5rem 1rem; font-size: .9rem; cursor: pointer; }
@@ -111,7 +135,7 @@
   .sheet.reader { max-height: 94dvh; }
   .readersub { color: var(--mist); margin: -.3rem 0 .6rem; }
   .searchrow { position: sticky; top: -.6rem; z-index: 1; background: var(--sheet); display: flex; gap: .45rem; align-items: center; padding: .5rem 0; }
-  .searchrow input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 12px; padding: .55rem .8rem; }
+  .searchrow input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ivory); background: var(--field); border: 1px solid var(--line); border-radius: 12px; padding: .55rem .8rem; }
   .searchrow input:focus { border-color: var(--gold); outline: none; }
   .trcount { color: var(--mist); font-size: .85rem; min-width: 3.2rem; text-align: center; }
   .navmini { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); font-size: 1rem; }
@@ -121,12 +145,12 @@
   .readerbody mark.cur { background: var(--gold); }
   .readerbody .loading { color: var(--mist); }
   .scount { color: var(--mist); font-size: .9rem; margin: .2rem 0 .6rem; min-height: 1.2em; }
-  .sresult { display: block; width: 100%; text-align: left; background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px; padding: .75rem .9rem; margin-bottom: .6rem; color: var(--ivory); }
+  .sresult { display: block; width: 100%; text-align: left; background: var(--field); border: 1px solid var(--line); border-radius: 14px; padding: .75rem .9rem; margin-bottom: .6rem; color: var(--ivory); }
   .sresult:hover { border-color: var(--gold); }
-  .sresult .stag { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .02em; border-radius: 999px; padding: .05rem .55rem; margin-bottom: .35rem; background: #FFFFFF; border: 1px solid var(--line); color: var(--mist); }
-  .sresult .stag.hi { color: #A7650A; border-color: rgba(214,146,30,.45); }
-  .sresult .stag.en { color: #2F4AA8; border-color: rgba(47,74,168,.35); }
-  .sresult .stag.yt { color: #C4302B; border-color: rgba(196,48,43,.35); }
+  .sresult .stag { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .02em; border-radius: 999px; padding: .05rem .55rem; margin-bottom: .35rem; background: var(--surface); border: 1px solid var(--line); color: var(--mist); }
+  .sresult .stag.hi { color: var(--gold-ink); border-color: rgba(214,146,30,.45); }
+  .sresult .stag.en { color: var(--en); border-color: rgba(47,74,168,.35); }
+  .sresult .stag.yt { color: var(--yt); border-color: rgba(196,48,43,.35); }
   .sresult .stext { display: block; font-size: 1.02rem; line-height: 1.55; }
   .sresult .sext { display: block; font-size: .88rem; color: var(--mist); margin-top: .25rem; line-height: 1.5; }
   .sresult mark { background: rgba(242,176,64,.35); color: inherit; border-radius: 3px; padding: 0 1px; }
@@ -136,23 +160,23 @@
   .menuitem .mi { width: 22px; height: 22px; display: grid; place-items: center; }
   .menuitem:last-child .mi { display: none; }
   .menuitem svg { width: 22px; height: 22px; }
-  .menuitem.danger { color: #B42318; }
-  .cardprev { display: grid; place-items: center; background: #EEF0F8; border-radius: 16px; padding: .8rem; margin-bottom: .9rem; }
+  .menuitem.danger { color: var(--danger); }
+  .cardprev { display: grid; place-items: center; background: var(--press); border-radius: 16px; padding: .8rem; margin-bottom: .9rem; }
   .cardprev img { max-width: 100%; max-height: 46dvh; border-radius: 10px; box-shadow: 0 6px 24px rgba(16,32,95,.18); }
   .optrow { display: flex; gap: .5rem; margin-bottom: .6rem; }
   .optrow label { flex: 1; margin: 0; }
   .optrow input { position: absolute; opacity: 0; pointer-events: none; }
   .optrow span { display: block; text-align: center; padding: .5rem; border-radius: 12px; border: 1px solid var(--line); color: var(--mist); font-weight: 500; cursor: pointer; font-size: .95rem; }
-  .optrow input:checked + span { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
+  .optrow input:checked + span { background: var(--sel); color: var(--on-sel); border-color: var(--sel); }
   .optrow input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
   .cfield { width: 100%; }
   #imageSheet label { margin-top: .8rem; }
   .sfilter { display: flex; gap: .4rem; overflow-x: auto; margin-top: .6rem; padding-bottom: 2px; scrollbar-width: none; }
   .sfilter::-webkit-scrollbar { display: none; }
-  .sfilter button { flex: none; font-size: .85rem; padding: .25rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; color: var(--mist); }
-  .sfilter button.on { background: var(--deep); color: #FFFFFF; border-color: var(--deep); }
+  .sfilter button { flex: none; font-size: .85rem; padding: .25rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--mist); }
+  .sfilter button.on { background: var(--sel); color: var(--on-sel); border-color: var(--sel); }
   .statusrow { display: flex; gap: .35rem; margin-top: 1rem; flex-wrap: wrap; }
-  .statusrow button { font-size: .82rem; padding: .2rem .7rem; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; color: var(--mist); }
+  .statusrow button { font-size: .82rem; padding: .2rem .7rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--mist); }
   .statusrow button.on { color: #FFFFFF; border-color: transparent; }
   .statusrow button.on[data-s="Idea"] { background: #6B74A8; }
   .statusrow button.on[data-s="Scripting"] { background: #C98314; }
@@ -164,10 +188,10 @@
   .catfilter button.addcat { border-style: dashed; }
   #ytFilter button { font-size: .78rem; padding: .15rem .6rem; }
   .catchip { display: inline-block; margin: 1rem .3rem 0 0; font-size: .85rem; font-weight: 500; color: var(--gold-ink); background: rgba(242,176,64,.16); border-radius: 999px; padding: .15rem .75rem; }
-  #newCat { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
+  #newCat { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: var(--field); border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
   #newCat:focus { border-color: var(--gold); outline: none; }
   .catadd { display: flex; gap: .5rem; margin-bottom: 1rem; }
-  .catadd input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 12px; padding: .6rem .8rem; }
+  .catadd input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ivory); background: var(--field); border: 1px solid var(--line); border-radius: 12px; padding: .6rem .8rem; }
   .catadd input:focus { border-color: var(--gold); outline: none; }
   .catadd .btn { flex: none; padding: .6rem 1.3rem; }
   .catlist { list-style: none; margin: 0; padding: 0; }
@@ -175,11 +199,11 @@
   .catlist li:last-child { border-bottom: 0; }
   .catlist .cname { flex: 1; font-size: 1.05rem; }
   .catlist .ccount { color: var(--mist); font-size: .9rem; }
-  .catlist .cdel { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #B42318; }
+  .catlist .cdel { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--danger); }
   .catlist .cdel svg { width: 20px; height: 20px; }
   .catlist .cempty { color: var(--mist); justify-content: center; }
   .linkbtn { display: block; margin: 1rem auto 0; font-size: .9rem; color: var(--mist); text-decoration: underline; text-underline-offset: 3px; }
-  .setsel { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
+  .setsel { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: var(--field); border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
   .setsel:focus { border-color: var(--gold); outline: none; }
   #setSheet .keytext { font-weight: 600; color: var(--ivory); }
   .keytext { color: var(--mist); margin: 0 0 .5rem; }
@@ -198,11 +222,11 @@
   .tool { display: flex; flex-direction: column; align-items: center; gap: .35rem; font-size: .8rem; color: var(--mist); text-decoration: none; min-width: 0; white-space: nowrap; }
   .tool .ic {
     width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center;
-    border: 1px solid var(--line); background: #FFFFFF; color: var(--ivory); box-shadow: 0 1px 3px rgba(16,32,95,.06);
+    border: 1px solid var(--line); background: var(--surface); color: var(--ivory); box-shadow: 0 1px 3px rgba(16,32,95,.06);
     transition: background .15s, border-color .15s;
   }
   .tool:hover .ic { border-color: var(--gold); }
-  .tool:active .ic { background: #EEF0F9; }
+  .tool:active .ic { background: var(--press); }
   .tool svg { width: 22px; height: 22px; }
   @media (max-width: 380px) { .tool .ic { width: 44px; height: 44px; } .tool svg { width: 20px; height: 20px; } .tool { font-size: .72rem; } }
   .tool.wa .ic { color: var(--wa); border-color: rgba(27,150,86,.4); }
@@ -212,7 +236,7 @@
   .dock {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
     padding: .75rem 1.25rem calc(env(safe-area-inset-bottom, 0px) + .9rem);
-    background: linear-gradient(180deg, rgba(236,238,248,0) 0%, rgba(236,238,248,.95) 35%);
+    background: linear-gradient(180deg, var(--dock0) 0%, var(--dock1) 35%);
   }
   .dock-inner { max-width: 40rem; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
   .nav { display: inline-flex; align-items: center; gap: .3rem; padding: .55rem .9rem; border-radius: 999px; color: var(--ivory); font-size: 1rem; }
@@ -229,7 +253,7 @@
   .fab-label { display: block; text-align: center; font-size: .8rem; color: var(--mist); margin-top: .25rem; }
 
   /* sheets */
-  .scrim { position: fixed; inset: 0; background: rgba(16,32,95,.35); z-index: 9; opacity: 0; transition: opacity .25s; }
+  .scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 9; opacity: 0; transition: opacity .25s; }
   .scrim.show { opacity: 1; }
   .sheet {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
@@ -243,7 +267,7 @@
   @media (prefers-reduced-motion: reduce) { .sheet, .scrim { transition: none; } }
   .handle { width: 42px; height: 4px; border-radius: 4px; background: var(--line); margin: 0 auto 1rem; }
   .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
-  .sheet h2 { font-family: var(--sans); font-weight: 600; color: var(--deep); font-size: 1.5rem; margin: 0; }
+  .sheet h2 { font-family: var(--sans); font-weight: 600; color: var(--ivory); font-size: 1.5rem; margin: 0; }
   .close { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--mist); }
   .close svg { width: 22px; height: 22px; }
   .meaning-quote { font-family: var(--serif); color: var(--mist); font-size: 1.05rem; margin: 0 0 1rem; padding-left: .9rem; border-left: 2px solid var(--gold); }
@@ -254,11 +278,11 @@
   .field { position: relative; }
   textarea, input[type=text], input[type=url] {
     width: 100%; font: inherit; font-size: 1.05rem; color: var(--ivory);
-    background: #F6F7FC; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--field); border: 1px solid var(--line); border-radius: 14px;
     padding: .7rem 3.6rem .7rem .9rem; resize: vertical;
   }
   input[type=text], input[type=url] { padding-right: .9rem; }
-  textarea::placeholder, input::placeholder { color: #8A91B8; }
+  textarea::placeholder, input::placeholder { color: var(--placeholder); }
   textarea:focus, input:focus { border-color: var(--gold); outline: none; }
   #newQuote { font-family: var(--serif); min-height: 6.5rem; font-size: 1.2rem; }
   #newMeaning { min-height: 5rem; }
@@ -279,11 +303,29 @@
   .toast {
     position: fixed; left: 50%; transform: translateX(-50%); z-index: 20;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 7.5rem);
-    background: var(--deep); color: #FFFFFF; padding: .5rem 1.1rem; border-radius: 999px;
+    background: var(--sel); color: var(--on-sel); padding: .5rem 1.1rem; border-radius: 999px;
     font-size: .95rem; font-weight: 500; opacity: 0; transition: opacity .2s; pointer-events: none;
     max-width: 90vw; text-align: center;
   }
   .toast.show { opacity: 1; }
+
+  /* dark mode: follows the phone or computer setting */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ivory: #ECEEFA; --mist: #A6ADD6; --gold-ink: #F2B040; --gold-soft: rgba(242, 176, 64, .12);
+      --sheet: #141B45; --line: rgba(190, 198, 240, .16); --wa: #3CCB7F;
+      --surface: #182052; --field: #10173F; --press: #1F2862;
+      --bg1: #0B1033; --bg2: #060A24; --dock0: rgba(6,10,36,0); --dock1: rgba(6,10,36,.95);
+      --sel: #ECEEFA; --on-sel: #0B1033; --placeholder: #6E76A8; --scrim: rgba(0,0,0,.55);
+      --danger: #FF8A7A; --danger-bg: rgba(255,90,70,.12); --danger-line: rgba(255,120,100,.35); --yt: #FF6B61; --en: #8FA6FF;
+      color-scheme: dark;
+    }
+    .tool .ic { box-shadow: none; }
+    .sheet { box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
+    .cardprev img { box-shadow: 0 6px 24px rgba(0,0,0,.5); }
+    .statusrow button.on[data-s="Idea"] { background: #5A63A0; }
+    .bar img { box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+  }
 </style>
 </head>
 <body>
@@ -369,7 +411,7 @@
         <button type="button" class="mic" data-target="newQuote" aria-label="Speak the quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
       </div>
       <div id="catWrap" hidden>
-        <label for="newCat">Category</label>
+        <label for="newCat" id="catLabel">Category</label>
         <select id="newCat"></select>
       </div>
       <div id="statusWrap" hidden>
@@ -731,86 +773,105 @@ const STATUSES = ["Idea", "Scripting", "Recorded", "Published"];
 let ytFilter = [...STATUSES, "None"].includes(LS.get("suvichar-ytfilter")) ? LS.get("suvichar-ytfilter") : "All";
 const matchStatus = q => ytFilter === "All" || statusOf(q) === (ytFilter === "None" ? "" : ytFilter);
 const statusOf = q => { const s = (q.status || "").trim(); return STATUSES.includes(s) ? s : ""; };  // "" = no status
-const DEFAULT_CATS = ["Motivational", "Share Market"];
-let catList;
-try { catList = JSON.parse(LS.get("suvichar-catlist") || "null"); } catch (e) { catList = null; }
-if (!Array.isArray(catList)) catList = DEFAULT_CATS.slice();
-let ytCat = LS.get("suvichar-ytcat") || "All";
-const saveCats = () => LS.set("suvichar-catlist", JSON.stringify(catList));
-function categories() {
-  const used = all.filter(q => q.lang === "yt" && q.category).map(q => q.category);
+/* categories (YouTube) and tags (Hindi, English) share one system, kept separately per section */
+const SECS = ["hi", "en", "yt"];
+const CAT_KEYS = { hi: ["suvichar-catlist-hi", "suvichar-cat-hi"], en: ["suvichar-catlist-en", "suvichar-cat-en"], yt: ["suvichar-catlist", "suvichar-ytcat"] };
+const catLists = {}, catSel = {};
+for (const sec of SECS) {
+  let l; try { l = JSON.parse(LS.get(CAT_KEYS[sec][0]) || "null"); } catch (e) { l = null; }
+  catLists[sec] = Array.isArray(l) ? l : (sec === "yt" ? ["Motivational", "Share Market"] : []);
+  catSel[sec] = LS.get(CAT_KEYS[sec][1]) || "All";
+}
+const saveCats = sec => LS.set(CAT_KEYS[sec][0], JSON.stringify(catLists[sec]));
+const setCatSel = (sec, c) => { catSel[sec] = c; LS.set(CAT_KEYS[sec][1], c); };
+const noun = sec => sec === "yt" ? { one: "category", many: "categories", Title: "Categories", item: "video", items: "videos", none: "Uncategorised" }
+                                 : { one: "tag", many: "tags", Title: "Tags", item: "quote", items: "quotes", none: "Untagged" };
+const sameCat = (a, b) => (a || "").toLowerCase() === (b || "").toLowerCase();
+function categories(sec = lang) {
+  const used = all.filter(q => q.lang === sec && q.category).map(q => q.category);
   const seen = new Set(), list = [];
-  for (const c of [...catList, ...used]) { const k = c.toLowerCase(); if (!seen.has(k)) { seen.add(k); list.push(c); } }
+  for (const c of [...catLists[sec], ...used]) { const k = c.toLowerCase(); if (!seen.has(k)) { seen.add(k); list.push(c); } }
   return list;
 }
-const inCat = q => ytCat === "All" || (ytCat === "Uncategorised" ? !q.category : (q.category || "").toLowerCase() === ytCat.toLowerCase());
-function addCategory(raw) {
+const inCat = q => { const sel = catSel[q.lang] || "All"; return sel === "All" || (sel === "__none" ? !q.category : sameCat(q.category, sel)); };
+function addCategory(raw, sec = lang) {
   const name = (raw || "").trim().replace(/\s+/g, " ").slice(0, 30);
-  if (!name || /^(all|uncategorised)$/i.test(name)) return "";
-  const existing = categories().find(c => c.toLowerCase() === name.toLowerCase());
-  if (!catList.some(c => c.toLowerCase() === name.toLowerCase())) { catList.push(existing || name); saveCats(); }
+  if (!name || /^(all|uncategorised|untagged|__none|__new)$/i.test(name)) return "";
+  const existing = categories(sec).find(c => sameCat(c, name));
+  if (!catLists[sec].some(c => sameCat(c, name))) { catLists[sec].push(existing || name); saveCats(sec); }
   return existing || name;
 }
-function newCategory() { return addCategory(prompt("Name of the new category:") || ""); }
-function deleteCategory(c) {
-  const inIt = all.filter(q => q.lang === "yt" && (q.category || "").toLowerCase() === c.toLowerCase());
+function newCategory(sec = lang) { return addCategory(prompt(`Name of the new ${noun(sec).one}:`) || "", sec); }
+function deleteCategory(c, sec) {
+  const n = noun(sec);
+  const inIt = all.filter(q => q.lang === sec && sameCat(q.category, c));
   const msg = inIt.length
-    ? `Delete “${c}”? Its ${inIt.length} video${inIt.length > 1 ? "s" : ""} will stay in your list, moved to Uncategorised.`
-    : `Delete the category “${c}”?`;
+    ? `Delete “${c}”? Its ${inIt.length} ${inIt.length > 1 ? n.items : n.item} will stay, moved to ${n.none}.`
+    : `Delete the ${n.one} “${c}”?`;
   if (!confirm(msg)) return;
-  catList = catList.filter(x => x.toLowerCase() !== c.toLowerCase()); saveCats();
+  catLists[sec] = catLists[sec].filter(x => !sameCat(x, c)); saveCats(sec);
   for (const q of inIt) {
     const item = { ...q, category: "" };
     const k = all.findIndex(x => x.id === q.id); if (k >= 0) all[k] = item;
     enqueue("update", item);
   }
   saveCache();
-  if (ytCat.toLowerCase() === c.toLowerCase()) { ytCat = "All"; LS.set("suvichar-ytcat", "All"); }
-  select(); render(); paintCatList();
+  if (sameCat(catSel[sec], c)) setCatSel(sec, "All");
+  select(); render(); paintCatList(sec);
   toast(`Deleted “${c}”`);
 }
-function paintCatList() {
+let catSheetSec = "yt";
+function paintCatList(sec = catSheetSec) {
+  catSheetSec = sec;
+  const n = noun(sec);
+  $("catTitle").textContent = n.Title;
+  $("catNew").placeholder = `New ${n.one} name`;
   const ul = $("catList"); ul.textContent = "";
-  const cats = categories();
-  if (!cats.length) { const li = document.createElement("li"); li.className = "cempty"; li.textContent = "No categories yet. Add one above."; ul.appendChild(li); return; }
+  const cats = categories(sec);
+  if (!cats.length) { const li = document.createElement("li"); li.className = "cempty"; li.textContent = `No ${n.many} yet. Add one above.`; ul.appendChild(li); return; }
   for (const c of cats) {
-    const n = all.filter(q => q.lang === "yt" && (q.category || "").toLowerCase() === c.toLowerCase()).length;
+    const k = all.filter(q => q.lang === sec && sameCat(q.category, c)).length;
     const li = document.createElement("li");
     const name = document.createElement("span"); name.className = "cname"; name.textContent = c;
-    const count = document.createElement("span"); count.className = "ccount"; count.textContent = n === 1 ? "1 video" : `${n} videos`;
+    const count = document.createElement("span"); count.className = "ccount"; count.textContent = `${k} ${k === 1 ? n.item : n.items}`;
     const del = document.createElement("button"); del.type = "button"; del.className = "cdel"; del.setAttribute("aria-label", `Delete ${c}`);
-    del.innerHTML = TRASH_SVG; del.onclick = () => deleteCategory(c);
+    del.innerHTML = TRASH_SVG; del.onclick = () => deleteCategory(c, sec);
     li.append(name, count, del); ul.appendChild(li);
   }
 }
 $("catAddForm").onsubmit = ev => {
   ev.preventDefault();
-  const c = addCategory($("catNew").value);
+  const c = addCategory($("catNew").value, catSheetSec);
   if (!c) { $("catNew").focus(); return; }
-  $("catNew").value = ""; paintCatList(); render();
+  $("catNew").value = ""; paintCatList(catSheetSec); render();
   toast(`Added “${c}”`);
 };
 function paintCats() {
-  const box = $("ytCats");
-  box.hidden = !(owner && lang === "yt");
+  const box = $("ytCats"), sec = lang, n = noun(sec);
+  const items = all.filter(q => q.lang === sec);
+  const cats = categories(sec);
+  // YouTube: only when unlocked. Quotes: shown to everyone once tags exist; you can add tags when unlocked
+  box.hidden = sec === "yt" ? !owner : !(owner || cats.length);
   if (box.hidden) return;
-  const yts = all.filter(q => q.lang === "yt");
   box.textContent = "";
-  const chips = ["All", ...categories()];
-  if (yts.some(q => !q.category)) chips.push("Uncategorised");
-  if (!chips.some(c => c.toLowerCase() === ytCat.toLowerCase())) { ytCat = "All"; }
+  const chips = ["All", ...cats];
+  if (items.some(q => !q.category) && cats.length) chips.push("__none");
+  if (!chips.some(c => sameCat(c, catSel[sec]))) setCatSel(sec, "All");
   chips.forEach(c => {
-    const n = c === "All" ? yts.length : c === "Uncategorised" ? yts.filter(q => !q.category).length : yts.filter(q => (q.category || "").toLowerCase() === c.toLowerCase()).length;
+    const k = c === "All" ? items.length : c === "__none" ? items.filter(q => !q.category).length : items.filter(q => sameCat(q.category, c)).length;
     const b = document.createElement("button"); b.type = "button";
-    const on = c.toLowerCase() === ytCat.toLowerCase();
-    b.textContent = `${c} ${n}`; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
-    b.onclick = () => { ytCat = c; LS.set("suvichar-ytcat", c); select(); render(); };
+    const on = sameCat(c, catSel[sec]);
+    b.textContent = `${c === "__none" ? n.none : c} ${sec === "hi" ? toDev(k) : k}`; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+    b.onclick = () => { setCatSel(sec, c); select(); render(); };
     box.appendChild(b);
   });
-  const add = document.createElement("button"); add.type = "button"; add.className = "addcat"; add.textContent = "✎ Edit";
-  add.setAttribute("aria-label", "Add or delete categories");
-  add.onclick = () => { paintCatList(); showSheet("catSheet"); };
-  box.appendChild(add);
+  if (owner) {
+    const add = document.createElement("button"); add.type = "button"; add.className = "addcat";
+    add.textContent = cats.length ? "✎ Edit" : `+ Add ${n.many}`;
+    add.setAttribute("aria-label", `Add or delete ${n.many}`);
+    add.onclick = () => { paintCatList(sec); showSheet("catSheet"); };
+    box.appendChild(add);
+  }
   centerOn(box);
 }
 function centerOn(box) {
@@ -838,7 +899,7 @@ function paintFilter() {
   centerOn(box);
 }
 function select(keepId) {
-  quotes = all.filter(q => q.lang === lang && (lang !== "yt" || (matchStatus(q) && inCat(q))));
+  quotes = all.filter(q => q.lang === lang && inCat(q) && (lang !== "yt" || matchStatus(q)));
   const want = keepId || pos[lang];
   const k = quotes.findIndex(q => q.id === want);
   i = k >= 0 ? k : 0;
@@ -870,12 +931,14 @@ function render(dir) {
     const E = {
       hi: ["अभी कोई हिंदी सुविचार नहीं", owner ? "Add दबाकर पहला सुविचार जोड़ें।" : ""],
       en: ["No English quotes yet", owner ? "Tap Add to save your first one." : ""],
-      yt: (ytFilter !== "All" || ytCat !== "All") && all.some(q => q.lang === "yt")
-        ? [ytCat !== "All" ? `Nothing in “${ytCat}”${ytFilter !== "All" ? (ytFilter === "None" ? " without a status" : " marked " + ytFilter) : ""} yet`
+      yt: (ytFilter !== "All" || catSel.yt !== "All") && all.some(q => q.lang === "yt")
+        ? [catSel.yt !== "All" ? `Nothing in “${catSel.yt === "__none" ? "Uncategorised" : catSel.yt}”${ytFilter !== "All" ? (ytFilter === "None" ? " without a status" : " marked " + ytFilter) : ""} yet`
                            : (ytFilter === "None" ? "Every video has a status" : `No videos marked “${ytFilter}”`),
            owner ? "Tap Add to save one here, or tap All above to see everything." : ""]
         : ["No YouTube inspirations yet", "Tap Add to save an idea or a video link. On Android, you can also share a video straight from the YouTube app to this app."]
     }[lang];
+    if (lang !== "yt" && catSel[lang] !== "All" && all.some(q => q.lang === lang))
+      E.splice(0, 2, `No quotes tagged “${catSel[lang] === "__none" ? "Untagged" : catSel[lang]}” yet`, owner ? "Tap Add to save one here, or tap All above." : "Tap All above to see every quote.");
     $("emptyTitle").textContent = E[0]; $("emptyText").textContent = E[1];
     return;
   }
@@ -893,7 +956,7 @@ function render(dir) {
   $("notes").hidden = !(yt && q.meaning);
   $("notes").textContent = yt ? (q.meaning || "") : "";
   $("trChip").hidden = !(yt && q.hasTranscript && owner);
-  $("catChip").hidden = !(yt && q.category); $("catChip").textContent = yt && q.category ? "🏷 " + q.category : "";
+  $("catChip").hidden = !q.category; $("catChip").textContent = q.category ? "🏷 " + q.category : "";
   const sr = $("statusRow"); sr.hidden = !(yt && owner); sr.textContent = "";
   if (yt && owner) STATUSES.forEach(s => {
     const b = document.createElement("button"); b.type = "button"; b.dataset.s = s; b.textContent = s;
@@ -979,7 +1042,9 @@ function paintForm() {
   $("lblMeaning").innerHTML = yt ? "Notes <small>(optional)</small>" : "Meaning <small>(optional)</small>";
   $("newQuote").placeholder = yt ? "Your video idea, or what you liked about this video" : "Type here, or tap the mic and speak";
   $("newMeaning").placeholder = yt ? "Anything to remember: hook, format, thumbnail idea…" : "The meaning in your own words";
-  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt; $("trWrap").hidden = !yt; $("statusWrap").hidden = !yt; $("catWrap").hidden = !yt;
+  $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt; $("trWrap").hidden = !yt; $("statusWrap").hidden = !yt; $("catWrap").hidden = false;
+  $("catLabel").textContent = yt ? "Category" : "Tag";
+  const keep = $("newCat").value; fillCats(keep && keep !== "__new" ? keep : "", k);
   $("newQuote").lang = $("newMeaning").lang = k === "hi" ? "hi" : "en";
   $("newQuote").style.fontFamily = yt ? "var(--sans)" : (en ? "var(--serif)" : "");
   $("newSource").placeholder = en ? "e.g. Mahatma Gandhi, or Unknown" : "e.g. चाणक्य, or Unknown";
@@ -989,17 +1054,18 @@ let lastStatusPick = "";
 document.querySelectorAll("input[name=qstatus]").forEach(r => r.addEventListener("click", () => {
   if (lastStatusPick === r.value) { r.checked = false; lastStatusPick = ""; } else lastStatusPick = r.value;
 }));
-function fillCats(selected) {
+function fillCats(selected, sec = formLang()) {
   const sel = $("newCat"); sel.textContent = "";
   const opt = (v, label) => { const o = document.createElement("option"); o.value = v; o.textContent = label; sel.appendChild(o); };
-  opt("", "No category");
-  categories().forEach(c => opt(c, c));
-  opt("__new", "+ New category…");
-  sel.value = selected && categories().some(c => c === selected) ? selected : "";
+  const n = noun(sec);
+  opt("", `No ${n.one}`);
+  categories(sec).forEach(c => opt(c, c));
+  opt("__new", `+ New ${n.one}…`);
+  sel.value = selected && categories(sec).some(c => sameCat(c, selected)) ? categories(sec).find(c => sameCat(c, selected)) : "";
 }
 $("newCat").addEventListener("change", () => {
   if ($("newCat").value !== "__new") return;
-  const c = newCategory(); fillCats(c);
+  const sec = formLang(); const c = newCategory(sec); fillCats(c, sec);
 });
 function openAdd(prefill) {
   if (!owner) { openKey(); return; }
@@ -1026,7 +1092,8 @@ function openAdd(prefill) {
       $("newTranscript").placeholder = "Couldn't load the saved transcript. Leave this empty to keep it, or paste a new one to replace it.";
     });
   }
-  fillCats(prefill && prefill.id ? prefill.category : (lang === "yt" && ytCat !== "All" && ytCat !== "Uncategorised" ? ytCat : ""));
+  { const sec = (prefill && prefill.lang) || lang, cur = catSel[sec];
+    fillCats(prefill && prefill.id ? prefill.category : (cur !== "All" && cur !== "__none" ? cur : ""), sec); }
   { const c = document.querySelector("input[name=qstatus]:checked"); lastStatusPick = c ? c.value : ""; }
   paintForm(); showSheet("addSheet");
   setTimeout(() => $("newQuote").focus(), 320);
@@ -1050,7 +1117,7 @@ $("shareBtn").onclick = async () => {
 let queue = [];   // loaded from the vault when you unlock
 let syncing = false, syncFailed = false;
 const saveQueue = () => { if (vaultKey) writeSealed("suvichar-queue-sealed", queue, "queue"); };
-const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "", status: q.lang === "yt" ? (statusOf(q) || " ") : "", category: q.lang === "yt" ? (q.category || "") : "" });
+const clean = q => ({ id: q.id, lang: q.lang, text: q.text, source: q.source || "", link: q.link || "", meaning: q.meaning || "", status: q.lang === "yt" ? (statusOf(q) || " ") : "", category: q.category || "" });
 
 function applyQueue(list) {
   for (const op of queue) {
@@ -1148,7 +1215,7 @@ $("addForm").onsubmit = ev => {
   const wasEdit = !!editingId;
   const item = { id: editingId || "tmp-" + Date.now(), lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim(),
     status: kind === "yt" ? ((document.querySelector("input[name=qstatus]:checked") || {}).value || "") : "",
-    category: kind === "yt" && $("newCat").value !== "__new" ? $("newCat").value : "" };
+    category: $("newCat").value !== "__new" ? $("newCat").value : "" };
   const prev = all.find(x => x.id === item.id);
   const trText = $("newTranscript").value.trim();
   const trChanged = kind === "yt" && trDirty;
