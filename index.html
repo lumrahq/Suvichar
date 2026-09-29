@@ -1060,7 +1060,7 @@ function showSheet(id) {
 }
 function hideSheet() {
   if (!openSheet) return;
-  if (activeRec) activeRec.stop();
+  if (activeStop) activeStop();
   openSheet.classList.remove("open"); openSheet = null;
   $("scrim").classList.remove("show"); setTimeout(() => { if (!openSheet) $("scrim").hidden = true; }, 250);
   document.body.style.overflow = "";
@@ -1747,7 +1747,7 @@ function lockNow(reason) {
   if (!owner) return;
   LS.set("suvichar-active", "0");
   wipeSecrets(); paintSync();
-  if (activeRec) activeRec.stop();
+  if (activeStop) activeStop();
   if (openSheet && openSheet.id !== "searchSheet") hideSheet();
   if (lang === "yt") { lang = "hi"; paintLang(); }   // the saved choice stays "yt", so unlocking brings you back
   applyOwner(); select(); render();
@@ -1887,28 +1887,92 @@ async function moveOldLocalQuotes() {
   if (moved) { toast(`Moved ${moved} saved item${moved > 1 ? "s" : ""} into your sheet`); fetchAll({ silent: true }); }
 }
 
-/* voice typing */
+/* voice typing: speech goes where the cursor is; typing pauses the mic; spoken punctuation works */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let activeRec = null;
+let activeRec = null, activeStop = null;
+const VOICE_CMDS = [
+  // [phrases, what to insert]; checked longest first
+  [["new paragraph", "नया पैराग्राफ", "नया पैरा"], "\n\n"],
+  [["new line", "next line", "नई लाइन", "नयी लाइन", "नई पंक्ति", "नयी पंक्ति", "न्यू लाइन"], "\n"],
+  [["question mark", "प्रश्नवाचक चिह्न", "प्रश्नवाचक चिन्ह", "प्रश्न चिन्ह", "प्रश्न चिह्न", "क्वेश्चन मार्क"], "?"],
+  [["exclamation mark", "exclamation point", "विस्मयादिबोधक चिह्न", "एक्सक्लेमेशन मार्क"], "!"],
+  [["full stop", "period", "पूर्ण विराम", "पूर्णविराम", "फुल स्टॉप"], "__STOP__"],
+  [["comma", "अल्पविराम", "अल्प विराम", "कॉमा", "कोमा"], ","],
+  [["semicolon", "सेमीकोलन"], ";"],
+  [["colon", "कोलन"], ":"],
+  [["dash", "डैश"], " –"]
+];
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function voiceText(raw, kind) {
+  let t = " " + raw + " ";
+  const cmds = VOICE_CMDS.flatMap(([words, out]) => words.map(w => [w, out])).sort((a, b) => b[0].length - a[0].length);
+  for (const [w, out] of cmds) {
+    const mark = out === "__STOP__" ? (kind === "hi" ? "।" : ".") : out;
+    t = t.replace(new RegExp("(^|\\s)" + escRe(w) + "(?=\\s|$)", "giu"), (m, pre) => pre + "\u0001" + mark + "\u0001");
+  }
+  t = t.replace(/\s*\u0001([,.;:?!।])\u0001\s*/g, "$1 ")      // punctuation sticks to the word before it
+       .replace(/\s*\u0001( –)\u0001\s*/g, "$1 ")
+       .replace(/\s*\u0001(\n+)\u0001\s*/g, "$1")             // no stray spaces around line breaks
+       .replace(/[ \t]{2,}/g, " ").replace(/^ +| +$/gm, "");
+  if (kind !== "hi") t = t.replace(/([.?!]\s+|\n)([a-z])/g, (m, a, b) => a + b.toUpperCase());
+  return t.replace(/^\s+/, m => m.includes("\n") ? m.replace(/ /g, "") : "").replace(/ +$/, "");
+}
 document.querySelectorAll(".mic").forEach(btn => {
   if (!SR) { btn.hidden = true; return; }
+  // remember where the cursor was, so tapping the mic doesn't lose the position
+  const tgt = $(btn.dataset.target);
+  const remember = () => { tgt._lastSel = [tgt.selectionStart, tgt.selectionEnd]; };
+  ["blur", "keyup", "mouseup", "touchend", "select"].forEach(ev => tgt.addEventListener(ev, remember));
+  tgt.addEventListener("input", () => { if (document.activeElement === tgt) remember(); });
+  btn.addEventListener("pointerdown", e => e.preventDefault());   // keep the text box focused
   btn.onclick = () => {
-    if (activeRec) { activeRec.stop(); return; }
+    if (activeRec) { activeStop(); return; }
     const target = $(btn.dataset.target);
-    const base = target.value ? target.value.replace(/\s*$/, " ") : "";
-    let rec;
+    const kind = formLang();
+    // speech is inserted at the cursor (or replaces selected text)
+    const live = document.activeElement === target, mem = target._lastSel;
+    const clamp = n => Math.min(Math.max(0, n), target.value.length);
+    const startSel = live ? target.selectionStart : mem ? clamp(mem[0]) : target.value.length;
+    const endSel = live ? target.selectionEnd : mem ? clamp(mem[1]) : target.value.length;
+    const before = target.value.slice(0, startSel), after = target.value.slice(endSel);
+    let rec, frozen = false;
     try { rec = new SR(); } catch (e) { toast("Couldn't start voice typing"); return; }
-    rec.lang = formLang() === "en" ? "en-IN" : "hi-IN"; rec.interimResults = true; rec.continuous = true;
-    rec.onresult = e => { let t = ""; for (let k = 0; k < e.results.length; k++) t += e.results[k][0].transcript; target.value = base + t; };
+    rec.lang = kind === "en" ? "en-IN" : "hi-IN"; rec.interimResults = true; rec.continuous = true;
+    rec.onresult = e => {
+      if (frozen) return;                       // you typed something: keep your text as it is
+      let raw = ""; for (let k = 0; k < e.results.length; k++) raw += e.results[k][0].transcript;
+      let text = voiceText(raw, kind);
+      if (!text) return;
+      if (kind !== "hi" && (!before.trim() || /[.?!]\s*$|\n\s*$/.test(before))) text = text.charAt(0).toUpperCase() + text.slice(1);
+      const needSpace = before && !/[\s\n]$/.test(before) && !/^[,.;:?!।\n]/.test(text);
+      const needAfter = after && !/^[\s,.;:?!।]/.test(after) && !/\s$/.test(text);
+      text = (needSpace ? " " : "") + text + (needAfter ? " " : "");
+      target.value = before + text + after;
+      const pos = (before + text).length;
+      try { target.setSelectionRange(pos, pos); } catch (err) {}
+    };
+    const stop = () => {
+      frozen = true;
+      try { rec.stop(); } catch (err) {}
+      cleanup();
+    };
+    const pause = () => { if (!frozen) { stop(); toast("Mic paused. Tap 🎤 to keep speaking"); } };
+    const events = ["keydown", "beforeinput", "paste", "cut", "pointerdown"];
+    const cleanup = () => {
+      events.forEach(ev => target.removeEventListener(ev, pause, true));
+      btn.classList.remove("on"); activeRec = null; activeStop = null;
+    };
+    events.forEach(ev => target.addEventListener(ev, pause, true));
     rec.onerror = e => {
       if (e.error === "not-allowed" || e.error === "service-not-allowed") toast("Mic permission denied. Allow the microphone for this site in Chrome settings.");
       else if (e.error === "no-speech") toast("No speech heard");
-      else toast("Voice typing stopped");
+      else if (e.error !== "aborted") toast("Voice typing stopped");
     };
-    rec.onend = () => { btn.classList.remove("on"); activeRec = null; };
+    rec.onend = () => { frozen = true; cleanup(); };
     try { rec.start(); } catch (e) { toast("Couldn't start voice typing"); return; }
-    activeRec = rec; btn.classList.add("on");
-    toast("Listening… tap the mic again to stop");
+    activeRec = rec; activeStop = stop; btn.classList.add("on");
+    target.focus(); try { target.setSelectionRange(startSel, endSel); } catch (err) {}
+    toast("Listening… say “comma”, “full stop” or “new line” for punctuation. Typing pauses the mic.");
   };
 });
 if (!SR) $("micHint").hidden = false;
