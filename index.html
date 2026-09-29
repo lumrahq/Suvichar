@@ -203,6 +203,12 @@
   .catlist .cdel svg { width: 20px; height: 20px; }
   .catlist .cempty { color: var(--mist); justify-content: center; }
   .linkbtn { display: block; margin: 1rem auto 0; font-size: .9rem; color: var(--mist); text-decoration: underline; text-underline-offset: 3px; }
+  .setgap { margin-top: 1.4rem !important; }
+  .tagpick { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .tagpick button { font-size: .9rem; padding: .35rem .85rem; border-radius: 999px; border: 1px solid var(--line); background: var(--field); color: var(--mist); }
+  .tagpick button.on { background: var(--gold); border-color: var(--gold); color: #10205F; font-weight: 600; }
+  .tagpick button.on::before { content: "✓ "; }
+  .tagpick button.addtag { border-style: dashed; }
   .setsel { width: 100%; font: inherit; font-size: 1rem; color: var(--ivory); background: var(--field); border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem; }
   .setsel:focus { border-color: var(--gold); outline: none; }
   #setSheet .keytext { font-weight: 600; color: var(--ivory); }
@@ -309,9 +315,9 @@
   }
   .toast.show { opacity: 1; }
 
-  /* dark mode: follows the phone or computer setting */
+  /* dark mode: follows the device ("Automatic"), unless Light or Dark is chosen in Settings */
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme="light"]) {
       --ivory: #ECEEFA; --mist: #A6ADD6; --gold-ink: #F2B040; --gold-soft: rgba(242, 176, 64, .12);
       --sheet: #141B45; --line: rgba(190, 198, 240, .16); --wa: #3CCB7F;
       --surface: #182052; --field: #10173F; --press: #1F2862;
@@ -320,12 +326,27 @@
       --danger: #FF8A7A; --danger-bg: rgba(255,90,70,.12); --danger-line: rgba(255,120,100,.35); --yt: #FF6B61; --en: #8FA6FF;
       color-scheme: dark;
     }
-    .tool .ic { box-shadow: none; }
-    .sheet { box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
-    .cardprev img { box-shadow: 0 6px 24px rgba(0,0,0,.5); }
-    .statusrow button.on[data-s="Idea"] { background: #5A63A0; }
-    .bar img { box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+    :root:not([data-theme="light"]) .tool .ic { box-shadow: none; }
+    :root:not([data-theme="light"]) .sheet { box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
+    :root:not([data-theme="light"]) .cardprev img { box-shadow: 0 6px 24px rgba(0,0,0,.5); }
+    :root:not([data-theme="light"]) .statusrow button.on[data-s="Idea"] { background: #5A63A0; }
+    :root:not([data-theme="light"]) .bar img { box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
   }
+  :root[data-theme="dark"] {
+    --ivory: #ECEEFA; --mist: #A6ADD6; --gold-ink: #F2B040; --gold-soft: rgba(242, 176, 64, .12);
+    --sheet: #141B45; --line: rgba(190, 198, 240, .16); --wa: #3CCB7F;
+    --surface: #182052; --field: #10173F; --press: #1F2862;
+    --bg1: #0B1033; --bg2: #060A24; --dock0: rgba(6,10,36,0); --dock1: rgba(6,10,36,.95);
+    --sel: #ECEEFA; --on-sel: #0B1033; --placeholder: #6E76A8; --scrim: rgba(0,0,0,.55);
+    --danger: #FF8A7A; --danger-bg: rgba(255,90,70,.12); --danger-line: rgba(255,120,100,.35); --yt: #FF6B61; --en: #8FA6FF;
+    color-scheme: dark;
+  }
+  :root[data-theme="dark"] .tool .ic { box-shadow: none; }
+  :root[data-theme="dark"] .sheet { box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
+  :root[data-theme="dark"] .cardprev img { box-shadow: 0 6px 24px rgba(0,0,0,.5); }
+  :root[data-theme="dark"] .statusrow button.on[data-s="Idea"] { background: #5A63A0; }
+  :root[data-theme="dark"] .bar img { box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+  :root[data-theme="light"] { color-scheme: light; }
 </style>
 </head>
 <body>
@@ -335,7 +356,7 @@
     <span class="spacer"></span>
     <button class="install" id="installBtn" hidden>Install</button>
     <span class="count" id="count" aria-label="Quote number"></span>
-    <button class="lockbtn" id="setBtn" aria-label="Settings" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
+    <button class="lockbtn" id="setBtn" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
     <button class="lockbtn" id="searchBtn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
     <button class="lockbtn" id="lockBtn" aria-label="Owner key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
   </header>
@@ -413,6 +434,7 @@
       <div id="catWrap" hidden>
         <label for="newCat" id="catLabel">Category</label>
         <select id="newCat"></select>
+        <div class="tagpick" id="tagPick" role="group" aria-label="Tags"></div>
       </div>
       <div id="statusWrap" hidden>
         <label>Status</label>
@@ -554,7 +576,15 @@
       <h2 id="setTitle">Settings</h2>
       <button class="close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
-    <p class="keytext">Auto-lock on this device</p>
+    <p class="keytext">Appearance</p>
+    <div class="optrow" role="radiogroup" aria-label="Appearance">
+      <label><input type="radio" name="theme" value="auto"><span>Automatic</span></label>
+      <label><input type="radio" name="theme" value="light"><span>Light</span></label>
+      <label><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+    </div>
+    <p class="hint">Automatic follows your phone or computer: dark at night if your device switches to dark mode.</p>
+    <div id="setLockWrap">
+    <p class="keytext setgap">Auto-lock on this device</p>
     <label for="setIdle">Lock after no use for</label>
     <select id="setIdle" class="setsel">
       <option value="1">1 minute</option><option value="2">2 minutes</option><option value="5">5 minutes</option>
@@ -568,6 +598,7 @@
       <option value="-1">Never</option>
     </select>
     <p class="hint">“Switch away” means going to another app or tab, or closing the app.</p>
+    </div>
     <div class="form-actions">
       <button type="button" class="btn ghost" id="setRefresh">Refresh from sheet</button>
       <button type="button" class="btn solid" id="setLockNow">Lock now</button>
@@ -639,6 +670,17 @@ let lang = ["hi", "en", "yt"].includes(LS.get("suvichar-lang")) ? LS.get("suvich
    - YouTube items, transcripts and unsynced changes are saved with AES-GCM, using a key derived from yours
    - while unlocked, the working keys live in memory (and this tab's session) only; locking wipes them */
 let key = "", vaultKey = null;
+/* appearance: "auto" follows the device, or force light/dark */
+let theme = ["auto", "light", "dark"].includes(LS.get("suvichar-theme")) ? LS.get("suvichar-theme") : "auto";
+function applyTheme(v) {
+  theme = v; LS.set("suvichar-theme", v);
+  if (v === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", v);
+  const dark = v === "dark" || (v === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => { m.setAttribute("content", dark ? "#0B1033" : "#F8F8FD"); m.removeAttribute("media"); });
+}
+applyTheme(theme);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (theme === "auto") applyTheme("auto"); });
 const SS = {
   get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} },
@@ -761,7 +803,7 @@ function applyOwner() {
   document.querySelector('#langToggle span[data-v="yt"]').hidden = !owner;
   document.querySelector('input[name=qlang][value=yt]').closest("label").hidden = !owner;
   $("fabWrap").hidden = !owner;
-  $("setBtn").hidden = !owner;
+  $("setBtn").hidden = false;
   $("lockBtn").classList.toggle("on", owner);
   $("lockBtn").setAttribute("aria-label", owner ? "Unlocked. Tap to lock" : "Locked. Tap to unlock");
   $("lockBtn").innerHTML = owner ? LOCK_OPEN : LOCK_SHUT;
@@ -787,13 +829,21 @@ const setCatSel = (sec, c) => { catSel[sec] = c; LS.set(CAT_KEYS[sec][1], c); };
 const noun = sec => sec === "yt" ? { one: "category", many: "categories", Title: "Categories", item: "video", items: "videos", none: "Uncategorised" }
                                  : { one: "tag", many: "tags", Title: "Tags", item: "quote", items: "quotes", none: "Untagged" };
 const sameCat = (a, b) => (a || "").toLowerCase() === (b || "").toLowerCase();
+/* a quote can have several tags, saved in one cell as "Childhood, Friendship" */
+function tagsOf(q) {
+  const out = [];
+  for (const s of String(q.category || "").split(",")) { const v = s.trim().replace(/\s+/g, " "); if (v && !out.some(x => sameCat(x, v))) out.push(v); }
+  return out;
+}
+const hasTag = (q, c) => tagsOf(q).some(x => sameCat(x, c));
+const joinTags = list => list.join(", ");
 function categories(sec = lang) {
-  const used = all.filter(q => q.lang === sec && q.category).map(q => q.category);
+  const used = all.filter(q => q.lang === sec).flatMap(tagsOf);
   const seen = new Set(), list = [];
   for (const c of [...catLists[sec], ...used]) { const k = c.toLowerCase(); if (!seen.has(k)) { seen.add(k); list.push(c); } }
   return list;
 }
-const inCat = q => { const sel = catSel[q.lang] || "All"; return sel === "All" || (sel === "__none" ? !q.category : sameCat(q.category, sel)); };
+const inCat = q => { const sel = catSel[q.lang] || "All"; return sel === "All" || (sel === "__none" ? !tagsOf(q).length : hasTag(q, sel)); };
 function addCategory(raw, sec = lang) {
   const name = (raw || "").trim().replace(/\s+/g, " ").slice(0, 30);
   if (!name || /^(all|uncategorised|untagged|__none|__new)$/i.test(name)) return "";
@@ -804,14 +854,14 @@ function addCategory(raw, sec = lang) {
 function newCategory(sec = lang) { return addCategory(prompt(`Name of the new ${noun(sec).one}:`) || "", sec); }
 function deleteCategory(c, sec) {
   const n = noun(sec);
-  const inIt = all.filter(q => q.lang === sec && sameCat(q.category, c));
+  const inIt = all.filter(q => q.lang === sec && hasTag(q, c));
   const msg = inIt.length
-    ? `Delete “${c}”? Its ${inIt.length} ${inIt.length > 1 ? n.items : n.item} will stay, moved to ${n.none}.`
+    ? `Delete “${c}”? Its ${inIt.length} ${inIt.length > 1 ? n.items : n.item} will stay; only the ${n.one} is removed from them.`
     : `Delete the ${n.one} “${c}”?`;
   if (!confirm(msg)) return;
   catLists[sec] = catLists[sec].filter(x => !sameCat(x, c)); saveCats(sec);
   for (const q of inIt) {
-    const item = { ...q, category: "" };
+    const item = { ...q, category: joinTags(tagsOf(q).filter(x => !sameCat(x, c))) };
     const k = all.findIndex(x => x.id === q.id); if (k >= 0) all[k] = item;
     enqueue("update", item);
   }
@@ -830,7 +880,7 @@ function paintCatList(sec = catSheetSec) {
   const cats = categories(sec);
   if (!cats.length) { const li = document.createElement("li"); li.className = "cempty"; li.textContent = `No ${n.many} yet. Add one above.`; ul.appendChild(li); return; }
   for (const c of cats) {
-    const k = all.filter(q => q.lang === sec && sameCat(q.category, c)).length;
+    const k = all.filter(q => q.lang === sec && hasTag(q, c)).length;
     const li = document.createElement("li");
     const name = document.createElement("span"); name.className = "cname"; name.textContent = c;
     const count = document.createElement("span"); count.className = "ccount"; count.textContent = `${k} ${k === 1 ? n.item : n.items}`;
@@ -855,10 +905,10 @@ function paintCats() {
   if (box.hidden) return;
   box.textContent = "";
   const chips = ["All", ...cats];
-  if (items.some(q => !q.category) && cats.length) chips.push("__none");
+  if (items.some(q => !tagsOf(q).length) && cats.length) chips.push("__none");
   if (!chips.some(c => sameCat(c, catSel[sec]))) setCatSel(sec, "All");
   chips.forEach(c => {
-    const k = c === "All" ? items.length : c === "__none" ? items.filter(q => !q.category).length : items.filter(q => sameCat(q.category, c)).length;
+    const k = c === "All" ? items.length : c === "__none" ? items.filter(q => !tagsOf(q).length).length : items.filter(q => hasTag(q, c)).length;
     const b = document.createElement("button"); b.type = "button";
     const on = sameCat(c, catSel[sec]);
     b.textContent = `${c === "__none" ? n.none : c} ${sec === "hi" ? toDev(k) : k}`; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
@@ -956,7 +1006,7 @@ function render(dir) {
   $("notes").hidden = !(yt && q.meaning);
   $("notes").textContent = yt ? (q.meaning || "") : "";
   $("trChip").hidden = !(yt && q.hasTranscript && owner);
-  $("catChip").hidden = !q.category; $("catChip").textContent = q.category ? "🏷 " + q.category : "";
+  { const tg = tagsOf(q); $("catChip").hidden = !tg.length; $("catChip").textContent = tg.length ? "🏷 " + tg.join(" · ") : ""; }
   const sr = $("statusRow"); sr.hidden = !(yt && owner); sr.textContent = "";
   if (yt && owner) STATUSES.forEach(s => {
     const b = document.createElement("button"); b.type = "button"; b.dataset.s = s; b.textContent = s;
@@ -1043,8 +1093,10 @@ function paintForm() {
   $("newQuote").placeholder = yt ? "Your video idea, or what you liked about this video" : "Type here, or tap the mic and speak";
   $("newMeaning").placeholder = yt ? "Anything to remember: hook, format, thumbnail idea…" : "The meaning in your own words";
   $("linkWrap").hidden = !yt; $("authorWrap").hidden = yt; $("trWrap").hidden = !yt; $("statusWrap").hidden = !yt; $("catWrap").hidden = false;
-  $("catLabel").textContent = yt ? "Category" : "Tag";
-  const keep = $("newCat").value; fillCats(keep && keep !== "__new" ? keep : "", k);
+  $("catLabel").textContent = yt ? "Category" : "Tags";
+  $("newCat").hidden = !yt; $("tagPick").hidden = yt;
+  if (yt) { const keep = $("newCat").value; fillCats(keep && keep !== "__new" ? keep : "", k); }
+  else paintTagPick(k);
   $("newQuote").lang = $("newMeaning").lang = k === "hi" ? "hi" : "en";
   $("newQuote").style.fontFamily = yt ? "var(--sans)" : (en ? "var(--serif)" : "");
   $("newSource").placeholder = en ? "e.g. Mahatma Gandhi, or Unknown" : "e.g. चाणक्य, or Unknown";
@@ -1054,7 +1106,22 @@ let lastStatusPick = "";
 document.querySelectorAll("input[name=qstatus]").forEach(r => r.addEventListener("click", () => {
   if (lastStatusPick === r.value) { r.checked = false; lastStatusPick = ""; } else lastStatusPick = r.value;
 }));
+let pickedTags = [];
+function paintTagPick(sec = formLang()) {
+  const box = $("tagPick"); box.textContent = "";
+  const cats = categories(sec);
+  for (const c of cats) {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = c;
+    const on = pickedTags.some(x => sameCat(x, c)); b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+    b.onclick = () => { pickedTags = on ? pickedTags.filter(x => !sameCat(x, c)) : [...pickedTags, c]; paintTagPick(sec); };
+    box.appendChild(b);
+  }
+  const add = document.createElement("button"); add.type = "button"; add.className = "addtag"; add.textContent = "+ New tag";
+  add.onclick = () => { const c = newCategory(sec); if (c && !pickedTags.some(x => sameCat(x, c))) pickedTags.push(c); paintTagPick(sec); };
+  box.appendChild(add);
+}
 function fillCats(selected, sec = formLang()) {
+  if (sec !== "yt") { pickedTags = String(selected || "").split(",").map(s => s.trim()).filter(Boolean); paintTagPick(sec); }
   const sel = $("newCat"); sel.textContent = "";
   const opt = (v, label) => { const o = document.createElement("option"); o.value = v; o.textContent = label; sel.appendChild(o); };
   const n = noun(sec);
@@ -1215,7 +1282,7 @@ $("addForm").onsubmit = ev => {
   const wasEdit = !!editingId;
   const item = { id: editingId || "tmp-" + Date.now(), lang: kind, text, source: kind === "yt" ? "" : $("newSource").value.trim(), link, meaning: $("newMeaning").value.trim(),
     status: kind === "yt" ? ((document.querySelector("input[name=qstatus]:checked") || {}).value || "") : "",
-    category: $("newCat").value !== "__new" ? $("newCat").value : "" };
+    category: kind === "yt" ? ($("newCat").value !== "__new" ? $("newCat").value : "") : joinTags(pickedTags) };
   const prev = all.find(x => x.id === item.id);
   const trText = $("newTranscript").value.trim();
   const trChanged = kind === "yt" && trDirty;
@@ -1733,11 +1800,17 @@ document.addEventListener("visibilitychange", () => {
 $("lockBtn").onclick = () => { if (owner) lockNow("manual"); else openKey(); };
 $("setBtn").onclick = () => {
   $("setIdle").value = String(idleMin); $("setAway").value = String(awayMin);
+  $("setLockWrap").hidden = !owner; $("setLockNow").hidden = !owner;
+  const th = document.querySelector(`input[name=theme][value="${theme}"]`); if (th) th.checked = true;
   showSheet("setSheet");
 };
 $("setIdle").onchange = () => { idleMin = Number($("setIdle").value); LS.set("suvichar-idle", String(idleMin)); markActive(); toast(idleMin ? `Will lock after ${$("setIdle").selectedOptions[0].text} without use` : "Won't lock for being idle"); };
 $("setAway").onchange = () => { awayMin = Number($("setAway").value); LS.set("suvichar-away", String(awayMin)); toast(awayMin < 0 ? "Won't lock when you switch away" : awayMin === 0 ? "Will lock as soon as you switch away" : `Will lock after ${$("setAway").selectedOptions[0].text} away`); };
 $("setLockNow").onclick = () => { hideSheet(); lockNow("manual"); };
+document.querySelectorAll("input[name=theme]").forEach(r => r.onchange = () => {
+  applyTheme(r.value);
+  toast(r.value === "auto" ? "Following your device's setting" : r.value === "dark" ? "Dark mode on" : "Light mode on");
+});
 $("setRefresh").onclick = async () => { hideSheet(); if (await fetchAll()) toast("Up to date"); };
 function keyStatus(msg) { $("keyStatus").textContent = msg || ""; $("keyStatus").hidden = !msg; }
 function explain(err) {

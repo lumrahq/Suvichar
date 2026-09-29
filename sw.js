@@ -1,4 +1,4 @@
-const CACHE = "suvichar-v25";
+const CACHE = "suvichar-v27";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/maskable-512.png", "./icons/icon-180.png"];
 
